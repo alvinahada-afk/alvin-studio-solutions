@@ -304,11 +304,19 @@ img, svg, video { max-width: 100%; }
   .step:nth-child(3)::before { display: none; }
   .pricing-grid { grid-template-columns: 1fr 1fr; gap: 25px 16px; }
 }
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .product-preview .dashboard { width: 100%; }
+}
 @media (max-width: 559px) {
   .pricing-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 32px; }
   .stage-label { flex-wrap: wrap; gap: 6px; }
   .dash-topbar > span:last-child > span:last-child { display: none; }
   .portfolio-pos .dashboard { width: 380px; transform: scale(.8); }
+}
+@media (max-width: 374px) {
+  .dashboard { grid-template-columns: 74px minmax(0, 1fr); }
+  .dash-topbar { gap: 6px; } .dash-topbar > span { min-width: 0; }
+  .dash-topbar > span:last-child { gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
