@@ -1,24 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { StudioHome } from '@/components/studio/studio-home';
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ meta: [
+    { title: 'Alvin Studio — Website, POS & Digital Solutions untuk Bisnis' },
+    { name: 'description', content: 'Alvin Studio membangun website profesional, Cafe Flow POS, QR Ordering, dan sistem custom untuk cafe, restoran, UMKM, dan retail. Website mulai Rp600K.' },
+    { property: 'og:title', content: 'Alvin Studio — Digital Solutions untuk Bisnis yang Ingin Berkembang' },
+    { property: 'og:description', content: 'Website profesional, POS, QR Ordering, dan sistem custom untuk membantu bisnis berjalan lebih efektif. Konsultasi gratis bersama Alvin Studio.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ] }),
+  component: StudioHome,
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
