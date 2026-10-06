@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        studio: "bg-[#00F2FE] text-[#060F12] hover:bg-[#00F2FE] hover:shadow-[0_0_15px_rgba(0,242,254,0.3)] shadow-sm rounded-md h-11 px-5 text-xs font-semibold",
+        studio: "bg-[#A5F3FC] text-[#060F12] hover:bg-[#A5F3FC] hover:shadow-[0_0_15px_rgba(165,243,252,0.25)] shadow-sm rounded-md h-11 px-5 text-xs font-semibold",
         studioOutline: "border border-border bg-background text-foreground hover:bg-secondary rounded-md h-11 px-5 text-xs font-semibold",
         studioLight: "bg-background text-foreground hover:bg-secondary rounded-md h-11 px-5 text-xs font-semibold",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
