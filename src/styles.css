@@ -1733,3 +1733,20 @@ body::before {
     animation: none !important;
   }
 }
+
+
+/* FINAL — real animated TV static canvas replaces CSS static */
+.studio-page::after {
+  display: none !important;
+}
+
+.tv-static-background {
+  z-index: 0 !important;
+  image-rendering: pixelated;
+  mix-blend-mode: soft-light;
+}
+
+.studio-content-layer {
+  position: relative !important;
+  z-index: 10 !important;
+}
