@@ -64,6 +64,7 @@ export function StudioHome() {
     let lastPoint: { x: number; y: number } | null = null;
     let electricPoints: Array<{ x: number; y: number; life: number; strand: number; width: number }> = [];
     let electricResetTimer: ReturnType<typeof setTimeout> | undefined;
+    let clickBursts: Array<{ x: number; y: number; life: number; seed: number }> = [];
 
     const resizeElectricCanvas = () => {
       if (!electricCanvas || !electricContext) return;
@@ -148,6 +149,13 @@ export function StudioHome() {
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
+    const onPointerDown = (event: PointerEvent) => {
+      if (window.matchMedia('(pointer: coarse)').matches || reduce || event.button !== 0) return;
+      clickBursts.push({ x: event.clientX, y: event.clientY, life: 1, seed: Math.random() * Math.PI * 2 });
+      if (clickBursts.length > 8) clickBursts = clickBursts.slice(-8);
+    };
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+
     const drawElectric = () => {
       if (!electricContext) return;
       electricContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -157,6 +165,55 @@ export function StudioHome() {
       for (let i = electricPoints.length - 1; i >= 0; i -= 1) {
         electricPoints[i].life -= 0.075;
         if (electricPoints[i].life <= 0) electricPoints.splice(i, 1);
+      }
+
+      for (let i = clickBursts.length - 1; i >= 0; i -= 1) {
+        const burst = clickBursts[i];
+        burst.life -= 0.065;
+        if (burst.life <= 0) { clickBursts.splice(i, 1); continue; }
+        const progress = 1 - burst.life;
+        const radius = 8 + progress * 42;
+        const alpha = Math.pow(burst.life, 1.5);
+
+        electricContext.shadowBlur = 14;
+        electricContext.shadowColor = `rgba(224, 174, 61, ${alpha * 0.75})`;
+        electricContext.strokeStyle = `rgba(255, 249, 226, ${alpha * 0.95})`;
+        electricContext.lineWidth = 1.25;
+        electricContext.beginPath();
+        electricContext.arc(burst.x, burst.y, radius, burst.seed, burst.seed + Math.PI * 1.65);
+        electricContext.stroke();
+
+        electricContext.shadowBlur = 7;
+        electricContext.strokeStyle = `rgba(224, 174, 61, ${alpha * 0.7})`;
+        electricContext.lineWidth = 0.8;
+        electricContext.beginPath();
+        electricContext.arc(burst.x, burst.y, radius + 4, burst.seed + Math.PI, burst.seed + Math.PI * 2.55);
+        electricContext.stroke();
+
+        if (progress < 0.22) {
+          electricContext.fillStyle = `rgba(255, 252, 238, ${alpha})`;
+          electricContext.shadowBlur = 18;
+          electricContext.beginPath();
+          electricContext.arc(burst.x, burst.y, 2.2 + (1 - progress) * 2, 0, Math.PI * 2);
+          electricContext.fill();
+        }
+
+        for (let shard = 0; shard < 3; shard += 1) {
+          const angle = burst.seed + shard * (Math.PI * 2 / 3) + 0.18;
+          const inner = radius * 0.72;
+          const outer = inner + 7 + progress * 7;
+          const sx = burst.x + Math.cos(angle) * inner;
+          const sy = burst.y + Math.sin(angle) * inner;
+          const ex = burst.x + Math.cos(angle + 0.08) * outer;
+          const ey = burst.y + Math.sin(angle + 0.08) * outer;
+          electricContext.strokeStyle = `rgba(255, 247, 215, ${alpha * 0.8})`;
+          electricContext.lineWidth = 0.7;
+          electricContext.beginPath();
+          electricContext.moveTo(sx, sy);
+          electricContext.lineTo((sx + ex) / 2 + Math.cos(angle + Math.PI / 2) * 2, (sy + ey) / 2 + Math.sin(angle + Math.PI / 2) * 2);
+          electricContext.lineTo(ex, ey);
+          electricContext.stroke();
+        }
       }
 
       for (let i = 1; i < electricPoints.length; i += 1) {
@@ -203,6 +260,7 @@ export function StudioHome() {
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('resize', resizeElectricCanvas);
       cancelAnimationFrame(electricFrame);
       if (electricResetTimer) clearTimeout(electricResetTimer);
