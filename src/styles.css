@@ -1519,39 +1519,13 @@ body::after {
   mix-blend-mode: soft-light;
 }
 
-/* FINAL — strong coarse cinematic noise */
+/* FINAL — 50% aggressive coarse grain */
 body::before {
-  content: "";
-  position: fixed;
-  inset: -28%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .24;
-  mix-blend-mode: soft-light;
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(255,255,255,.90) 0 1.2px, transparent 1.8px),
-    radial-gradient(circle at 68% 42%, rgba(184,216,232,.78) 0 1.4px, transparent 2px),
-    radial-gradient(circle at 34% 76%, rgba(255,255,255,.70) 0 1.1px, transparent 1.8px),
-    radial-gradient(circle at 86% 82%, rgba(4,18,24,.78) 0 1.5px, transparent 2.1px),
-    radial-gradient(circle at 52% 12%, rgba(255,255,255,.48) 0 2px, transparent 2.7px);
-  background-size: 8px 9px, 11px 13px, 13px 15px, 10px 12px, 17px 19px;
-  animation: alvinCoarseNoise 5.5s steps(30) infinite;
-  transform: translate3d(0,0,0) scale(1.01);
-}
-
-@keyframes alvinCoarseNoise {
-  0%   { transform: translate3d(0, 0, 0) scale(1.01); }
-  16%  { transform: translate3d(-2.2%, 1.6%, 0) scale(1.018); }
-  33%  { transform: translate3d(1.8%, -2.1%, 0) scale(1.025); }
-  50%  { transform: translate3d(2.4%, 1.8%, 0) scale(1.014); }
-  66%  { transform: translate3d(-1.8%, -1.6%, 0) scale(1.022); }
-  83%  { transform: translate3d(1.2%, 2%, 0) scale(1.016); }
-  100% { transform: translate3d(0, 0, 0) scale(1.01); }
+  opacity: .50 !important;
 }
 
 @media (max-width: 767px), (pointer: coarse) {
   body::before {
-    opacity: .19;
-    animation-duration: 8s;
+    opacity: .50 !important;
   }
 }
