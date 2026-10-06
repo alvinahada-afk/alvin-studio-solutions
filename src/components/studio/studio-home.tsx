@@ -139,7 +139,7 @@ export function StudioHome() {
         <div className="container-site studio-hero-inner">
           <div className="studio-hero-copy relative z-20">
             <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
-            <h1 className="hero-reveal hero-reveal-2">We build <span>digital products</span> for businesses ready to grow.</h1>
+            <h1 className="hero-reveal hero-reveal-2">We build <span className="text-[#00F2FE] [text-shadow:0_0_18px_rgba(0,242,254,0.18)]">digital products</span> for businesses ready to grow.</h1>
             <p className="hero-reveal hero-reveal-3">Alvin Studio adalah digital studio dan technology partner untuk membangun website, software, custom system, dan automation yang membantu bisnis bekerja lebih efektif dan berkembang lebih siap.</p>
             <div className="hero-actions hero-reveal hero-reveal-4">
               <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Discuss your idea <ArrowUpRight /></Button>
