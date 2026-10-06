@@ -1567,3 +1567,42 @@ body::after {
     animation: none !important;
   }
 }
+
+
+/* FINAL — visible global animated grain */
+@keyframes grainAnimation {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  10% { transform: translate3d(-1%, -1%, 0); }
+  30% { transform: translate3d(-2%, -2%, 0); }
+  50% { transform: translate3d(-1%, 2%, 0); }
+  70% { transform: translate3d(2%, -2%, 0); }
+  90% { transform: translate3d(-2%, 1%, 0); }
+}
+
+body::after {
+  content: "" !important;
+  position: fixed !important;
+  inset: -12% !important;
+  width: 124% !important;
+  height: 124% !important;
+  opacity: .105 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' seed='17' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E") !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+  mix-blend-mode: overlay !important;
+  animation: grainAnimation .8s steps(10) infinite !important;
+  pointer-events: none !important;
+  z-index: 99999 !important;
+}
+
+@media (max-width: 767px) {
+  body::after {
+    opacity: .085 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none !important;
+  }
+}
