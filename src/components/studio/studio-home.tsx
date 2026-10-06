@@ -1,37 +1,27 @@
 import { useEffect, useState } from 'react';
-import { ArrowDown, ArrowRight, ArrowUpRight, CheckCircle2, Code2, Globe, Layers3, Menu, MessageCircle, Sparkles, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight, CheckCircle2, Code2, Globe, Layers3, Menu, MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { DashboardPreview } from './dashboard-preview';
 
 const projects = [
-  {
-    number: '01',
-    type: 'Business Website',
-    title: 'Digital Presence',
-    description: 'Company profile yang terasa premium, cepat, dan fokus membangun kepercayaan.',
-    className: 'project-visual project-visual-web',
-  },
-  {
-    number: '02',
-    type: 'Business System',
-    title: 'Operations OS',
-    description: 'Interface operasional yang menyatukan data, workflow, dan aktivitas bisnis.',
-    className: 'project-visual project-visual-system',
-  },
-  {
-    number: '03',
-    type: 'Custom Experience',
-    title: 'Brand Experience',
-    description: 'Landing page dan digital experience yang dibuat mengikuti karakter brand.',
-    className: 'project-visual project-visual-brand',
-  },
+  { number: '01', type: 'Business Website', title: 'Digital Presence', description: 'Company profile yang terasa premium, cepat, dan fokus membangun kepercayaan.', className: 'project-visual project-visual-web' },
+  { number: '02', type: 'Business System', title: 'Operations OS', description: 'Interface operasional yang menyatukan data, workflow, dan aktivitas bisnis.', className: 'project-visual project-visual-system' },
+  { number: '03', type: 'Custom Experience', title: 'Brand Experience', description: 'Landing page dan digital experience yang dibuat mengikuti karakter brand.', className: 'project-visual project-visual-brand' },
 ];
 
 const services = [
   { icon: Globe, number: '01', title: 'Website & Company Profile', text: 'Website modern yang membuat bisnis terlihat profesional sejak first impression.' },
   { icon: Layers3, number: '02', title: 'Digital Product', text: 'Landing page, portal, dan interface produk yang dirancang untuk pengalaman pengguna.' },
   { icon: Code2, number: '03', title: 'Custom System', text: 'Sistem digital yang mengikuti workflow bisnis, bukan memaksa bisnis mengikuti template.' },
+];
+
+const processCopy = [
+  'Understand the business, audience, and goal.',
+  'Define the visual and digital direction.',
+  'Turn the direction into a clear interface.',
+  'Build responsive, polished, production-ready work.',
+  'Review, refine, and launch with confidence.',
 ];
 
 export function Brand() {
@@ -55,7 +45,58 @@ export function StudioHome() {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealObserver = reduce ? null : new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver?.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-reveal]').forEach((el) => revealObserver?.observe(el));
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (window.matchMedia('(pointer: coarse)').matches || reduce) return;
+      const x = event.clientX / window.innerWidth - 0.5;
+      const y = event.clientY / window.innerHeight - 0.5;
+      document.documentElement.style.setProperty('--cursor-x', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${event.clientY}px`);
+      document.documentElement.style.setProperty('--hero-mx', `${x * 18}px`);
+      document.documentElement.style.setProperty('--hero-my', `${y * 18}px`);
+    };
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+    const magnetic = document.querySelectorAll<HTMLElement>('[data-magnetic]');
+    const handlers = new Map<HTMLElement, (event: PointerEvent) => void>();
+    magnetic.forEach((el) => {
+      const move = (event: PointerEvent) => {
+        if (window.matchMedia('(pointer: coarse)').matches || reduce) return;
+        const rect = el.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
+        const y = ((event.clientY - rect.top) / rect.height - 0.5) * 10;
+        el.style.setProperty('--mag-x', `${x}px`);
+        el.style.setProperty('--mag-y', `${y}px`);
+      };
+      handlers.set(el, move);
+      el.addEventListener('pointermove', move);
+      el.addEventListener('pointerleave', () => {
+        el.style.setProperty('--mag-x', '0px');
+        el.style.setProperty('--mag-y', '0px');
+      });
+    });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('pointermove', onPointerMove);
+      revealObserver?.disconnect();
+      magnetic.forEach((el) => {
+        const handler = handlers.get(el);
+        if (handler) el.removeEventListener('pointermove', handler);
+      });
+    };
   }, []);
 
   const nav = [
@@ -66,14 +107,15 @@ export function StudioHome() {
   ];
 
   return <>
+    <div className="studio-cursor" aria-hidden="true"><span /></div>
     <header className={`site-header studio-header ${isScrolled ? 'site-header-scrolled' : ''}`}>
       <div className="container-site flex h-full items-center justify-between">
-        <a href="#" aria-label="Alvin Studio beranda"><Brand /></a>
+        <a href="#" aria-label="Alvin Studio beranda" data-cursor-label="Home"><Brand /></a>
         <nav className="hidden items-center gap-8 text-xs font-medium md:flex" aria-label="Navigasi utama">
-          {nav.map((item) => <a key={item.id} href={`#${item.id}`} className="studio-nav-link">{item.text}</a>)}
+          {nav.map((item) => <a key={item.id} href={`#${item.id}`} className="studio-nav-link" data-cursor-label={item.text}>{item.text}</a>)}
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="studio" className="hidden md:inline-flex" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
+          <Button variant="studio" className="hidden md:inline-flex magnetic" data-magnetic data-cursor-label="Start" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
           <Button variant="ghost" size="icon" className="md:hidden" aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
         </div>
       </div>
@@ -87,42 +129,39 @@ export function StudioHome() {
       <section className="studio-hero">
         <div className="hero-orbit hero-orbit-one" />
         <div className="hero-orbit hero-orbit-two" />
+        <div className="hero-grain" />
         <div className="container-site studio-hero-inner">
-          <div className="studio-kicker"><span className="live-dot" /> Independent digital studio · Indonesia</div>
-          <h1>We build <span>digital experiences</span> people remember.</h1>
-          <p>Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
-          <div className="hero-actions">
-            <Button variant="studio" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
+          <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
+          <h1 className="hero-reveal hero-reveal-2">We build <span>digital experiences</span> people remember.</h1>
+          <p className="hero-reveal hero-reveal-3">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
+          <div className="hero-actions hero-reveal hero-reveal-4">
+            <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
             <Button variant="studioOutline" asChild><a href="#work">Explore our work <ArrowDown /></a></Button>
           </div>
-          <div className="hero-meta">
-            <span>Strategy</span><i /> <span>Design</span><i /> <span>Development</span><i /> <span>Experience</span>
-          </div>
+          <div className="hero-meta hero-reveal hero-reveal-5"><span>Strategy</span><i /><span>Design</span><i /><span>Development</span><i /><span>Experience</span></div>
         </div>
+        <div className="hero-scroll-note"><span>Scroll to explore</span><ArrowDown size={13} /></div>
       </section>
 
-      <section className="studio-intro">
+      <div className="studio-marquee" aria-hidden="true"><div>STRATEGY <i>✦</i> DESIGN <i>✦</i> DEVELOPMENT <i>✦</i> EXPERIENCE <i>✦</i> STRATEGY <i>✦</i> DESIGN <i>✦</i></div></div>
+
+      <section className="studio-intro" data-reveal="up">
         <div className="container-site studio-intro-grid">
           <p className="studio-index">[ 01 ]</p>
-          <div>
-            <p className="studio-eyebrow">Alvin Studio</p>
-            <h2>Bukan sekadar website.<br /><span>Kami membangun cara brand kamu hadir secara digital.</span></h2>
-          </div>
+          <div><p className="studio-eyebrow">Alvin Studio</p><h2>Bukan sekadar website.<br /><span>Kami membangun cara brand kamu hadir secara digital.</span></h2></div>
           <p className="studio-intro-copy">Dari visual identity sampai interface yang siap dipakai, setiap detail dirancang supaya bisnis terlihat lebih meyakinkan, lebih mudah dipahami, dan siap berkembang.</p>
         </div>
       </section>
 
       <section className="studio-work section" id="work">
         <div className="container-site">
-          <div className="studio-section-head">
-            <div><p className="studio-eyebrow">Selected work</p><h2>Built with purpose.</h2></div>
-            <p>Beberapa contoh arah digital experience yang bisa kami bangun untuk bisnis dan brand.</p>
-          </div>
+          <div className="studio-section-head" data-reveal="up"><div><p className="studio-eyebrow">Selected work</p><h2>Built with purpose.</h2></div><p>Beberapa contoh arah digital experience yang bisa kami bangun untuk bisnis dan brand.</p></div>
           <div className="studio-project-grid">
-            {projects.map((project) => <article className="studio-project-card" key={project.number}>
+            {projects.map((project, index) => <article className="studio-project-card" key={project.number} data-reveal={index === 0 ? 'scale' : 'up'} style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}>
               <div className={project.className}>
                 <span className="project-number">{project.number}</span>
                 {project.number === '02' ? <div className="project-dashboard-wrap"><DashboardPreview /></div> : <div className="project-shape"><span>{project.number === '01' ? 'YOUR BRAND' : 'MAKE IT MATTER.'}</span></div>}
+                <span className="project-hover-label">View project <ArrowUpRight size={15} /></span>
                 <span className="project-arrow"><ArrowUpRight size={19} /></span>
               </div>
               <div className="project-copy"><div><span>{project.type}</span><h3>{project.title}</h3></div><p>{project.description}</p></div>
@@ -133,32 +172,22 @@ export function StudioHome() {
 
       <section className="studio-services section" id="services">
         <div className="container-site">
-          <div className="studio-section-head">
-            <div><p className="studio-eyebrow">What we do</p><h2>One studio.<br />Three ways to build.</h2></div>
-            <p>Kami menjaga proses tetap simpel, tapi hasil akhirnya tetap punya karakter.</p>
-          </div>
+          <div className="studio-section-head" data-reveal="up"><div><p className="studio-eyebrow">What we do</p><h2>One studio.<br />Three ways to build.</h2></div><p>Kami menjaga proses tetap simpel, tapi hasil akhirnya tetap punya karakter.</p></div>
           <div className="studio-service-list">
-            {services.map((item) => { const Icon = item.icon; return <article className="studio-service-row" key={item.number} onClick={() => consult(item.title)}>
-              <span className="service-number">{item.number}</span><span className="service-icon"><Icon size={22} /></span><h3>{item.title}</h3><p>{item.text}</p><ArrowUpRight className="service-arrow" />
-            </article>; })}
+            {services.map((item, index) => { const Icon = item.icon; return <article className="studio-service-row" key={item.number} data-reveal="left" style={{ '--reveal-delay': `${index * 80}ms` } as React.CSSProperties} onClick={() => consult(item.title)}><span className="service-number">{item.number}</span><span className="service-icon"><Icon size={22} /></span><h3>{item.title}</h3><p>{item.text}</p><ArrowUpRight className="service-arrow" /></article>; })}
           </div>
         </div>
       </section>
 
       <section className="studio-process section" id="process">
         <div className="container-site">
-          <div className="studio-process-head"><p className="studio-eyebrow">How we work</p><h2>Clear process.<br /><span>Better output.</span></h2></div>
-          <div className="process-grid">
-            {['Discover', 'Direction', 'Design', 'Build', 'Launch'].map((step, index) => <div className="process-item" key={step}><span>0{index + 1}</span><h3>{step}</h3><p>{['Understand the business, audience, and goal.', 'Define the visual and digital direction.', 'Turn the direction into a clear interface.', 'Build responsive, polished, production-ready work.', 'Review, refine, and launch with confidence.'][index]}</p></div>)}
-          </div>
+          <div className="studio-process-head" data-reveal="up"><p className="studio-eyebrow">How we work</p><h2>Clear process.<br /><span>Better output.</span></h2></div>
+          <div className="process-grid">{processCopy.map((copy, index) => <div className="process-item" key={copy} data-reveal="up" style={{ '--reveal-delay': `${index * 70}ms` } as React.CSSProperties}><span>0{index + 1}</span><h3>{['Discover', 'Direction', 'Design', 'Build', 'Launch'][index]}</h3><p>{copy}</p></div>)}</div>
         </div>
       </section>
 
-      <section className="studio-cta" id="contact">
-        <div className="container-site studio-cta-inner">
-          <div><p className="studio-eyebrow">Have a project in mind?</p><h2>Let's make something<br /><span>worth remembering.</span></h2></div>
-          <Button variant="studioLight" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
-        </div>
+      <section className="studio-cta" id="contact" data-reveal="scale">
+        <div className="container-site studio-cta-inner"><div><p className="studio-eyebrow">Have a project in mind?</p><h2>Let's make something<br /><span>worth remembering.</span></h2></div><Button variant="studioLight" className="magnetic" data-magnetic onClick={() => consult()}>Start a project <ArrowUpRight /></Button></div>
       </section>
     </main>
 
