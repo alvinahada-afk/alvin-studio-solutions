@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 type Point = { x: number; y: number };
-type MagneticGlow = { x: number; y: number; radius: number; alpha: number; angle: number };
+type LiquidRipple = { x: number; y: number; radius: number; alpha: number; phase: number };
 
 const IDLE_MS = 150;
 const MAX_TRAIL_POINTS = 30;
-const MAX_MAGNETIC_GLOWS = 3;
+const MAX_LIQUID_RIPPLES = 3;
 
 export function ElectricCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,7 +24,7 @@ export function ElectricCursor() {
     let idleTimer: ReturnType<typeof setTimeout> | undefined;
     let lastTime = 0;
     let trail: Point[] = [];
-    const magneticGlows: MagneticGlow[] = [];
+    const liquidRipples: LiquidRipple[] = [];
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -101,63 +101,67 @@ export function ElectricCursor() {
       drawLightning(time, 0);
       drawLightning(time, 1);
 
-      for (let i = magneticGlows.length - 1; i >= 0; i -= 1) {
-        const glow = magneticGlows[i];
-        glow.radius += delta * 0.12;
-        glow.alpha -= delta * 0.0038;
-        glow.angle += delta * 0.0025;
+      for (let i = liquidRipples.length - 1; i >= 0; i -= 1) {
+        const ripple = liquidRipples[i];
+        ripple.radius += delta * 0.34;
+        ripple.alpha -= delta * 0.0027;
+        ripple.phase += delta * 0.006;
 
-        if (glow.alpha <= 0) {
-          magneticGlows.splice(i, 1);
+        if (ripple.alpha <= 0) {
+          liquidRipples.splice(i, 1);
           continue;
         }
 
-        const pulse = 1 + Math.sin(time * 0.025 + i) * 0.08;
-        const outerRadius = glow.radius * pulse;
-
-        const gradient = ctx.createRadialGradient(
-          glow.x,
-          glow.y,
-          0,
-          glow.x,
-          glow.y,
-          outerRadius
-        );
-        gradient.addColorStop(0, 'rgba(0, 242, 254, ' + glow.alpha * 0.22 + ')');
-        gradient.addColorStop(0.28, 'rgba(0, 242, 254, ' + glow.alpha * 0.10 + ')');
-        gradient.addColorStop(1, 'rgba(0, 242, 254, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(glow.x, glow.y, outerRadius, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.shadowColor = '#00f2fe';
-        ctx.shadowBlur = 22;
-        ctx.fillStyle = 'rgba(255, 255, 255, ' + glow.alpha * 0.9 + ')';
-        ctx.beginPath();
-        ctx.arc(glow.x, glow.y, 1.8 + glow.alpha * 1.4, 0, Math.PI * 2);
-        ctx.fill();
+        const wave = Math.sin(ripple.radius * 0.18 - ripple.phase) * 1.8;
+        const radius = ripple.radius + wave;
 
         ctx.save();
-        ctx.translate(glow.x, glow.y);
-        ctx.rotate(glow.angle);
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + glow.alpha * 0.62 + ')';
+        ctx.translate(ripple.x, ripple.y);
+
         ctx.shadowColor = '#00f2fe';
-        ctx.shadowBlur = 16;
-        ctx.lineWidth = 1;
+        ctx.shadowBlur = 18;
+        ctx.strokeStyle = 'rgba(0, 242, 254, ' + ripple.alpha * 0.58 + ')';
+        ctx.lineWidth = 1.35;
         ctx.beginPath();
-        ctx.moveTo(-outerRadius * 0.32, 0);
-        ctx.lineTo(outerRadius * 0.32, 0);
-        ctx.moveTo(0, -outerRadius * 0.32);
-        ctx.lineTo(0, outerRadius * 0.32);
+
+        const points = 56;
+        for (let p = 0; p <= points; p += 1) {
+          const a = (p / points) * Math.PI * 2;
+          const wobble =
+            Math.sin(a * 3 + ripple.phase) * 1.7 +
+            Math.sin(a * 7 - ripple.phase * 0.8) * 0.8;
+          const r = Math.max(1, radius + wobble);
+          const x = Math.cos(a) * r;
+          const y = Math.sin(a) * r;
+          if (p === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
         ctx.stroke();
+
+        ctx.shadowBlur = 10;
+        ctx.strokeStyle = 'rgba(255, 255, 255, ' + ripple.alpha * 0.18 + ')';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        const innerRadius = radius * 0.72;
+        for (let p = 0; p <= points; p += 1) {
+          const a = (p / points) * Math.PI * 2;
+          const wobble = Math.sin(a * 4 - ripple.phase) * 1.1;
+          const r = Math.max(1, innerRadius + wobble);
+          const x = Math.cos(a) * r;
+          const y = Math.sin(a) * r;
+          if (p === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+
         ctx.restore();
       }
 
       ctx.shadowBlur = 0;
 
-      if (trail.length === 0 && magneticGlows.length === 0) {
+      if (trail.length === 0 && liquidRipples.length === 0) {
         running = false;
         frame = 0;
         return;
@@ -182,7 +186,7 @@ export function ElectricCursor() {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         trail = [];
-        if (magneticGlows.length === 0) clearAndStop();
+        if (liquidRipples.length === 0) clearAndStop();
       }, IDLE_MS);
 
       schedule();
@@ -191,15 +195,15 @@ export function ElectricCursor() {
     const onPointerDown = (event: PointerEvent) => {
       if (event.pointerType === 'touch') return;
 
-      magneticGlows.push({
+      liquidRipples.push({
         x: event.clientX,
         y: event.clientY,
-        radius: 7,
+        radius: 2,
         alpha: 1,
-        angle: Math.random() * Math.PI,
+        phase: Math.random() * Math.PI * 2,
       });
 
-      if (magneticGlows.length > MAX_MAGNETIC_GLOWS) magneticGlows.shift();
+      if (liquidRipples.length > MAX_LIQUID_RIPPLES) liquidRipples.shift();
       schedule();
     };
 
