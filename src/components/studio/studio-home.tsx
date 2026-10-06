@@ -61,6 +61,9 @@ export function StudioHome() {
     const electricCanvas = document.querySelector<HTMLCanvasElement>('.studio-electric-canvas');
     const electricContext = electricCanvas?.getContext('2d');
     let electricFrame = 0;
+    let lastPoint: { x: number; y: number } | null = null;
+    let neonPoints: Array<{ x: number; y: number; life: number; width: number }> = [];
+    let electricResetTimer: ReturnType<typeof setTimeout> | undefined;
     type CrackLine = { points: Array<{ x: number; y: number }>; depth: number; width: number };
     let crackBursts: Array<{ x: number; y: number; life: number; seed: number; lines: CrackLine[] }> = [];
 
@@ -76,42 +79,67 @@ export function StudioHome() {
     resizeElectricCanvas();
     window.addEventListener('resize', resizeElectricCanvas);
 
+    const spawnNeonTrail = (x: number, y: number) => {
+      if (!lastPoint) { lastPoint = { x, y }; return; }
+      const dx = x - lastPoint.x;
+      const dy = y - lastPoint.y;
+      const distance = Math.hypot(dx, dy);
+      if (distance < 4) return;
+
+      const steps = Math.max(2, Math.min(12, Math.ceil(distance / 14)));
+      for (let i = 0; i <= steps; i += 1) {
+        const t = i / steps;
+        const ease = t * t * (3 - 2 * t);
+        neonPoints.push({
+          x: lastPoint.x + dx * ease,
+          y: lastPoint.y + dy * ease,
+          life: 0.72 + Math.random() * 0.28,
+          width: 1 + Math.random() * 1.35,
+        });
+      }
+      if (neonPoints.length > 700) neonPoints = neonPoints.slice(-700);
+      lastPoint = { x, y };
+    };
+
     const makeRealisticCracks = (x: number, y: number, seed: number): CrackLine[] => {
       const lines: CrackLine[] = [];
-      const mainBranches = 7 + Math.floor(Math.random() * 3);
+      const mainBranches = 6 + Math.floor(Math.random() * 3);
 
       for (let branch = 0; branch < mainBranches; branch += 1) {
-        const angle = seed + branch * (Math.PI * 2 / mainBranches) + (Math.random() - 0.5) * 0.6;
-        const length = 65 + Math.random() * 105;
-        const segments = 6 + Math.floor(Math.random() * 3);
+        const angle = seed + branch * (Math.PI * 2 / mainBranches) + (Math.random() - 0.5) * 0.5;
+        const length = 45 + Math.random() * 72;
+        const segments = 5 + Math.floor(Math.random() * 3);
         const points = [{ x, y }];
         let px = x;
         let py = y;
         let currentAngle = angle;
 
         for (let segment = 1; segment <= segments; segment += 1) {
-          currentAngle += (Math.random() - 0.5) * 0.62;
-          const step = length / segments * (0.78 + Math.random() * 0.44);
+          const progress = segment / segments;
+          currentAngle += (Math.random() - 0.5) * 0.55;
+          const step = length / segments * (0.8 + Math.random() * 0.4);
           px += Math.cos(currentAngle) * step;
           py += Math.sin(currentAngle) * step;
           points.push({ x: px, y: py });
 
-          if (segment >= 2 && segment < segments && Math.random() < 0.6) {
-            const subAngle = currentAngle + (Math.random() > 0.5 ? 1 : -1) * (0.5 + Math.random() * 0.8);
-            const subLength = 18 + Math.random() * 42;
+          if (segment > 1 && segment < segments && Math.random() < 0.42) {
+            const subAngle = currentAngle + (Math.random() > 0.5 ? 1 : -1) * (0.5 + Math.random() * 0.7);
+            const subLength = 12 + Math.random() * 28;
             const subPoints = [{ x: px, y: py }];
             let sx = px;
             let sy = py;
-            const subSegments = 2 + Math.floor(Math.random() * 2);
-            for (let sub = 0; sub < subSegments; sub += 1) {
-              sx += Math.cos(subAngle + (Math.random() - 0.5) * 0.4) * (subLength / subSegments);
-              sy += Math.sin(subAngle + (Math.random() - 0.5) * 0.4) * (subLength / subSegments);
+            for (let sub = 0; sub < 2 + Math.floor(Math.random() * 2); sub += 1) {
+              const subStep = subLength / 3;
+              sx += Math.cos(subAngle + (Math.random() - 0.5) * 0.35) * subStep;
+              sy += Math.sin(subAngle + (Math.random() - 0.5) * 0.35) * subStep;
               subPoints.push({ x: sx, y: sy });
             }
-            lines.push({ points: subPoints, depth: 0.65 + Math.random() * 0.35, width: 0.65 + Math.random() * 0.55 });
+            lines.push({ points: subPoints, depth: 0.45 + Math.random() * 0.3, width: 0.45 + Math.random() * 0.35 });
           }
+
+          void progress;
         }
-        lines.push({ points, depth: 0.8 + Math.random() * 0.2, width: 0.95 + Math.random() * 0.65 });
+        lines.push({ points, depth: 0.7 + Math.random() * 0.3, width: 0.7 + Math.random() * 0.55 });
       }
       return lines;
     };
@@ -124,6 +152,9 @@ export function StudioHome() {
       document.documentElement.style.setProperty('--cursor-y', event.clientY + 'px');
       document.documentElement.style.setProperty('--hero-mx', (x * 18) + 'px');
       document.documentElement.style.setProperty('--hero-my', (y * 18) + 'px');
+      spawnNeonTrail(event.clientX, event.clientY);
+      if (electricResetTimer) clearTimeout(electricResetTimer);
+      electricResetTimer = setTimeout(() => { lastPoint = null; }, 100);
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
@@ -146,83 +177,71 @@ export function StudioHome() {
       electricContext.lineCap = 'round';
       electricContext.lineJoin = 'round';
 
-      // Neon lamp halo: stays around the cursor, never leaves a trail.
+      for (let i = neonPoints.length - 1; i >= 0; i -= 1) {
+        neonPoints[i].life -= 0.052;
+        if (neonPoints[i].life <= 0) neonPoints.splice(i, 1);
+      }
+
+      // Warm yellow lamp-like neon trail.
+      for (let i = 1; i < neonPoints.length; i += 1) {
+        const a = neonPoints[i - 1];
+        const b = neonPoints[i];
+        const alpha = Math.min(a.life, b.life);
+        electricContext.strokeStyle = 'rgba(255, 216, 61, ' + alpha * 0.62 + ')';
+        electricContext.shadowColor = 'rgba(255, 184, 0, ' + alpha * 0.95 + ')';
+        electricContext.shadowBlur = 18;
+        electricContext.lineWidth = Math.min(a.width, b.width) * 1.25;
+        electricContext.beginPath();
+        electricContext.moveTo(a.x, a.y);
+        electricContext.lineTo(b.x, b.y);
+        electricContext.stroke();
+      }
+
       const cursorX = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cursor-x'));
       const cursorY = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cursor-y'));
       if (Number.isFinite(cursorX) && Number.isFinite(cursorY)) {
-        const pulse = 1 + Math.sin(performance.now() * 0.006) * 0.08;
-
-        electricContext.shadowColor = 'rgba(255, 184, 0, 0.9)';
-        electricContext.shadowBlur = 26;
-        electricContext.fillStyle = 'rgba(255, 216, 61, 0.16)';
-        electricContext.beginPath();
-        electricContext.arc(cursorX, cursorY, 9 * pulse, 0, Math.PI * 2);
-        electricContext.fill();
-
         electricContext.shadowColor = 'rgba(255, 184, 0, 0.95)';
-        electricContext.shadowBlur = 17;
-        electricContext.strokeStyle = 'rgba(255, 216, 61, 0.82)';
-        electricContext.lineWidth = 1.35;
+        electricContext.shadowBlur = 22;
+        electricContext.fillStyle = 'rgba(255, 247, 194, 0.98)';
         electricContext.beginPath();
-        electricContext.arc(cursorX, cursorY, 5.5 * pulse, 0, Math.PI * 2);
-        electricContext.stroke();
-
-        electricContext.shadowColor = 'rgba(255, 184, 0, 1)';
-        electricContext.shadowBlur = 24;
-        electricContext.fillStyle = 'rgba(255, 247, 194, 1)';
-        electricContext.beginPath();
-        electricContext.arc(cursorX, cursorY, 2.25, 0, Math.PI * 2);
+        electricContext.arc(cursorX, cursorY, 2.3, 0, Math.PI * 2);
         electricContext.fill();
       }
 
-      // Sharper, high-contrast ground fracture on click.
+      // Realistic ground-crack click effect: irregular, tapered, with a subtle warm inner glow.
       for (let i = crackBursts.length - 1; i >= 0; i -= 1) {
         const crack = crackBursts[i];
-        crack.life -= 0.058;
+        crack.life -= 0.045;
         if (crack.life <= 0) { crackBursts.splice(i, 1); continue; }
 
         const progress = 1 - crack.life;
-        const reveal = Math.min(1, progress * 1.9);
-        const alpha = Math.pow(crack.life, 1.35);
+        const reveal = Math.min(1, progress * 1.55);
+        const alpha = Math.pow(crack.life, 1.7);
 
         for (const line of crack.lines) {
-          const total = line.points.length - 1;
-          const exact = reveal * total;
-          const visible = Math.max(1, Math.ceil(exact));
-
-          for (let seg = 1; seg <= visible && seg <= total; seg += 1) {
+          const visibleSegments = Math.max(1, Math.floor((line.points.length - 1) * reveal));
+          for (let seg = 1; seg <= visibleSegments; seg += 1) {
             const a = line.points[seg - 1];
             const b = line.points[seg];
-            const local = Math.min(1, Math.max(0, exact - (seg - 1)));
+            const local = Math.min(1, reveal * (line.points.length - 1) - (seg - 1));
             const ex = a.x + (b.x - a.x) * local;
             const ey = a.y + (b.y - a.y) * local;
-            const taper = 1 - ((seg - 1) / Math.max(total, 1)) * 0.62;
-            const width = Math.max(0.35, line.width * taper);
+            const width = Math.max(0.25, line.width * (1 - (seg - 1) / line.points.length * 0.55));
 
-            // Strong black fracture body / physical depth.
-            electricContext.shadowBlur = 3;
-            electricContext.shadowColor = 'rgba(0, 0, 0, 0.75)';
-            electricContext.strokeStyle = 'rgba(3, 6, 5, ' + alpha * 0.92 * line.depth + ')';
-            electricContext.lineWidth = width + 3.2;
+            // Dark fracture edge gives the crack physical depth.
+            electricContext.shadowBlur = 0;
+            electricContext.strokeStyle = 'rgba(0, 0, 0, ' + alpha * 0.58 * line.depth + ')';
+            electricContext.lineWidth = width + 1.7;
             electricContext.beginPath();
             electricContext.moveTo(a.x, a.y);
             electricContext.lineTo(ex, ey);
             electricContext.stroke();
 
-            // Bright warm edge makes the crack readable against the dark page.
-            electricContext.shadowBlur = 10;
-            electricContext.shadowColor = 'rgba(255, 184, 0, ' + alpha * 0.75 * line.depth + ')';
-            electricContext.strokeStyle = 'rgba(255, 216, 61, ' + alpha * 0.82 * line.depth + ')';
-            electricContext.lineWidth = width + 0.8;
-            electricContext.beginPath();
-            electricContext.moveTo(a.x, a.y);
-            electricContext.lineTo(ex, ey);
-            electricContext.stroke();
-
-            // Fine hot inner fracture.
-            electricContext.shadowBlur = 4;
-            electricContext.strokeStyle = 'rgba(255, 247, 194, ' + alpha * 0.58 * line.depth + ')';
-            electricContext.lineWidth = Math.max(0.3, width * 0.42);
+            // Thin warm light catches the inside edge of the fracture.
+            electricContext.shadowColor = 'rgba(255, 184, 0, ' + alpha * 0.5 * line.depth + ')';
+            electricContext.shadowBlur = 5;
+            electricContext.strokeStyle = 'rgba(255, 216, 61, ' + alpha * 0.34 * line.depth + ')';
+            electricContext.lineWidth = width;
             electricContext.beginPath();
             electricContext.moveTo(a.x, a.y);
             electricContext.lineTo(ex, ey);
