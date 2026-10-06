@@ -536,3 +536,13 @@ img, svg, video { max-width: 100%; }
 .studio-lightning.is-active{opacity:1}
 @media(pointer:coarse){.studio-lightning{display:none}}
 @media(prefers-reduced-motion:reduce){.studio-lightning{display:none}}
+
+
+/* Cinematic coding footage behind the Alvin Studio hero */
+.studio-hero-video{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#050505}
+.studio-hero-video-media{position:absolute;inset:-7%;width:114%;height:114%;max-width:none;object-fit:cover;opacity:.34;filter:saturate(.7) contrast(1.12) brightness(.55);transform:scale(1.04);animation:studioHeroVideoZoom 18s ease-in-out infinite alternate}
+.studio-hero-video-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,4,4,.94) 0%,rgba(4,4,4,.76) 43%,rgba(4,4,4,.44) 100%),linear-gradient(180deg,rgba(4,4,4,.34) 0%,rgba(4,4,4,.72) 100%)}
+.studio-hero>.studio-hero-video~*{position:relative;z-index:1}
+@keyframes studioHeroVideoZoom{from{transform:scale(1.04)}to{transform:scale(1.13)}}
+@media(max-width:767px){.studio-hero-video-media{inset:-10%;width:120%;height:120%;opacity:.25;animation-duration:22s}}
+@media(prefers-reduced-motion:reduce){.studio-hero-video-media{animation:none;transform:scale(1.06)}}
