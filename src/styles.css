@@ -424,3 +424,47 @@ img, svg, video { max-width: 100%; }
  .studio-intro{padding:75px 0}.studio-intro-grid{grid-template-columns:1fr;gap:22px}.studio-intro-copy{margin-top:10px}.studio-page .section{padding:78px 0}.studio-section-head{display:block;margin-bottom:35px}.studio-section-head>p{margin-top:22px}.studio-project-grid{grid-template-columns:1fr}.studio-project-card:first-child{grid-row:auto}.project-visual,.studio-project-card:first-child .project-visual{height:330px}.project-copy{display:block}.project-copy>p{margin-top:10px}.studio-service-row{grid-template-columns:38px 42px 1fr 25px;gap:10px}.studio-service-row p{display:none}.studio-service-row h3{font-size:15px}.process-grid{grid-template-columns:1fr 1fr;margin-top:50px}.process-item{min-height:170px;border-bottom:1px solid #d5d3cd}.process-item:nth-child(2n){border-right:0;padding-left:18px}.process-item:nth-child(n+3){padding-top:22px}.studio-cta{padding:75px 0}.studio-cta-inner{display:block}.studio-cta .button{margin-top:35px}.studio-footer-top{display:block}.studio-footer-links{margin-top:35px;flex-wrap:wrap}.studio-footer .footer-bottom{margin-top:40px}
 }
 @media(prefers-reduced-motion:reduce){.live-dot{animation:none}.studio-project-card:hover .project-dashboard-wrap{transform:none}.studio-service-row{transition:none}}
+
+
+/* Alvin Studio — agency interaction layer */
+.studio-page{overflow:clip}
+.studio-cursor{position:fixed;left:var(--cursor-x,-100px);top:var(--cursor-y,-100px);width:34px;height:34px;border:1px solid rgba(240,199,94,.65);border-radius:50%;pointer-events:none;z-index:100;transform:translate(-50%,-50%);transition:width .2s ease,height .2s ease,background .2s ease,opacity .2s ease;mix-blend-mode:difference}
+.studio-cursor span{position:absolute;width:5px;height:5px;background:#f0c75e;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+.studio-page:has(a:hover)~.studio-cursor{width:52px;height:52px}
+.hero-grain{position:absolute;inset:0;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+.hero-orbit-one{transform:translate3d(var(--hero-mx,0),var(--hero-my,0),0);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.hero-orbit-two{transform:translate3d(calc(var(--hero-mx,0) * -.65),calc(var(--hero-my,0) * -.65),0);transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.hero-reveal{opacity:0;transform:translateY(28px);filter:blur(7px);animation:studioHeroReveal .9s cubic-bezier(.22,1,.36,1) forwards}
+.hero-reveal-1{animation-delay:.05s}.hero-reveal-2{animation-delay:.15s}.hero-reveal-3{animation-delay:.28s}.hero-reveal-4{animation-delay:.4s}.hero-reveal-5{animation-delay:.52s}
+@keyframes studioHeroReveal{to{opacity:1;transform:none;filter:none}}
+.hero-scroll-note{position:absolute;right:28px;bottom:32px;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.3);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;writing-mode:vertical-rl}
+.hero-scroll-note svg{animation:scrollNudge 1.8s ease-in-out infinite}
+@keyframes scrollNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.studio-marquee{overflow:hidden;background:#f0c75e;color:#111;white-space:nowrap;border-bottom:1px solid #090909}
+.studio-marquee>div{display:inline-block;padding:15px 0;font-size:10px;font-weight:800;letter-spacing:3px;animation:studioMarquee 28s linear infinite}
+.studio-marquee i{font-style:normal;margin:0 24px}
+@keyframes studioMarquee{to{transform:translateX(-50%)}}
+[data-reveal]{opacity:0;transform:translateY(42px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);transition-delay:var(--reveal-delay,0ms)}
+[data-reveal="left"]{transform:translateX(-45px)}
+[data-reveal="scale"]{transform:scale(.94)}
+[data-reveal].is-visible{opacity:1;transform:none}
+.magnetic{transform:translate3d(var(--mag-x,0),var(--mag-y,0),0);transition:transform .18s ease}
+.studio-project-card{cursor:none}
+.project-visual{isolation:isolate}
+.project-visual:after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(240,199,94,.08),transparent 65%);transform:translateX(-120%);transition:transform .9s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.studio-project-card:hover .project-visual:after{transform:translateX(120%)}
+.project-shape{transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.studio-project-card:hover .project-shape{transform:scale(1.035)}
+.project-hover-label{position:absolute;left:50%;bottom:28px;z-index:4;display:flex;align-items:center;gap:7px;transform:translate(-50%,12px);opacity:0;background:#f0c75e;color:#111;border-radius:999px;padding:9px 14px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;transition:opacity .35s ease,transform .35s ease}
+.studio-project-card:hover .project-hover-label{opacity:1;transform:translate(-50%,0)}
+.studio-service-row:after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:#f0c75e;transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.studio-service-row{position:relative}
+.studio-service-row:hover:after{transform:scaleX(1)}
+.studio-section-head h2,.studio-process-head h2,.studio-cta h2{overflow:hidden}
+.studio-footer{position:relative}
+@media(pointer:coarse),(max-width:767px){.studio-cursor{display:none}.hero-scroll-note{display:none}.studio-project-card{cursor:auto}}
+@media(max-width:767px){.studio-marquee>div{animation-duration:20s}.studio-service-row:hover{padding-left:8px;padding-right:8px}}
+@media(prefers-reduced-motion:reduce){
+ .studio-cursor,.hero-grain{display:none}.hero-reveal{animation:none;opacity:1;transform:none;filter:none}.hero-scroll-note svg,.studio-marquee>div{animation:none}
+ [data-reveal]{opacity:1;transform:none;transition:none}.magnetic{transform:none}.studio-project-card:hover .project-hover-label{display:none}
+}
