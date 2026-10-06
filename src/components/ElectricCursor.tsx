@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 type Point = { x: number; y: number };
-type LiquidRipple = { x: number; y: number; radius: number; alpha: number; phase: number };
+type ElectricBurst = { x: number; y: number; alpha: number; age: number; seed: number };
 
 const IDLE_MS = 150;
 const MAX_TRAIL_POINTS = 30;
-const MAX_LIQUID_RIPPLES = 3;
+const MAX_ELECTRIC_BURSTS = 3;
 
 export function ElectricCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,7 +24,7 @@ export function ElectricCursor() {
     let idleTimer: ReturnType<typeof setTimeout> | undefined;
     let lastTime = 0;
     let trail: Point[] = [];
-    const liquidRipples: LiquidRipple[] = [];
+    const electricBursts: ElectricBurst[] = [];
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -101,67 +101,64 @@ export function ElectricCursor() {
       drawLightning(time, 0);
       drawLightning(time, 1);
 
-      for (let i = liquidRipples.length - 1; i >= 0; i -= 1) {
-        const ripple = liquidRipples[i];
-        ripple.radius += delta * 0.34;
-        ripple.alpha -= delta * 0.0027;
-        ripple.phase += delta * 0.006;
+      for (let i = electricBursts.length - 1; i >= 0; i -= 1) {
+        const burst = electricBursts[i];
+        burst.age += delta;
+        burst.alpha -= delta * 0.0042;
 
-        if (ripple.alpha <= 0) {
-          liquidRipples.splice(i, 1);
+        if (burst.alpha <= 0) {
+          electricBursts.splice(i, 1);
           continue;
         }
 
-        const wave = Math.sin(ripple.radius * 0.18 - ripple.phase) * 1.8;
-        const radius = ripple.radius + wave;
+        const progress = Math.min(burst.age / 260, 1);
+        const length = 18 + progress * 42;
+        const rays = 7;
 
         ctx.save();
-        ctx.translate(ripple.x, ripple.y);
-
+        ctx.translate(burst.x, burst.y);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.shadowColor = '#00f2fe';
         ctx.shadowBlur = 18;
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + ripple.alpha * 0.58 + ')';
-        ctx.lineWidth = 1.35;
-        ctx.beginPath();
 
-        const points = 56;
-        for (let p = 0; p <= points; p += 1) {
-          const a = (p / points) * Math.PI * 2;
-          const wobble =
-            Math.sin(a * 3 + ripple.phase) * 1.7 +
-            Math.sin(a * 7 - ripple.phase * 0.8) * 0.8;
-          const r = Math.max(1, radius + wobble);
-          const x = Math.cos(a) * r;
-          const y = Math.sin(a) * r;
-          if (p === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-        ctx.stroke();
+        for (let r = 0; r < rays; r += 1) {
+          const angle =
+            (r / rays) * Math.PI * 2 +
+            Math.sin(burst.seed + r * 2.4) * 0.16;
+          const jitter = Math.sin(time * 0.035 + burst.seed + r * 3.1) * 5;
+          const inner = 3 + progress * 5;
+          const outer = inner + length + jitter;
 
-        ctx.shadowBlur = 10;
-        ctx.strokeStyle = 'rgba(255, 255, 255, ' + ripple.alpha * 0.18 + ')';
-        ctx.lineWidth = 0.8;
-        ctx.beginPath();
-        const innerRadius = radius * 0.72;
-        for (let p = 0; p <= points; p += 1) {
-          const a = (p / points) * Math.PI * 2;
-          const wobble = Math.sin(a * 4 - ripple.phase) * 1.1;
-          const r = Math.max(1, innerRadius + wobble);
-          const x = Math.cos(a) * r;
-          const y = Math.sin(a) * r;
-          if (p === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
+          ctx.strokeStyle =
+            'rgba(0, 242, 254, ' + burst.alpha * (0.72 - r * 0.035) + ')';
+          ctx.lineWidth = r % 2 === 0 ? 1.7 : 1.05;
+
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner);
+
+          const mid = inner + (outer - inner) * 0.48;
+          const bend = (r % 2 === 0 ? 1 : -1) * 3.5;
+          ctx.lineTo(
+            Math.cos(angle) * mid + Math.cos(angle + Math.PI / 2) * bend,
+            Math.sin(angle) * mid + Math.sin(angle + Math.PI / 2) * bend
+          );
+          ctx.lineTo(Math.cos(angle) * outer, Math.sin(angle) * outer);
+          ctx.stroke();
         }
-        ctx.closePath();
-        ctx.stroke();
+
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + burst.alpha * 0.95 + ')';
+        ctx.beginPath();
+        ctx.arc(0, 0, 1.7 + burst.alpha * 1.8, 0, Math.PI * 2);
+        ctx.fill();
 
         ctx.restore();
       }
 
       ctx.shadowBlur = 0;
 
-      if (trail.length === 0 && liquidRipples.length === 0) {
+      if (trail.length === 0 && electricBursts.length === 0) {
         running = false;
         frame = 0;
         return;
@@ -186,7 +183,7 @@ export function ElectricCursor() {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         trail = [];
-        if (liquidRipples.length === 0) clearAndStop();
+        if (electricBursts.length === 0) clearAndStop();
       }, IDLE_MS);
 
       schedule();
@@ -195,15 +192,15 @@ export function ElectricCursor() {
     const onPointerDown = (event: PointerEvent) => {
       if (event.pointerType === 'touch') return;
 
-      liquidRipples.push({
+      electricBursts.push({
         x: event.clientX,
         y: event.clientY,
-        radius: 2,
         alpha: 1,
-        phase: Math.random() * Math.PI * 2,
+        age: 0,
+        seed: Math.random() * Math.PI * 2,
       });
 
-      if (liquidRipples.length > MAX_LIQUID_RIPPLES) liquidRipples.shift();
+      if (electricBursts.length > MAX_ELECTRIC_BURSTS) electricBursts.shift();
       schedule();
     };
 
