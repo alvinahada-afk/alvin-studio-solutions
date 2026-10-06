@@ -1470,3 +1470,51 @@ body::after {
   background: rgba(11,13,15,.82) !important;
   border-bottom-color: rgba(255,255,255,.09) !important;
 }
+
+
+/* FINAL — Deep blue petrol radial atmosphere */
+html, body {
+  background:
+    radial-gradient(
+      ellipse 85% 75% at 100% 100%,
+      #162E35 0%,
+      rgba(22, 46, 53, .82) 15%,
+      rgba(22, 46, 53, .48) 30%,
+      rgba(15, 39, 47, .22) 48%,
+      rgba(8, 28, 36, 0) 72%
+    ),
+    #081C24 !important;
+}
+
+.studio-page {
+  background:
+    radial-gradient(ellipse 90% 70% at 100% 100%, rgba(22,46,53,.72), transparent 68%),
+    linear-gradient(180deg, #0A2029 0%, #081C24 52%, #0A2028 100%) !important;
+}
+
+.studio-hero {
+  background:
+    radial-gradient(ellipse 88% 78% at 100% 100%, rgba(22,46,53,.92) 0%, rgba(22,46,53,.58) 24%, rgba(12,36,44,.24) 46%, transparent 72%),
+    radial-gradient(circle at 18% 20%, rgba(29,62,71,.16), transparent 48%),
+    #081C24 !important;
+}
+
+body::after {
+  background:
+    radial-gradient(circle 680px at var(--cursor-glow-x) var(--cursor-glow-y),
+      rgba(100,145,154,.10) 0%,
+      rgba(65,108,119,.055) 30%,
+      rgba(36,76,87,.02) 55%,
+      transparent 76%) !important;
+}
+
+.studio-header {
+  background: rgba(8,28,36,.82) !important;
+  border-bottom-color: rgba(184,216,232,.10) !important;
+}
+
+.hero-grain {
+  opacity: .13 !important;
+  animation-duration: 12s !important;
+  mix-blend-mode: soft-light;
+}
