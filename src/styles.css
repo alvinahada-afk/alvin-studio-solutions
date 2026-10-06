@@ -346,7 +346,7 @@ body { font-family: var(--font-sans); letter-spacing: 0; }
 }
 /* Overflow safety */
 html, body {
-  background-color: #081B23 !important;
+  background-color: #0B0D0F !important;
   color: #F8FAFC !important;
   -webkit-font-smoothing: antialiased;
   position: relative;
@@ -887,7 +887,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   --alvin-electric:#B8D8E8;
   --alvin-electric-soft:rgba(184,216,232,.18);
   --alvin-gold:#f4c95d;
-  --alvin-glass:rgba(8,27,35,.64);
+  --alvin-glass:rgba(11,13,15,.64);
 }
 .studio-page{
   --accent-blue:var(--alvin-electric);
@@ -935,7 +935,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   padding:18px;
   border:1px solid rgba(255,255,255,.15);
   border-radius:18px;
-  background:linear-gradient(145deg,rgba(17,28,37,.88),rgba(8,27,35,.68));
+  background:linear-gradient(145deg,rgba(17,28,37,.88),rgba(11,13,15,.68));
   box-shadow:0 35px 100px rgba(0,0,0,.58),0 0 90px rgba(184,216,232,.12),inset 0 1px rgba(255,255,255,.08);
   backdrop-filter:blur(18px);
   transform:rotateY(-7deg) rotateX(3deg);
@@ -975,7 +975,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   padding:14px 16px;
   border:1px solid rgba(255,255,255,.14);
   border-radius:12px;
-  background:rgba(8,27,35,.76);
+  background:rgba(11,13,15,.76);
   backdrop-filter:blur(16px);
   box-shadow:0 22px 60px rgba(0,0,0,.45),0 0 34px rgba(184,216,232,.10);
   animation:heroFloating 5.5s ease-in-out infinite;
@@ -997,7 +997,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-case-card,
 .career-panel{
   border-color:rgba(255,255,255,.10)!important;
-  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(8,27,35,.48))!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(11,13,15,.48))!important;
   box-shadow:0 18px 55px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.035);
   backdrop-filter:blur(14px);
 }
@@ -1045,7 +1045,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .case-visual:after{background:radial-gradient(circle at 50% 50%,rgba(184,216,232,.16),transparent 62%)!important}
 .stack-cloud span{
   border-color:rgba(255,255,255,.10);
-  background:rgba(8,27,35,.42);
+  background:rgba(11,13,15,.42);
   border-radius:10px;
   box-shadow:inset 0 1px rgba(255,255,255,.04);
 }
@@ -1088,7 +1088,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-hero{
   background:
     radial-gradient(circle at 72% 48%,rgba(91,116,142,.14),transparent 36%),
-    linear-gradient(105deg,rgba(8,27,35,.97) 0%,rgba(7,14,18,.88) 48%,rgba(8,27,35,.72) 100%) !important;
+    linear-gradient(105deg,rgba(11,13,15,.97) 0%,rgba(7,14,18,.88) 48%,rgba(11,13,15,.72) 100%) !important;
 }
 .studio-hero-copy h1{
   color:#eef2f4!important;
@@ -1148,7 +1148,7 @@ opacity:.30!important;animation-duration:7s!important;}
   .studio-hero{
     background:
       radial-gradient(circle at 70% 35%,rgba(91,116,142,.11),transparent 38%),
-      #081B23 !important;
+      #0B0D0F !important;
   }
   .studio-hero-copy h1{
     text-shadow:0 12px 38px rgba(0,0,0,.48);
@@ -1192,7 +1192,7 @@ body::after {
   width: 100% !important;
   height: 84px !important;
   z-index: 9999 !important;
-  background: rgba(8,27,35,.88) !important;
+  background: rgba(11,13,15,.88) !important;
   border-bottom: 1px solid rgba(255,255,255,.12) !important;
   isolation: isolate;
 }
@@ -1370,9 +1370,9 @@ html, body {
 :root,
 .dark {
   --primary: #B8D8E8;
-  --primary-foreground: #081B23 !important;
+  --primary-foreground: #0B0D0F !important;
   --accent: #B8D8E8;
-  --accent-foreground: #081B23 !important;
+  --accent-foreground: #0B0D0F !important;
   --ring: #B8D8E8;
   --blue-soft: rgba(184,216,232,.10) !important;
 }
@@ -1431,3 +1431,42 @@ html, body {
 .hero-grain{opacity:.30!important;animation-duration:7s!important;animation-timing-function:ease-in-out!important;animation-iteration-count:infinite!important;}
 @keyframes alvinSandDrift{0%,100%{transform:translate3d(0,0,0) scale(1)}25%{transform:translate3d(-1.5%,1%,0) scale(1.015)}50%{transform:translate3d(1%,2%,0) scale(1.025)}75%{transform:translate3d(1.5%,-1%,0) scale(1.01)}}
 .hero-grain{animation-name:alvinSandDrift!important;}
+
+
+/* Alvin Studio — Antikode-inspired atmospheric background */
+html, body {
+  background:
+    radial-gradient(900px 620px at 72% 18%, rgba(105, 135, 165, .055), transparent 68%),
+    radial-gradient(720px 560px at 18% 82%, rgba(67, 91, 112, .035), transparent 70%),
+    #0B0D0F !important;
+}
+.studio-page {
+  background:
+    radial-gradient(760px 560px at 78% 8%, rgba(112, 143, 173, .055), transparent 70%),
+    linear-gradient(180deg, #0B0D0F 0%, #0A0C0E 48%, #0B0D0F 100%) !important;
+}
+.studio-hero {
+  background:
+    radial-gradient(760px 520px at 72% 42%, rgba(105,135,165,.085), transparent 68%),
+    radial-gradient(480px 420px at 20% 76%, rgba(74,99,121,.035), transparent 72%),
+    linear-gradient(105deg, rgba(11,13,15,.98) 0%, rgba(10,12,14,.93) 52%, rgba(11,13,15,.82) 100%) !important;
+}
+body::after {
+  background:
+    radial-gradient(
+      circle 680px at var(--cursor-glow-x) var(--cursor-glow-y),
+      rgba(139, 166, 191, .075) 0%,
+      rgba(105, 132, 157, .042) 32%,
+      rgba(72, 96, 119, .018) 55%,
+      transparent 76%
+    ) !important;
+}
+.hero-grain {
+  opacity: .11 !important;
+  animation-duration: 14s !important;
+  mix-blend-mode: soft-light;
+}
+.studio-header {
+  background: rgba(11,13,15,.82) !important;
+  border-bottom-color: rgba(255,255,255,.09) !important;
+}
