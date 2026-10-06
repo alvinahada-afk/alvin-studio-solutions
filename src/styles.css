@@ -468,3 +468,16 @@ img, svg, video { max-width: 100%; }
  .studio-cursor,.hero-grain{display:none}.hero-reveal{animation:none;opacity:1;transform:none;filter:none}.hero-scroll-note svg,.studio-marquee>div{animation:none}
  [data-reveal]{opacity:1;transform:none;transition:none}.magnetic{transform:none}.studio-project-card:hover .project-hover-label{display:none}
 }
+
+
+/* Lightning cursor — replace the basic ring with a reactive electric trail */
+.studio-cursor{width:42px;height:42px;border:0!important;border-radius:50%;background:radial-gradient(circle,rgba(255,220,105,.24) 0 9%,rgba(255,193,48,.10) 28%,transparent 65%);box-shadow:0 0 18px rgba(240,199,94,.25),0 0 42px rgba(240,199,94,.10);mix-blend-mode:screen;transition:width .18s ease,height .18s ease,opacity .2s ease;filter:drop-shadow(0 0 5px rgba(255,214,92,.7))}
+.studio-cursor:before,.studio-cursor:after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(255,213,91,.32);animation:cursorElectric 1.05s linear infinite}
+.studio-cursor:after{inset:-11px;border-color:rgba(255,213,91,.12);animation-duration:1.55s;animation-direction:reverse}
+.studio-cursor span{width:4px!important;height:4px!important;background:#fff6c8!important;box-shadow:0 0 6px #fff,0 0 16px #f0c75e,0 0 30px rgba(240,199,94,.85);z-index:3}
+.studio-cursor span:before,.studio-cursor span:after{content:'';position:absolute;left:50%;top:50%;width:2px;height:31px;background:linear-gradient(to bottom,transparent,#fff7c7 35%,#f0c75e 62%,transparent);transform:translate(-50%,-50%) rotate(45deg);filter:blur(.3px);opacity:.9}
+.studio-cursor span:after{transform:translate(-50%,-50%) rotate(-45deg);opacity:.45}
+@keyframes cursorElectric{0%{transform:rotate(0) scale(.94);opacity:.45}35%{transform:rotate(22deg) scale(1.04);opacity:.8}70%{transform:rotate(-18deg) scale(.98);opacity:.35}100%{transform:rotate(360deg) scale(.94);opacity:.45}}
+.studio-cursor.cursor-hover{width:62px;height:62px;background:radial-gradient(circle,rgba(255,224,125,.35) 0 7%,rgba(240,199,94,.14) 22%,transparent 66%);box-shadow:0 0 24px rgba(240,199,94,.42),0 0 70px rgba(240,199,94,.18)}
+@media(pointer:coarse){.studio-cursor{display:none}}
+@media(prefers-reduced-motion:reduce){.studio-cursor:before,.studio-cursor:after{animation:none}}
