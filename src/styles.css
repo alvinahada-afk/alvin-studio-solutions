@@ -1518,3 +1518,38 @@ body::after {
   animation-duration: 12s !important;
   mix-blend-mode: soft-light;
 }
+
+
+/* Animated cinematic sand / fine noise */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .075;
+  mix-blend-mode: soft-light;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.55) 0 0.7px, transparent 1px),
+    radial-gradient(circle at 70% 60%, rgba(184,216,232,.45) 0 0.8px, transparent 1.2px),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,.35) 0 0.6px, transparent 1px);
+  background-size: 17px 19px, 23px 21px, 29px 27px;
+  animation: alvinFineNoise 9s steps(18) infinite;
+  transform: translate3d(0,0,0);
+}
+
+@keyframes alvinFineNoise {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  20%  { transform: translate3d(-1.5%, 1%, 0) scale(1.01); }
+  40%  { transform: translate3d(1%, -1.5%, 0) scale(1.015); }
+  60%  { transform: translate3d(1.5%, 1%, 0) scale(1.005); }
+  80%  { transform: translate3d(-1%, -1%, 0) scale(1.012); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@media (max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  body::before {
+    animation-duration: 14s;
+    opacity: .055;
+  }
+}
