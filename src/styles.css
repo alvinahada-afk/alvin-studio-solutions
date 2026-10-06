@@ -658,11 +658,18 @@ html, body, #root, main, section {
 body::before {
   content: "";
   position: fixed;
-  bottom: -10%;
-  right: -5%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(145, 190, 170, 0.21) 0%, rgba(10, 19, 23, 0) 70%) !important;
+  bottom: -15%;
+  right: -15%;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(
+    circle,
+    rgba(20, 48, 47, 0.45) 0%,
+    rgba(14, 35, 36, 0.25) 30%,
+    rgba(11, 26, 28, 0.1) 60%,
+    rgba(10, 19, 23, 0) 100%
+  ) !important;
+  filter: blur(40px);
   pointer-events: none;
   z-index: 1;
 }
