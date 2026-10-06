@@ -864,3 +864,18 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-cta-inner{display:flex;align-items:end;justify-content:space-between;gap:50px;padding:120px 0}.studio-cta-inner>div>p:last-child{max-width:570px;margin-top:24px;font-size:14px;line-height:1.7;color:rgba(203,213,225,.65)}.studio-cta-inner .button{flex:none}
 @media(max-width:900px){.studio-intro-grid,.studio-stack-grid,.studio-faq-grid{grid-template-columns:1fr}.studio-index{display:none}.studio-about-grid{grid-template-columns:1fr}.studio-case-grid{grid-template-columns:1fr}.studio-case-card:first-child{grid-row:auto}.career-panel{grid-template-columns:1fr}.studio-case-card:first-child .case-visual{min-height:340px}}
 @media(max-width:767px){.studio-home-section,.section{padding-top:78px;padding-bottom:78px}.studio-intro-grid{gap:24px}.studio-about-grid{margin-top:55px}.studio-about-grid>div{min-height:170px;padding:24px}.studio-about-grid strong{font-size:16px}.studio-solution-list,.studio-case-grid{margin-top:42px}.studio-solution-card{grid-template-columns:42px minmax(0,1fr) 20px;gap:14px;padding:26px 0}.solution-card-top{min-height:0;gap:24px}.solution-card-top svg{width:18px}.solution-card-body h3{font-size:1.45rem}.solution-card-body>p:not(.solution-product){font-size:12px}.solution-tags span{font-size:7px;padding:6px 8px}.case-visual,.studio-case-card:first-child .case-visual{min-height:250px}.case-visual .dashboard-preview{transform:scale(.58)}.case-content{padding:21px}.case-detail{grid-template-columns:1fr;gap:14px;margin:22px 0}.studio-stack-grid{gap:45px}.stack-cloud{justify-content:flex-start}.stack-cloud span{padding:13px 15px;font-size:10px}.career-panel{padding:30px 24px}.studio-cta-inner{display:block;padding:78px 0}.studio-cta-inner .button{margin-top:30px}.studio-faq-grid{gap:45px}.studio-faq-grid summary{font-size:13px}.studio-footer-links{gap:16px}}
+
+/* Career / open positions */
+.career-openings{margin-top:22px;border-top:1px solid rgba(255,255,255,.10)}
+.career-openings-head{display:flex;justify-content:space-between;padding:18px 0;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(203,213,225,.48)}
+.career-opening{border-bottom:1px solid rgba(255,255,255,.10)}
+.career-opening summary{display:grid;grid-template-columns:70px minmax(0,1fr) auto;align-items:center;gap:20px;padding:25px 0;cursor:pointer;list-style:none}
+.career-opening summary::-webkit-details-marker{display:none}
+.career-opening-number{font-size:9px;letter-spacing:2px;color:rgba(203,213,225,.40)}
+.career-opening-title{font-size:clamp(1.15rem,2vw,1.6rem);font-weight:500;color:#f8fafc;letter-spacing:-.025em}
+.career-opening-apply{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(248,250,252,.58)}
+.career-opening summary:hover .career-opening-apply{color:#f8fafc}
+.career-opening-body{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:0 0 26px 90px}
+.career-opening-body p{max-width:680px;font-size:13px;line-height:1.7;color:rgba(203,213,225,.64)}
+.career-opening-body .button{flex:none}
+@media(max-width:767px){.career-openings{margin-top:18px}.career-opening summary{grid-template-columns:35px minmax(0,1fr);gap:12px;padding:21px 0}.career-opening-apply{grid-column:2;justify-self:start;margin-top:-7px}.career-opening-body{display:block;padding:0 0 22px 47px}.career-opening-body .button{margin-top:18px}.career-opening-title{font-size:1.1rem}}
