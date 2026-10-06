@@ -374,7 +374,7 @@ html, body {
 
 /* Alvin Studio — portfolio-first creative-tech direction */
 .studio-page{background:#0b1519;color:#f8fafc}
-.studio-header{background:rgba(9,9,9,.72);border-bottom:1px solid rgba(255,255,255,.08);color:#f5f5f3}
+.studio-header{position:fixed!important;top:0;left:0;right:0;width:100%;z-index:50;background:rgba(9,9,9,.72);border-bottom:1px solid rgba(255,255,255,.08);color:#f5f5f3}
 .studio-header.site-header-scrolled{background:rgba(9,9,9,.78);box-shadow:0 12px 40px rgba(0,0,0,.22)}
 .studio-header .brand{color:#f5f5f3}.studio-header .brand-mark{color:#f0c75e}.studio-header .studio-nav-link{color:rgba(245,245,243,.62);transition:color .25s ease}.studio-header .studio-nav-link:hover{color:#fff}
 .studio-mobile-nav{background:#090909;color:#fff;border-color:rgba(255,255,255,.08)}
