@@ -51,5 +51,5 @@ function RootComponent() {
     return () => { window.removeEventListener("pointermove", onPointerMove); if (frame) window.cancelAnimationFrame(frame); };
   }, []);
 
-  return <QueryClientProvider client={queryClient}><ElectricCursor /><ScreenCrackEffect /><Outlet /></QueryClientProvider>;
+  return <QueryClientProvider client={queryClient}><div className="global-noise-grain" aria-hidden="true" /><ElectricCursor /><ScreenCrackEffect /><Outlet /></QueryClientProvider>;
 }
