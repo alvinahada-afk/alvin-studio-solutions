@@ -1339,15 +1339,15 @@ html, body {
 }
 
 
-/* GLACIER BLUE — global premium accent lock */
+/* PIGEON BLUE — global premium accent lock */
 :root,
 .dark {
-  --primary: #A5F3FC;
-  --primary-foreground: #060F12;
-  --accent: #A5F3FC;
-  --accent-foreground: #060F12;
-  --ring: #A5F3FC;
-  --blue-soft: rgba(165, 243, 252, 0.10);
+  --primary: #8FA3B8;
+  --primary-foreground: #060F12 !important;
+  --accent: #8FA3B8;
+  --accent-foreground: #060F12 !important;
+  --ring: #8FA3B8;
+  --blue-soft: rgba(143,163,184,.10) !important;
 }
 
 .studio-page a:hover,
@@ -1364,38 +1364,38 @@ html, body {
 .studio-page .studio-nav-link:hover,
 .studio-page .studio-footer a:hover,
 .studio-page .live-dot {
-  color: #A5F3FC !important;
+  color: #8FA3B8 !important;
 }
 
 .studio-page .studio-eyebrow .live-dot,
 .studio-page .live-dot {
-  background-color: #A5F3FC !important;
-  box-shadow: 0 0 14px rgba(165,243,252,.22) !important;
+  background-color: #8FA3B8 !important;
+  box-shadow: 0 0 14px rgba(143,163,184,.22) !important;
 }
 
 .studio-page .studio-hero-title-col h1 span {
-  color: #A5F3FC !important;
-  text-shadow: 0 0 18px rgba(165,243,252,.18) !important;
+  color: #8FA3B8 !important;
+  text-shadow: 0 0 18px rgba(143,163,184,.18) !important;
 }
 
 .studio-page .studio-hero-pill:hover,
 .studio-page a.text-primary:hover,
 .studio-page .text-primary {
-  color: #A5F3FC !important;
+  color: #8FA3B8 !important;
 }
 
 .studio-page .studio-hero-pill:hover {
-  border-color: rgba(165,243,252,.35) !important;
+  border-color: rgba(143,163,184,.35) !important;
 }
 
 .studio-page .studio-solution-card:hover,
 .studio-page .studio-case-card a:hover,
 .studio-page .studio-footer a:hover {
-  color: #A5F3FC;
+  color: #8FA3B8;
 }
 
 .studio-page .studio-cta .text-primary,
 .studio-page svg.text-primary,
 .studio-page .text-primary {
-  color: #A5F3FC !important;
+  color: #8FA3B8 !important;
 }
