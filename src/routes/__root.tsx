@@ -116,6 +116,33 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    let frame = 0;
+    let x = window.innerWidth * 0.5;
+    let y = window.innerHeight * 0.5;
+
+    const updateGlow = () => {
+      document.documentElement.style.setProperty("--cursor-glow-x", x + "px");
+      document.documentElement.style.setProperty("--cursor-glow-y", y + "px");
+      frame = 0;
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      x = event.clientX;
+      y = event.clientY;
+      if (!frame) frame = window.requestAnimationFrame(updateGlow);
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    updateGlow();
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ElectricCursor />
