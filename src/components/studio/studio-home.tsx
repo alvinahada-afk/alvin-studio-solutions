@@ -223,8 +223,8 @@ export function StudioHome() {
         const distance = Math.hypot(b.x - a.x, b.y - a.y);
         if (distance > 34) continue;
         const alpha = Math.min(a.life, b.life);
-        electricContext.strokeStyle = 'rgba(212, 160, 48, ' + alpha * (0.9) + ');
-        electricContext.shadowColor = 'rgba(191, 135, 22, ' + alpha + ');
+        electricContext.strokeStyle = 'rgba(212, 160, 48, ' + alpha * 0.9 + ')';
+        electricContext.shadowColor = 'rgba(191, 135, 22, ' + alpha + ')';
         electricContext.shadowBlur = 8;
         electricContext.lineWidth = Math.min(a.width, b.width);
         electricContext.beginPath();
