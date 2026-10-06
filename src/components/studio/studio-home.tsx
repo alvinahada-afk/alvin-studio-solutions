@@ -87,13 +87,13 @@ export function StudioHome() {
       const normalX = -dy / Math.max(distance, 1);
       const normalY = dx / Math.max(distance, 1);
       const steps = Math.max(2, Math.min(9, Math.ceil(distance / 18)));
-      const strands = 3;
+      const strands = 2;
 
       for (let strand = 0; strand < strands; strand += 1) {
         const center = (strands - 1) / 2;
         const spread = (strand - center) * 4.5;
         const amplitude = 5 + Math.random() * 7;
-        const width = strand === 2 ? 1.45 : 0.7 + Math.random() * 0.55;
+        const width = strand === 0 ? 1.25 : 0.9 + Math.random() * 0.45;
 
         for (let i = 0; i <= steps; i += 1) {
           const t = i / steps;
@@ -166,9 +166,9 @@ export function StudioHome() {
         const distance = Math.hypot(b.x - a.x, b.y - a.y);
         if (distance > 34) continue;
         const alpha = Math.min(a.life, b.life);
-        electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * (a.strand === 2 ? 0.9 : 0.58) + ')';
+        electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * (0.68) + ')';
         electricContext.shadowColor = 'rgba(240, 199, 94, ' + alpha * 0.9 + ')';
-        electricContext.shadowBlur = a.strand === 2 ? 9 : 5;
+        electricContext.shadowBlur = 7;
         electricContext.lineWidth = Math.min(a.width, b.width);
         electricContext.beginPath();
         electricContext.moveTo(a.x, a.y);
