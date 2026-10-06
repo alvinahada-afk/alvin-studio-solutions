@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";\n
@@ -1200,4 +1201,139 @@ body::after {
   body::after {
     display: none;
   }
+}
+
+
+/* Premium Antikode-inspired typography architecture */
+html, body {
+  font-family: "Inter", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.studio-page {
+  font-family: "Inter", sans-serif !important;
+}
+
+.studio-page h1,
+.studio-page h2,
+.studio-page h3,
+.studio-page h4,
+.studio-page h5,
+.studio-page h6 {
+  color: #ffffff !important;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.15 !important;
+}
+
+.studio-hero-asymmetric {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, .45fr);
+  gap: clamp(48px, 9vw, 150px);
+  align-items: end;
+  width: 100%;
+}
+
+.studio-hero-title-col h1 {
+  max-width: 920px;
+  margin: 32px 0 0;
+  font-size: clamp(58px, 8.4vw, 124px) !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.065em !important;
+  line-height: 1.02 !important;
+}
+
+.studio-hero-title-col h1 span {
+  color: #00F2FE !important;
+}
+
+.studio-hero-detail-col {
+  align-self: end;
+  max-width: 330px;
+  padding-bottom: 4px;
+}
+
+.studio-hero-detail-col p {
+  margin: 0;
+  color: rgb(148 163 184) !important;
+  font-size: 15px;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  letter-spacing: -0.01em;
+}
+
+.studio-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 11px 16px;
+  border: 1px solid rgba(226,232,240,.18);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color .25s ease, color .25s ease, transform .25s ease;
+}
+
+.studio-hero-pill span {
+  color: rgba(255,255,255,.7);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.studio-hero-pill:hover {
+  border-color: rgba(0,242,254,.35);
+  color: #00F2FE;
+  transform: translateY(-2px);
+}
+
+.studio-section-head h2,
+.studio-process-head h2,
+.studio-cta h2,
+.studio-intro h2 {
+  font-weight: 500 !important;
+  color: #fff !important;
+  letter-spacing: -0.045em !important;
+  line-height: 1.15 !important;
+}
+
+.studio-intro-copy,
+.studio-section-head > p,
+.studio-process-head > p,
+.studio-cta-inner > div > p:last-child {
+  color: rgb(148 163 184) !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+}
+
+.studio-hero .hero-actions { display: none; }
+
+@media (max-width: 900px) {
+  .studio-hero-asymmetric {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .studio-hero-detail-col {
+    max-width: 520px;
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .studio-hero-asymmetric { gap: 26px; }
+  .studio-hero-title-col h1 {
+    font-size: clamp(48px, 13.5vw, 72px) !important;
+    line-height: 1.04 !important;
+  }
+  .studio-hero-detail-col p { font-size: 14px; }
+  .studio-hero-pill { margin-top: 24px; }
 }
