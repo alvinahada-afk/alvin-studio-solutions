@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 type Point = { x: number; y: number };
-type Shockwave = { x: number; y: number; radius: number; alpha: number };
+type Shockwave = { x: number; y: number; radius: number; alpha: number; maxRadius: number };
 
 const IDLE_MS = 150;
-const MAX_TRAIL_POINTS = 26;
+const MAX_TRAIL_POINTS = 30;
+const MAX_SHOCKWAVES = 3;
 
 export function ElectricCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -69,10 +70,10 @@ export function ElectricCursor() {
         const endY = b.y + ny * offset;
         const segments = Math.max(2, Math.min(5, Math.ceil(distance / 16)));
 
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + alpha * 0.82 + ')';
+        ctx.strokeStyle = 'rgba(0, 242, 254, ' + alpha * 0.98 + ')';
         ctx.shadowColor = '#00f2fe';
-        ctx.shadowBlur = 10;
-        ctx.lineWidth = strand === 0 ? 1.55 : 1.25;
+        ctx.shadowBlur = strand === 0 ? 24 : 18;
+        ctx.lineWidth = strand === 0 ? 1.9 : 1.45;
         ctx.beginPath();
         ctx.moveTo(startX, startY);
 
@@ -102,8 +103,8 @@ export function ElectricCursor() {
 
       for (let i = shockwaves.length - 1; i >= 0; i -= 1) {
         const shock = shockwaves[i];
-        shock.radius += delta * 0.34;
-        shock.alpha -= delta * 0.00175;
+        shock.radius += delta * 0.62;
+        shock.alpha -= delta * 0.00235;
 
         if (shock.alpha <= 0) {
           shockwaves.splice(i, 1);
@@ -112,16 +113,16 @@ export function ElectricCursor() {
 
         ctx.beginPath();
         ctx.arc(shock.x, shock.y, shock.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + shock.alpha * 0.58 + ')';
+        ctx.strokeStyle = 'rgba(0, 242, 254, ' + shock.alpha * 0.9 + ')';
         ctx.shadowColor = '#00f2fe';
-        ctx.shadowBlur = 10;
-        ctx.lineWidth = 1.4;
+        ctx.shadowBlur = 28;
+        ctx.lineWidth = 2.2;
         ctx.stroke();
 
         ctx.beginPath();
         ctx.arc(shock.x, shock.y, shock.radius * 0.82, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + shock.alpha * 0.16 + ')';
-        ctx.lineWidth = 0.7;
+        ctx.strokeStyle = 'rgba(0, 242, 254, ' + shock.alpha * 0.28 + ')';
+        ctx.lineWidth = 1.1;
         ctx.stroke();
       }
 
@@ -164,11 +165,12 @@ export function ElectricCursor() {
       shockwaves.push({
         x: event.clientX,
         y: event.clientY,
-        radius: 3,
+        radius: 2,
         alpha: 1,
+        maxRadius: 110,
       });
 
-      if (shockwaves.length > 4) shockwaves.shift();
+      if (shockwaves.length > MAX_SHOCKWAVES) shockwaves.shift();
       schedule();
     };
 
