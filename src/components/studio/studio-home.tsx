@@ -141,7 +141,7 @@ export function StudioHome() {
             <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
             <div className="studio-hero-asymmetric">
               <div className="studio-hero-title-col">
-                <h1 className="hero-reveal hero-reveal-2">We build <span className="text-[#8FA3B8] [text-shadow:0_0_18px_rgba(143,163,184,0.18)]">digital products</span> for businesses ready to grow.</h1>
+                <h1 className="hero-reveal hero-reveal-2">We build <span className="text-[#B8D8E8] [text-shadow:0_0_18px_rgba(184,216,232,0.18)]">digital products</span> for businesses ready to grow.</h1>
               </div>
               <div className="studio-hero-detail-col">
                 <p className="hero-reveal hero-reveal-3">Alvin Studio adalah digital studio dan technology partner untuk membangun website, software, custom system, dan automation yang membantu bisnis bekerja lebih efektif dan berkembang lebih siap.</p>
