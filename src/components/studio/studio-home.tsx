@@ -167,8 +167,8 @@ export function StudioHome() {
         if (distance > 34) continue;
         const alpha = Math.min(a.life, b.life);
         electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * (0.68) + ')';
-        electricContext.shadowColor = 'rgba(240, 199, 94, ' + alpha * 0.9 + ')';
-        electricContext.shadowBlur = 7;
+        electricContext.shadowColor = 'rgba(224, 174, 61, ' + alpha * 0.9 + ')';
+        electricContext.shadowBlur = 8;
         electricContext.lineWidth = Math.min(a.width, b.width);
         electricContext.beginPath();
         electricContext.moveTo(a.x, a.y);
