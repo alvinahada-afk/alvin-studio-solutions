@@ -327,6 +327,7 @@ export function StudioHome() {
             <Button variant="studioOutline" asChild><a href="#work">Explore our work <ArrowDown /></a></Button>
           </div>
           <div className="hero-meta hero-reveal hero-reveal-5"><span>Strategy</span><i /><span>Design</span><i /><span>Development</span><i /><span>Experience</span></div>
+          </div>
         </div>
         <div className="hero-scroll-note"><span>Scroll to explore</span><ArrowDown size={13} /></div>
       </section>
