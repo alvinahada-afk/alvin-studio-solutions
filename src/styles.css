@@ -691,18 +691,20 @@ body::after {
 .studio-page .studio-hero-copy h1,.studio-page .studio-hero-copy p { position:relative; z-index:20; }
 
 
-/* Smooth moving organic grain — subtle, slow, never distracting */
+/* Smooth visible organic grain — cinematic, subtle, readable */
 body::after {
-  background-size: 220px 220px !important;
-  animation: alvinOrganicGrain 8s steps(2) infinite !important;
+  opacity: 0.065 !important;
+  background-size: 180px 180px !important;
+  animation: alvinOrganicGrain 7s steps(3) infinite !important;
   will-change: background-position, transform;
+  mix-blend-mode: screen;
 }
 @keyframes alvinOrganicGrain {
   0%   { background-position: 0 0; transform: translate3d(0,0,0); }
-  20%  { background-position: 17px -11px; transform: translate3d(-1px,1px,0); }
-  40%  { background-position: -13px 19px; transform: translate3d(1px,-1px,0); }
-  60%  { background-position: 21px 7px; transform: translate3d(-1px,-1px,0); }
-  80%  { background-position: -9px -17px; transform: translate3d(1px,1px,0); }
+  20%  { background-position: 18px -13px; transform: translate3d(-1px,1px,0); }
+  40%  { background-position: -15px 20px; transform: translate3d(1px,-1px,0); }
+  60%  { background-position: 23px 8px; transform: translate3d(-1px,-1px,0); }
+  80%  { background-position: -11px -19px; transform: translate3d(1px,1px,0); }
   100% { background-position: 0 0; transform: translate3d(0,0,0); }
 }
 @media (prefers-reduced-motion: reduce) {
