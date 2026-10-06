@@ -80,16 +80,22 @@ export function StudioHome() {
         const rect = card.getBoundingClientRect();
         const px = (event.clientX - rect.left) / rect.width;
         const py = (event.clientY - rect.top) / rect.height;
-        const rotateY = (px - 0.5) * 5;
-        const rotateX = (0.5 - py) * 4;
+        const rotateY = (px - 0.5) * 7;
+        const rotateX = (0.5 - py) * 5.5;
+        const translateX = (px - 0.5) * 7;
+        const translateY = (py - 0.5) * 5;
         card.style.setProperty('--card-rx', rotateX.toFixed(2) + 'deg');
         card.style.setProperty('--card-ry', rotateY.toFixed(2) + 'deg');
+        card.style.setProperty('--card-tx', translateX.toFixed(2) + 'px');
+        card.style.setProperty('--card-ty', translateY.toFixed(2) + 'px');
         card.style.setProperty('--card-glow-x', (px * 100).toFixed(1) + '%');
         card.style.setProperty('--card-glow-y', (py * 100).toFixed(1) + '%');
       };
       const leave = () => {
         card.style.setProperty('--card-rx', '0deg');
         card.style.setProperty('--card-ry', '0deg');
+        card.style.setProperty('--card-tx', '0px');
+        card.style.setProperty('--card-ty', '0px');
         card.style.setProperty('--card-glow-x', '50%');
         card.style.setProperty('--card-glow-y', '50%');
       };
