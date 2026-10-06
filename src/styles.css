@@ -1561,13 +1561,11 @@ body::before {
   background-size: 220px 220px !important;
   background-repeat: repeat !important;
   mix-blend-mode: screen !important;
-  animation: globalNoiseDrift 11s ease-in-out infinite !important;
+  animation: globalNoiseRain 7s linear infinite !important;
 }
-@keyframes globalNoiseDrift {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  25% { transform: translate3d(-1.8%, 1.2%, 0) scale(1.012); }
-  50% { transform: translate3d(1.4%, -1.4%, 0) scale(1.018); }
-  75% { transform: translate3d(1.8%, .8%, 0) scale(1.012); }
+@keyframes globalNoiseRain {
+  0% { transform: translate3d(0, -2%, 0); }
+  100% { transform: translate3d(0, 2%, 0); }
 }
 @media (max-width: 767px) { .global-noise-grain { opacity: .13 !important; } }
 @media (prefers-reduced-motion: reduce) { .global-noise-grain { animation: none !important; } }
