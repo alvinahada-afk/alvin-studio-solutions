@@ -308,9 +308,9 @@ export function StudioHome() {
             loop
             playsInline
             preload="metadata"
-            poster="https://images.pexels.com/videos/8266171/pictures/preview-0.jpg"
+            poster="https://images.pexels.com/videos/5473804/pictures/preview-0.jpg"
           >
-            <source src="https://videos.pexels.com/video-files/8266171/8266171-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+            <source src="https://www.pexels.com/download/video/5473804/" type="video/mp4" />
           </video>
           <div className="studio-hero-video-overlay" />
         </div>
