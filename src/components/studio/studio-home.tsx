@@ -303,7 +303,7 @@ export function StudioHome() {
       <section className="studio-hero">
         <div className="studio-hero-video" aria-hidden="true">
           <video
-            className="studio-hero-video-media"
+            className="studio-hero-video-media absolute inset-0 w-full h-full object-cover z-0"
             autoPlay
             muted
             loop
@@ -313,13 +313,13 @@ export function StudioHome() {
           >
             <source src="https://www.pexels.com/download/video/5473804/" type="video/mp4" />
           </video>
-          <div className="studio-hero-video-overlay" />
+          <div className="video-overlay-filter" />
         </div>
         <div className="hero-orbit hero-orbit-one" />
         <div className="hero-orbit hero-orbit-two" />
         <div className="hero-grain" />
         <div className="container-site studio-hero-inner">
-          <div className="studio-hero-copy flex flex-col text-left items-start justify-start max-w-4xl">
+          <div className="studio-hero-copy relative z-20 text-slate-50 font-sans flex flex-col text-left items-start justify-start max-w-4xl">
             <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
             <h1 className="hero-reveal hero-reveal-2 max-w-4xl">We build <span>digital experiences</span> people remember.</h1>
             <p className="hero-reveal hero-reveal-3">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
