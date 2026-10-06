@@ -1691,7 +1691,7 @@ body::before {
 }
 
 
-/* FINAL — smooth analog TV static, background only */
+/* FINAL — living analog TV static, background only */
 .studio-page {
   position: relative !important;
   isolation: isolate !important;
@@ -1701,14 +1701,14 @@ body::before {
 .studio-page::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -12%;
   z-index: 0;
   pointer-events: none;
-  opacity: .055;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='tvstatic'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' seed='17' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tvstatic)' opacity='.9'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  opacity: .075;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Cfilter id='tvstatic'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='41' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tvstatic)' opacity='.95'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
   mix-blend-mode: soft-light;
-  animation: smoothTvStatic .32s steps(6) infinite;
+  animation: tvStaticLive .16s steps(10) infinite;
 }
 
 .studio-content-layer {
@@ -1716,13 +1716,16 @@ body::before {
   z-index: 1 !important;
 }
 
-@keyframes smoothTvStatic {
-  0% { background-position: 0 0; }
-  20% { background-position: 13px -7px; }
-  40% { background-position: -9px 11px; }
-  60% { background-position: 8px 5px; }
-  80% { background-position: -5px -10px; }
-  100% { background-position: 0 0; }
+@keyframes tvStaticLive {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  12%  { transform: translate3d(-1.2%,.7%,0) scale(1.008); }
+  25%  { transform: translate3d(.8%,-1%,0) scale(1.004); }
+  37%  { transform: translate3d(-.6%,1.1%,0) scale(1.01); }
+  50%  { transform: translate3d(1.1%,-.5%,0) scale(1.006); }
+  62%  { transform: translate3d(-.9%,-.8%,0) scale(1.01); }
+  75%  { transform: translate3d(.5%,1%,0) scale(1.005); }
+  87%  { transform: translate3d(-.7%,-.4%,0) scale(1.008); }
+  100% { transform: translate3d(0,0,0) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
