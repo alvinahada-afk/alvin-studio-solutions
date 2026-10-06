@@ -1,8 +1,72 @@
 @import "tailwindcss" source(none);
 @source "../src";
-@import "tw-animate-css";
+@import "tw-animate-css";\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 
 @custom-variant dark (&:is(.dark *));
+/* Global premium typography — Inter / Antikode-inspired micro typography */
+html,
+body {
+  font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.studio-section-head h2,
+.studio-process-head h2,
+.studio-cta h2 {
+  font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+p,
+li,
+small,
+.studio-hero p,
+.studio-project-card p,
+.studio-service-row p,
+.studio-section-head p,
+.studio-process-head p,
+.studio-cta p,
+.studio-footer p {
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.72);
+}
+
+.studio-header .studio-nav-link,
+.studio-header .brand,
+.studio-footer,
+.studio-footer a {
+  font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 500;
+}
+
+button,
+a[class*="button"],
+.studio-cta a,
+.studio-header button {
+  font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 600;
+}
+
+button,
+.studio-cta a,
+.studio-header button,
+.uppercase,
+[class*="uppercase"] {
+  letter-spacing: 0.08em;
+}
+
 
 /*
  * Design system definition.
