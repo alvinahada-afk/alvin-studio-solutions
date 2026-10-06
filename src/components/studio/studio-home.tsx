@@ -137,6 +137,21 @@ export function StudioHome() {
         </div>
         <div className="hero-grain" aria-hidden="true" />
         <div className="container-site studio-hero-inner">
+          <div className="studio-hero-product-visual" aria-label="Cafe Flow product preview">
+            <div className="hero-orbit hero-orbit-one" />
+            <div className="hero-orbit hero-orbit-two" />
+            <div className="hero-product-window">
+              <div className="hero-product-top"><span className="hero-product-brand">CAFE FLOW</span><span className="hero-product-status"><i /> LIVE</span></div>
+              <div className="hero-product-grid">
+                <div className="hero-product-main"><small>REVENUE</small><strong>Rp 48.6M</strong><span>+18.4% this month</span></div>
+                <div className="hero-product-card"><small>ORDERS</small><strong>1,284</strong><span>Today</span></div>
+                <div className="hero-product-card"><small>INVENTORY</small><strong>94%</strong><span>Healthy</span></div>
+                <div className="hero-product-chart"><div className="hero-chart-line" /><div className="hero-chart-bars"><i/><i/><i/><i/><i/><i/><i/></div></div>
+              </div>
+            </div>
+            <div className="hero-floating-card hero-floating-orders"><small>ORDERS</small><strong>+24</strong><span>Last hour</span></div>
+            <div className="hero-floating-card hero-floating-analytics"><span className="hero-mini-dot" /> Analytics <b>↗ 18.4%</b></div>
+          </div>
           <div className="studio-hero-copy relative z-20">
             <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
             <h1 className="hero-reveal hero-reveal-2">We build <span>digital products</span> for businesses ready to grow.</h1>
