@@ -1586,3 +1586,40 @@ body::before {
   mix-blend-mode: screen !important;
   animation: globalNoiseRain 7s linear infinite !important;
 }
+
+
+
+/* FINAL — grain is part of the page background, never an overlay */
+.global-noise-grain {
+  display: none !important;
+}
+
+.studio-page {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Cfilter id='pageNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48' numOctaves='3' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pageNoise)' opacity='.15'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 90% 70% at 100% 100%, rgba(22,46,53,.72), transparent 68%),
+    linear-gradient(180deg, #0A2029 0%, #081C24 52%, #0A2028 100%) !important;
+  background-size: 220px 220px, auto, auto !important;
+  background-repeat: repeat, no-repeat, no-repeat !important;
+  animation: pageBackgroundRain 7s linear infinite !important;
+}
+
+@keyframes pageBackgroundRain {
+  0% { background-position: 0 -2%, 100% 100%, 0 0; }
+  100% { background-position: 0 2%, 100% 100%, 0 0; }
+}
+
+@media (max-width: 767px) {
+  .studio-page {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Cfilter id='pageNoiseMobile'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48' numOctaves='3' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pageNoiseMobile)' opacity='.13'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 90% 70% at 100% 100%, rgba(22,46,53,.72), transparent 68%),
+      linear-gradient(180deg, #0A2029 0%, #081C24 52%, #0A2028 100%) !important;
+    background-size: 220px 220px, auto, auto !important;
+    background-repeat: repeat, no-repeat, no-repeat !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-page { animation: none !important; }
+}
