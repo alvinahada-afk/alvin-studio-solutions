@@ -176,7 +176,7 @@ export function StudioHome() {
         const alpha = Math.pow(burst.life, 1.5);
 
         electricContext.shadowBlur = 14;
-        electricContext.shadowColor = `rgba(224, 174, 61, ${alpha * 0.75})`;
+        electricContext.shadowColor = `rgba(191, 135, 22, ${alpha * 0.95})`;
         electricContext.strokeStyle = `rgba(255, 249, 226, ${alpha * 0.95})`;
         electricContext.lineWidth = 1.25;
         electricContext.beginPath();
@@ -184,7 +184,7 @@ export function StudioHome() {
         electricContext.stroke();
 
         electricContext.shadowBlur = 7;
-        electricContext.strokeStyle = `rgba(224, 174, 61, ${alpha * 0.7})`;
+        electricContext.strokeStyle = `rgba(212, 160, 48, ${alpha * 0.9})`;
         electricContext.lineWidth = 0.8;
         electricContext.beginPath();
         electricContext.arc(burst.x, burst.y, radius + 4, burst.seed + Math.PI, burst.seed + Math.PI * 2.55);
@@ -223,8 +223,8 @@ export function StudioHome() {
         const distance = Math.hypot(b.x - a.x, b.y - a.y);
         if (distance > 34) continue;
         const alpha = Math.min(a.life, b.life);
-        electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * (0.68) + ')';
-        electricContext.shadowColor = 'rgba(224, 174, 61, ' + alpha * 0.9 + ')';
+        electricContext.strokeStyle = 'rgba(212, 160, 48, ' + alpha * (0.9) + ');
+        electricContext.shadowColor = 'rgba(191, 135, 22, ' + alpha + ');
         electricContext.shadowBlur = 8;
         electricContext.lineWidth = Math.min(a.width, b.width);
         electricContext.beginPath();
