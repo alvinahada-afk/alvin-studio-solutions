@@ -346,7 +346,7 @@ body { font-family: var(--font-sans); letter-spacing: 0; }
 }
 /* Overflow safety */
 html, body {
-  background-color: #060F12 !important;
+  background-color: #071419 !important;
   color: #F8FAFC !important;
   -webkit-font-smoothing: antialiased;
   position: relative;
@@ -887,7 +887,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   --alvin-electric:#B8D8E8;
   --alvin-electric-soft:rgba(184,216,232,.18);
   --alvin-gold:#f4c95d;
-  --alvin-glass:rgba(10,18,24,.64);
+  --alvin-glass:rgba(7,20,25,.64);
 }
 .studio-page{
   --accent-blue:var(--alvin-electric);
@@ -935,7 +935,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   padding:18px;
   border:1px solid rgba(255,255,255,.15);
   border-radius:18px;
-  background:linear-gradient(145deg,rgba(17,28,37,.88),rgba(6,13,18,.68));
+  background:linear-gradient(145deg,rgba(17,28,37,.88),rgba(7,20,25,.68));
   box-shadow:0 35px 100px rgba(0,0,0,.58),0 0 90px rgba(184,216,232,.12),inset 0 1px rgba(255,255,255,.08);
   backdrop-filter:blur(18px);
   transform:rotateY(-7deg) rotateX(3deg);
@@ -975,7 +975,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   padding:14px 16px;
   border:1px solid rgba(255,255,255,.14);
   border-radius:12px;
-  background:rgba(8,15,20,.76);
+  background:rgba(7,20,25,.76);
   backdrop-filter:blur(16px);
   box-shadow:0 22px 60px rgba(0,0,0,.45),0 0 34px rgba(184,216,232,.10);
   animation:heroFloating 5.5s ease-in-out infinite;
@@ -997,7 +997,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-case-card,
 .career-panel{
   border-color:rgba(255,255,255,.10)!important;
-  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(8,15,20,.48))!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(7,20,25,.48))!important;
   box-shadow:0 18px 55px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.035);
   backdrop-filter:blur(14px);
 }
@@ -1045,7 +1045,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .case-visual:after{background:radial-gradient(circle at 50% 50%,rgba(184,216,232,.16),transparent 62%)!important}
 .stack-cloud span{
   border-color:rgba(255,255,255,.10);
-  background:rgba(8,15,20,.42);
+  background:rgba(7,20,25,.42);
   border-radius:10px;
   box-shadow:inset 0 1px rgba(255,255,255,.04);
 }
@@ -1088,7 +1088,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-hero{
   background:
     radial-gradient(circle at 72% 48%,rgba(91,116,142,.14),transparent 36%),
-    linear-gradient(105deg,rgba(5,10,13,.97) 0%,rgba(7,14,18,.88) 48%,rgba(5,10,13,.72) 100%) !important;
+    linear-gradient(105deg,rgba(7,20,25,.97) 0%,rgba(7,14,18,.88) 48%,rgba(7,20,25,.72) 100%) !important;
 }
 .studio-hero-copy h1{
   color:#eef2f4!important;
@@ -1139,7 +1139,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   z-index:11;
   pointer-events:none;
   background:
-    linear-gradient(90deg,rgba(5,10,13,.65) 0%,rgba(5,10,13,.30) 42%,rgba(5,10,13,.08) 68%,transparent 100%);
+    linear-gradient(90deg,rgba(7,20,25,.65) 0%,rgba(7,20,25,.30) 42%,rgba(7,20,25,.08) 68%,transparent 100%);
 }
 .hero-grain{
   opacity:.16!important;
@@ -1148,7 +1148,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   .studio-hero{
     background:
       radial-gradient(circle at 70% 35%,rgba(91,116,142,.11),transparent 38%),
-      #070e12 !important;
+      #071419 !important;
   }
   .studio-hero-copy h1{
     text-shadow:0 12px 38px rgba(0,0,0,.48);
@@ -1192,7 +1192,7 @@ body::after {
   width: 100% !important;
   height: 84px !important;
   z-index: 9999 !important;
-  background: rgba(9,9,9,.82) !important;
+  background: rgba(7,20,25,.88) !important;
   border-bottom: 1px solid rgba(255,255,255,.12) !important;
   isolation: isolate;
 }
@@ -1370,9 +1370,9 @@ html, body {
 :root,
 .dark {
   --primary: #B8D8E8;
-  --primary-foreground: #060F12 !important;
+  --primary-foreground: #071419 !important;
   --accent: #B8D8E8;
-  --accent-foreground: #060F12 !important;
+  --accent-foreground: #071419 !important;
   --ring: #B8D8E8;
   --blue-soft: rgba(184,216,232,.10) !important;
 }
