@@ -180,8 +180,6 @@ export function StudioHome() {
       electricFrame = requestAnimationFrame(drawElectric);
     };
     electricFrame = requestAnimationFrame(drawElectric);
-    };
-    electricFrame = requestAnimationFrame(drawElectric);
 
     const magnetic = document.querySelectorAll<HTMLElement>('[data-magnetic]');
     const handlers = new Map<HTMLElement, (event: PointerEvent) => void>();
