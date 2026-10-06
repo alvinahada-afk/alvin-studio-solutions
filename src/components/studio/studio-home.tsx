@@ -102,7 +102,7 @@ export function StudioHome() {
 
   return <>
 
-    <header className={`site-header studio-header ${isScrolled ? 'site-header-scrolled' : ''}`}>
+    <header className={`site-header studio-header fixed top-0 left-0 right-0 w-full z-50 ${isScrolled ? 'site-header-scrolled' : ''}`}>
       <div className="container-site flex h-full items-center justify-between">
         <a href="/" aria-label="Alvin Studio beranda" data-cursor-label="Home"><Brand /></a>
         <nav className="hidden items-center gap-8 text-xs font-medium md:flex" aria-label="Navigasi utama">
