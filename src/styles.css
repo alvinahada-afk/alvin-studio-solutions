@@ -662,7 +662,7 @@ body::before {
   right: -5%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(135, 169, 156, 0.15) 0%, rgba(10, 19, 23, 0) 70%) !important;
+  background: radial-gradient(circle, rgba(145, 190, 170, 0.21) 0%, rgba(10, 19, 23, 0) 70%) !important;
   pointer-events: none;
   z-index: 1;
 }
@@ -693,8 +693,8 @@ body::after {
 
 /* Smooth visible organic grain — cinematic, subtle, readable */
 body::after {
-  opacity: 0.065 !important;
-  background-size: 180px 180px !important;
+  opacity: 0.105 !important;
+  background-size: 155px 155px !important;
   animation: alvinOrganicGrain 7s steps(3) infinite !important;
   will-change: background-position, transform;
   mix-blend-mode: screen;
