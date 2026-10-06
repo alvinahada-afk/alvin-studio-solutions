@@ -29,6 +29,7 @@ const careerOpenings = [
   ['01', 'Frontend Engineer', 'Build polished, responsive interfaces and digital products with React, TypeScript, and modern frontend tooling.'],
   ['02', 'Full-Stack Engineer', 'Work across product architecture, backend systems, APIs, databases, and integrations for real business workflows.'],
   ['03', 'Product Designer', 'Shape product direction, UX, and visual systems for software that feels simple, useful, and premium.'],
+  ['04', 'Marketing & Growth', 'Build Alvin Studio\'s presence, campaigns, content, partnerships, and growth strategy to bring the right businesses and opportunities to the studio.'],
 ];
 
 const faqs = [
@@ -210,7 +211,7 @@ export function StudioHome() {
             <div><p className="studio-eyebrow">Career / Open positions</p><h2>Build what<br/><span>comes next.</span></h2><p>Alvin Studio sedang berkembang menjadi technology company. Saat kami membuka posisi, detail role dan cara apply akan tersedia di sini.</p></div>
             <div className="career-status"><span className="live-dot" /> Hiring / Growing<div>Open to builders, problem solvers, and ambitious people who want to build real products.</div></div>
           </div>
-          <div className="career-openings" data-reveal="up"><div className="career-openings-head"><span>Open positions</span><small>01 — 03</small></div>
+          <div className="career-openings" data-reveal="up"><div className="career-openings-head"><span>Open positions</span><small>01 — 04</small></div>
             {careerOpenings.map(([number, title, text]) => <details className="career-opening" key={number}><summary><span className="career-opening-number">{number}</span><span className="career-opening-title">{title}</span><span className="career-opening-apply">View role <ArrowUpRight size={15}/></span></summary><div className="career-opening-body"><p>{text}</p><Button variant="studioOutline" onClick={() => consult('Career — ' + title)}>Discuss this role <ArrowUpRight /></Button></div></details>)}
           </div>
         </div>
