@@ -346,7 +346,7 @@ body { font-family: var(--font-sans); letter-spacing: 0; }
 }
 /* Overflow safety */
 html, body {
-  background-color: #071419 !important;
+  background-color: #081B23 !important;
   color: #F8FAFC !important;
   -webkit-font-smoothing: antialiased;
   position: relative;
@@ -483,7 +483,7 @@ html, body {
 .studio-cursor{position:fixed;left:var(--cursor-x,-100px);top:var(--cursor-y,-100px);width:34px;height:34px;border:1px solid rgba(240,199,94,.65);border-radius:50%;pointer-events:none;z-index:100;transform:translate(-50%,-50%);transition:width .2s ease,height .2s ease,background .2s ease,opacity .2s ease;mix-blend-mode:difference}
 .studio-cursor span{position:absolute;width:5px;height:5px;background:#f0c75e;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
 .studio-page:has(a:hover)~.studio-cursor{width:52px;height:52px}
-.hero-grain{position:absolute;inset:0;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+.hero-grain{position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");mix-blend-mode:soft-lightopacity:.30!important;animation-duration:7s!important;}
 .hero-orbit-one{transform:translate3d(var(--hero-mx,0),var(--hero-my,0),0);transition:transform .5s cubic-bezier(.22,1,.36,1)}
 .hero-orbit-two{transform:translate3d(calc(var(--hero-mx,0) * -.65),calc(var(--hero-my,0) * -.65),0);transition:transform .7s cubic-bezier(.22,1,.36,1)}
 .hero-reveal{opacity:0;transform:translateY(28px);filter:blur(7px);animation:studioHeroReveal .9s cubic-bezier(.22,1,.36,1) forwards}
@@ -518,7 +518,7 @@ html, body {
 @media(pointer:coarse),(max-width:767px){.studio-cursor{display:none}.hero-scroll-note{display:none}.studio-project-card{cursor:auto}}
 @media(max-width:767px){.studio-marquee>div{animation-duration:20s}.studio-service-row:hover{padding-left:8px;padding-right:8px}}
 @media(prefers-reduced-motion:reduce){
- .studio-cursor,.hero-grain{display:none}.hero-reveal{animation:none;opacity:1;transform:none;filter:none}.hero-scroll-note svg,.studio-marquee>div{animation:none}
+ .studio-cursor,.hero-grain{display:noneopacity:.30!important;animation-duration:7s!important;}.hero-reveal{animation:none;opacity:1;transform:none;filter:none}.hero-scroll-note svg,.studio-marquee>div{animation:none}
  [data-reveal]{opacity:1;transform:none;transition:none}.magnetic{transform:none}.studio-project-card:hover .project-hover-label{display:none}
 }
 
@@ -613,7 +613,7 @@ html, body {
 .studio-hero>.studio-hero-video{z-index:0}
 .studio-hero>.studio-hero-video~*{position:relative;z-index:1}
 .studio-hero>.studio-hero-video~.studio-hero-inner{z-index:20}
-.studio-hero>.studio-hero-video~.hero-grain{z-index:19;opacity:.025}
+.studio-hero>.studio-hero-video~.hero-grain{z-index:19;opacity:.30!important;animation-duration:7s!important;}
 @keyframes studioHeroVideoZoom{from{transform:scale(1.04)}to{transform:scale(1.13)}}
 @media(max-width:767px){.studio-hero-video-media{inset:-10%;width:120%;height:120%;opacity:.48;animation-duration:22s}}
 @media(prefers-reduced-motion:reduce){.studio-hero-video-media{animation:none;transform:scale(1.06)}}
@@ -887,7 +887,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   --alvin-electric:#B8D8E8;
   --alvin-electric-soft:rgba(184,216,232,.18);
   --alvin-gold:#f4c95d;
-  --alvin-glass:rgba(7,20,25,.64);
+  --alvin-glass:rgba(8,27,35,.64);
 }
 .studio-page{
   --accent-blue:var(--alvin-electric);
@@ -935,7 +935,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   padding:18px;
   border:1px solid rgba(255,255,255,.15);
   border-radius:18px;
-  background:linear-gradient(145deg,rgba(17,28,37,.88),rgba(7,20,25,.68));
+  background:linear-gradient(145deg,rgba(17,28,37,.88),rgba(8,27,35,.68));
   box-shadow:0 35px 100px rgba(0,0,0,.58),0 0 90px rgba(184,216,232,.12),inset 0 1px rgba(255,255,255,.08);
   backdrop-filter:blur(18px);
   transform:rotateY(-7deg) rotateX(3deg);
@@ -975,7 +975,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   padding:14px 16px;
   border:1px solid rgba(255,255,255,.14);
   border-radius:12px;
-  background:rgba(7,20,25,.76);
+  background:rgba(8,27,35,.76);
   backdrop-filter:blur(16px);
   box-shadow:0 22px 60px rgba(0,0,0,.45),0 0 34px rgba(184,216,232,.10);
   animation:heroFloating 5.5s ease-in-out infinite;
@@ -997,7 +997,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-case-card,
 .career-panel{
   border-color:rgba(255,255,255,.10)!important;
-  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(7,20,25,.48))!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(8,27,35,.48))!important;
   box-shadow:0 18px 55px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.035);
   backdrop-filter:blur(14px);
 }
@@ -1045,7 +1045,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .case-visual:after{background:radial-gradient(circle at 50% 50%,rgba(184,216,232,.16),transparent 62%)!important}
 .stack-cloud span{
   border-color:rgba(255,255,255,.10);
-  background:rgba(7,20,25,.42);
+  background:rgba(8,27,35,.42);
   border-radius:10px;
   box-shadow:inset 0 1px rgba(255,255,255,.04);
 }
@@ -1088,7 +1088,7 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
 .studio-hero{
   background:
     radial-gradient(circle at 72% 48%,rgba(91,116,142,.14),transparent 36%),
-    linear-gradient(105deg,rgba(7,20,25,.97) 0%,rgba(7,14,18,.88) 48%,rgba(7,20,25,.72) 100%) !important;
+    linear-gradient(105deg,rgba(8,27,35,.97) 0%,rgba(7,14,18,.88) 48%,rgba(8,27,35,.72) 100%) !important;
 }
 .studio-hero-copy h1{
   color:#eef2f4!important;
@@ -1139,16 +1139,16 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
   z-index:11;
   pointer-events:none;
   background:
-    linear-gradient(90deg,rgba(7,20,25,.65) 0%,rgba(7,20,25,.30) 42%,rgba(7,20,25,.08) 68%,transparent 100%);
+    linear-gradient(90deg,rgba(8,27,35,.65) 0%,rgba(8,27,35,.30) 42%,rgba(8,27,35,.08) 68%,transparent 100%);
 }
 .hero-grain{
-  opacity:.16!important;
-}
+  
+opacity:.30!important;animation-duration:7s!important;}
 @media(max-width:767px){
   .studio-hero{
     background:
       radial-gradient(circle at 70% 35%,rgba(91,116,142,.11),transparent 38%),
-      #071419 !important;
+      #081B23 !important;
   }
   .studio-hero-copy h1{
     text-shadow:0 12px 38px rgba(0,0,0,.48);
@@ -1192,7 +1192,7 @@ body::after {
   width: 100% !important;
   height: 84px !important;
   z-index: 9999 !important;
-  background: rgba(7,20,25,.88) !important;
+  background: rgba(8,27,35,.88) !important;
   border-bottom: 1px solid rgba(255,255,255,.12) !important;
   isolation: isolate;
 }
@@ -1370,9 +1370,9 @@ html, body {
 :root,
 .dark {
   --primary: #B8D8E8;
-  --primary-foreground: #071419 !important;
+  --primary-foreground: #081B23 !important;
   --accent: #B8D8E8;
-  --accent-foreground: #071419 !important;
+  --accent-foreground: #081B23 !important;
   --ring: #B8D8E8;
   --blue-soft: rgba(184,216,232,.10) !important;
 }
@@ -1426,3 +1426,8 @@ html, body {
 .studio-page .text-primary {
   color: #B8D8E8 !important;
 }
+
+/* Stronger animated sand/grain */
+.hero-grain{opacity:.30!important;animation-duration:7s!important;animation-timing-function:ease-in-out!important;animation-iteration-count:infinite!important;}
+@keyframes alvinSandDrift{0%,100%{transform:translate3d(0,0,0) scale(1)}25%{transform:translate3d(-1.5%,1%,0) scale(1.015)}50%{transform:translate3d(1%,2%,0) scale(1.025)}75%{transform:translate3d(1.5%,-1%,0) scale(1.01)}}
+.hero-grain{animation-name:alvinSandDrift!important;}
