@@ -134,37 +134,6 @@ export function StudioHome() {
       lastPoint = { x, y };
     };
 
-    let lastPointer = { x: 0, y: 0 };
-    let lightningFrame = 0;
-    let lightningTimer: ReturnType<typeof setTimeout> | undefined;
-    const lightningPath = document.querySelector<SVGPathElement>('.studio-lightning path');
-
-    const drawLightning = (x1: number, y1: number, x2: number, y2: number) => {
-      if (!lightningPath) return;
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const distance = Math.hypot(dx, dy);
-      if (distance < 4) return;
-      const steps = Math.min(16, Math.max(5, Math.floor(distance / 12)));
-      const nx = -dy / distance;
-      const ny = dx / distance;
-      const amplitude = Math.min(12, Math.max(3, distance * 0.14));
-      const points = [x1 + ',' + y1];
-      for (let i = 1; i < steps; i++) {
-        const t = i / steps;
-        const jitter = (Math.random() - 0.5) * amplitude * (1 - Math.abs(t - 0.5) * 0.65);
-        points.push((x1 + dx * t + nx * jitter) + ',' + (y1 + dy * t + ny * jitter));
-      }
-      points.push(x2 + ',' + y2);
-      lightningPath.setAttribute('d', 'M ' + points.join(' L '));
-      const lightning = lightningPath.parentElement?.parentElement;
-      lightning?.classList.remove('is-active');
-      void lightning?.clientWidth;
-      lightning?.classList.add('is-active');
-      if (lightningTimer) clearTimeout(lightningTimer);
-      lightningTimer = setTimeout(() => lightning?.classList.remove('is-active'), 115);
-    };
-
     const onPointerMove = (event: PointerEvent) => {
       if (window.matchMedia('(pointer: coarse)').matches || reduce) return;
       const x = event.clientX / window.innerWidth - 0.5;
@@ -173,14 +142,9 @@ export function StudioHome() {
       document.documentElement.style.setProperty('--cursor-y', event.clientY + 'px');
       document.documentElement.style.setProperty('--hero-mx', (x * 18) + 'px');
       document.documentElement.style.setProperty('--hero-my', (y * 18) + 'px');
-      const previous = { ...lastPointer };
       spawnLightning(event.clientX, event.clientY);
-      lastPointer = { x: event.clientX, y: event.clientY };
       if (electricResetTimer) clearTimeout(electricResetTimer);
       electricResetTimer = setTimeout(() => { lastPoint = null; }, 90);
-      if (!previous.x && !previous.y) return;
-      cancelAnimationFrame(lightningFrame);
-      lightningFrame = requestAnimationFrame(() => drawLightning(previous.x - event.clientX + 90, previous.y - event.clientY + 40, 90, 40));
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
@@ -243,6 +207,7 @@ export function StudioHome() {
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('resize', resizeElectricCanvas);
       cancelAnimationFrame(electricFrame);
+      if (electricResetTimer) clearTimeout(electricResetTimer);
       revealObserver?.disconnect();
       magnetic.forEach((el) => {
         const handler = handlers.get(el);
