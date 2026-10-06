@@ -133,7 +133,7 @@ export function StudioHome() {
           <video className="studio-hero-video-media absolute inset-0 w-full h-full object-cover z-0" autoPlay muted loop playsInline preload="metadata" poster="https://images.pexels.com/videos/5473804/pictures/preview-0.jpg">
             <source src="https://www.pexels.com/download/video/5473804/" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-[#0B1519]/80 mix-blend-multiply z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-[#0B1519]/25 mix-blend-multiply z-10 pointer-events-none" />
         </div>
         <div className="hero-grain" aria-hidden="true" />
         <div className="container-site studio-hero-inner">
