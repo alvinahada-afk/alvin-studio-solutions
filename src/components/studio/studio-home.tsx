@@ -62,7 +62,7 @@ export function StudioHome() {
     const electricContext = electricCanvas?.getContext('2d');
     let electricFrame = 0;
     let lastPoint: { x: number; y: number } | null = null;
-    let electricPoints: Array<{ x: number; y: number; life: number }> = [];
+    let electricPoints: Array<{ x: number; y: number; life: number }> = [];\n    let electricResetTimer: ReturnType<typeof setTimeout> | undefined;
 
     const resizeElectricCanvas = () => {
       if (!electricCanvas || !electricContext) return;
@@ -136,7 +136,7 @@ export function StudioHome() {
       document.documentElement.style.setProperty('--hero-mx', (x * 18) + 'px');
       document.documentElement.style.setProperty('--hero-my', (y * 18) + 'px');
       const previous = { ...lastPointer };
-      lastPointer = { x: event.clientX, y: event.clientY };
+      spawnLightning(event.clientX, event.clientY);\n      lastPointer = { x: event.clientX, y: event.clientY };\n      if (electricResetTimer) clearTimeout(electricResetTimer);\n      electricResetTimer = setTimeout(() => { lastPoint = null; }, 90);
       if (!previous.x && !previous.y) return;
       cancelAnimationFrame(lightningFrame);
       lightningFrame = requestAnimationFrame(() => drawLightning(previous.x - event.clientX + 90, previous.y - event.clientY + 40, 90, 40));
