@@ -300,6 +300,20 @@ export function StudioHome() {
 
     <main className="studio-page">
       <section className="studio-hero">
+        <div className="studio-hero-video" aria-hidden="true">
+          <video
+            className="studio-hero-video-media"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="https://images.pexels.com/videos/8266171/pictures/preview-0.jpg"
+          >
+            <source src="https://videos.pexels.com/video-files/8266171/8266171-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+          </video>
+          <div className="studio-hero-video-overlay" />
+        </div>
         <div className="hero-orbit hero-orbit-one" />
         <div className="hero-orbit hero-orbit-two" />
         <div className="hero-grain" />
