@@ -162,7 +162,7 @@ export function StudioHome() {
         <div className="hero-scroll-note text-slate-300/90"><span>Scroll to explore</span><ArrowDown size={13} /></div>
       </section>
 
-      <div className="studio-marquee text-slate-50" aria-hidden="true"><div>STRATEGY <i>✦</i> DESIGN <i>✦</i> DEVELOPMENT <i>✦</i> EXPERIENCE <i>✦</i> STRATEGY <i>✦</i> DESIGN <i>✦</i></div></div>
+      <div className="studio-marquee overflow-hidden whitespace-nowrap text-slate-50" aria-hidden="true"><div className="studio-marquee-track flex w-max"><span>STRATEGY <i>✦</i> DESIGN <i>✦</i> DEVELOPMENT <i>✦</i> EXPERIENCE <i>✦</i></span><span>STRATEGY <i>✦</i> DESIGN <i>✦</i> DEVELOPMENT <i>✦</i> EXPERIENCE <i>✦</i></span></div></div>
 
       <section className="studio-intro bg-transparent text-slate-50 bg-transparent" data-reveal="up">
         <div className="container-site studio-intro-grid bg-transparent bg-transparent">
