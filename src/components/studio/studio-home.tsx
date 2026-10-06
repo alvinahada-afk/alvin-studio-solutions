@@ -25,6 +25,12 @@ const process = [
   ['05', 'Launch', 'Testing, refinement, deployment, lalu iterasi berdasarkan kebutuhan nyata.'],
 ];
 
+const careerOpenings = [
+  ['01', 'Frontend Engineer', 'Build polished, responsive interfaces and digital products with React, TypeScript, and modern frontend tooling.'],
+  ['02', 'Full-Stack Engineer', 'Work across product architecture, backend systems, APIs, databases, and integrations for real business workflows.'],
+  ['03', 'Product Designer', 'Shape product direction, UX, and visual systems for software that feels simple, useful, and premium.'],
+];
+
 const faqs = [
   ['Apakah Alvin Studio hanya membuat website?', 'Tidak. Alvin Studio membangun website, digital product, dan custom system sesuai kebutuhan bisnis.'],
   ['Apakah bisa membuat sistem untuk bisnis F&B?', 'Ya. Salah satu produk Alvin Studio adalah Cafe Flow, sistem POS dan QR Ordering untuk coffee shop dan restaurant.'],
@@ -199,7 +205,15 @@ export function StudioHome() {
       </section>
 
       <section className="studio-career section" id="career">
-        <div className="container-site career-panel" data-reveal="scale"><div><p className="studio-eyebrow">Career / Future</p><h2>We are building<br/><span>something bigger.</span></h2><p>Alvin Studio sedang berkembang dari digital studio menjadi technology company yang membangun product dan software untuk bisnis.</p></div><div className="career-status"><span className="live-dot" /> Growing independently<div>Open to collaborators, builders, and ambitious ideas.</div></div></div>
+        <div className="container-site">
+          <div className="career-panel" data-reveal="scale">
+            <div><p className="studio-eyebrow">Career / Open positions</p><h2>Build what<br/><span>comes next.</span></h2><p>Alvin Studio sedang berkembang menjadi technology company. Saat kami membuka posisi, detail role dan cara apply akan tersedia di sini.</p></div>
+            <div className="career-status"><span className="live-dot" /> Hiring / Growing<div>Open to builders, problem solvers, and ambitious people who want to build real products.</div></div>
+          </div>
+          <div className="career-openings" data-reveal="up"><div className="career-openings-head"><span>Open positions</span><small>01 — 03</small></div>
+            {careerOpenings.map(([number, title, text]) => <details className="career-opening" key={number}><summary><span className="career-opening-number">{number}</span><span className="career-opening-title">{title}</span><span className="career-opening-apply">View role <ArrowUpRight size={15}/></span></summary><div className="career-opening-body"><p>{text}</p><Button variant="studioOutline" onClick={() => consult('Career — ' + title)}>Discuss this role <ArrowUpRight /></Button></div></details>)}
+          </div>
+        </div>
       </section>
 
       <section className="studio-faq section">
