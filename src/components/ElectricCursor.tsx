@@ -153,6 +153,17 @@ export function ElectricCursor() {
         ctx.arc(0, 0, 1.7 + burst.alpha * 1.8, 0, Math.PI * 2);
         ctx.fill();
 
+        // Very subtle click shadow: a soft, darkened glow under the electric burst.
+        const shadowProgress = Math.min(burst.age / 220, 1);
+        const shadowAlpha = (1 - shadowProgress) * 0.16;
+        const shadowRadius = 7 + shadowProgress * 13;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
+        ctx.shadowBlur = 14 + shadowProgress * 10;
+        ctx.fillStyle = 'rgba(0, 0, 0, ' + shadowAlpha + ')';
+        ctx.beginPath();
+        ctx.ellipse(0, 1, shadowRadius, shadowRadius * 0.42, 0, 0, Math.PI * 2);
+        ctx.fill();
+
         ctx.restore();
       }
 
