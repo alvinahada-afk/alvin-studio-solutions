@@ -139,7 +139,7 @@ export function StudioHome() {
       lastPointer = { x: event.clientX, y: event.clientY };
       if (!previous.x && !previous.y) return;
       cancelAnimationFrame(lightningFrame);
-      lightningFrame = requestAnimationFrame(() => drawLightning(previous.x, previous.y, event.clientX, event.clientY));
+      lightningFrame = requestAnimationFrame(() => drawLightning(previous.x - event.clientX + 90, previous.y - event.clientY + 40, 90, 40));
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
