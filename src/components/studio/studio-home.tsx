@@ -107,7 +107,7 @@ export function StudioHome() {
   ];
 
   return <>
-    <div className="studio-cursor" aria-hidden="true"><span /></div>
+    <div className="studio-cursor" aria-hidden="true"><span /><i className="cursor-bolt bolt-a" /><i className="cursor-bolt bolt-b" /><i className="cursor-bolt bolt-c" /></div>
     <header className={`site-header studio-header ${isScrolled ? 'site-header-scrolled' : ''}`}>
       <div className="container-site flex h-full items-center justify-between">
         <a href="#" aria-label="Alvin Studio beranda" data-cursor-label="Home"><Brand /></a>
