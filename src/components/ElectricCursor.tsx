@@ -14,7 +14,6 @@ const GOLD_BRIGHT = '#FFE066';
 const GOLD_ROYAL = '#D4AF37';
 const GOLD_DARK = '#B8860B';
 
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 
 function pointAt(points: Point[], index: number): Point {
@@ -425,8 +424,8 @@ export function ElectricCursor() {
       clearCanvas();
 
       if (chain.length > 1) {
-        drawTaperedBody(ctx, chain, time);
-        drawTailMane(ctx, chain, time);
+        drawDragonBody(ctx, chain, time);
+        drawTailFan(ctx, chain, time);
         const head = pointAt(chain, 0);
         drawDragonHead(ctx, head, directionAt(chain, 0), time);
       }
