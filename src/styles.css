@@ -509,3 +509,19 @@ img, svg, video { max-width: 100%; }
   width:28px;height:52px;
   transform-origin:50% 0;
 }
+
+
+/* Movement-only lightning trail: invisible while stationary */
+.studio-electric-canvas{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  z-index:120;
+  pointer-events:none;
+  display:block;
+}
+.studio-cursor{display:none!important}
+.cursor-bolt{display:none!important}
+@media(pointer:coarse){.studio-electric-canvas{display:none}}
+@media(prefers-reduced-motion:reduce){.studio-electric-canvas{display:none}}
