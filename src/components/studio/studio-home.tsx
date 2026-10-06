@@ -300,7 +300,7 @@ export function StudioHome() {
       </nav>}
     </header>
 
-    <main className="studio-page text-slate-50">
+    <main className="studio-page text-slate-50 text-slate-50">
       <section className="studio-hero">
         <div className="studio-hero-video" aria-hidden="true">
           <video
@@ -329,10 +329,10 @@ export function StudioHome() {
         <div className="hero-grain" aria-hidden="true" />
 
         <div className="container-site studio-hero-inner">
-          <div className="studio-hero-copy relative z-20 text-slate-50 font-sans flex flex-col text-left items-start justify-start max-w-4xl">
+          <div className="studio-hero-copy relative z-20 text-slate-50 font-sans flex flex-col text-left items-start justify-start max-w-4xl text-slate-50">
             <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
-            <h1 className="hero-reveal hero-reveal-2 max-w-4xl text-slate-50">We build <span>digital experiences</span> people remember.</h1>
-            <p className="hero-reveal hero-reveal-3 text-slate-300/90">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
+            <h1 className="hero-reveal hero-reveal-2 max-w-4xl text-slate-50 text-white font-extrabold font-sans">We build <span>digital experiences</span> people remember.</h1>
+            <p className="hero-reveal hero-reveal-3 text-slate-300/90 text-slate-300/90 font-medium">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
             <div className="hero-actions hero-reveal hero-reveal-4 flex flex-row justify-start items-center gap-4">
               <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
               <Button variant="studioOutline" asChild><a href="/work">Explore our work <ArrowDown /></a></Button>
@@ -345,27 +345,27 @@ export function StudioHome() {
 
       <div className="studio-marquee text-slate-50" aria-hidden="true"><div>STRATEGY <i>✦</i> DESIGN <i>✦</i> DEVELOPMENT <i>✦</i> EXPERIENCE <i>✦</i> STRATEGY <i>✦</i> DESIGN <i>✦</i></div></div>
 
-      <section className="studio-intro bg-transparent text-slate-50" data-reveal="up">
-        <div className="container-site studio-intro-grid">
-          <p className="studio-index text-slate-300/90">[ 01 ]</p>
+      <section className="studio-intro bg-transparent text-slate-50 bg-transparent" data-reveal="up">
+        <div className="container-site studio-intro-grid bg-transparent bg-transparent">
+          <p className="studio-index text-slate-300/90 text-slate-300/90 font-medium">[ 01 ]</p>
           <div>
             <p className="studio-eyebrow">Alvin Studio</p>
-            <h2 className="text-slate-50">Bukan sekadar website.<br /><span>Kami membangun cara brand kamu hadir secara digital.</span></h2>
+            <h2 className="text-slate-50 text-white font-extrabold font-sans">Bukan sekadar website.<br /><span>Kami membangun cara brand kamu hadir secara digital.</span></h2>
           </div>
-          <p className="studio-intro-copy text-slate-300/90">Dari visual identity sampai interface yang siap dipakai, setiap detail dirancang supaya bisnis terlihat lebih meyakinkan, lebih mudah dipahami, dan siap berkembang.</p>
+          <p className="studio-intro-copy text-slate-300/90 bg-transparent bg-transparent text-slate-300/90 font-medium">Dari visual identity sampai interface yang siap dipakai, setiap detail dirancang supaya bisnis terlihat lebih meyakinkan, lebih mudah dipahami, dan siap berkembang.</p>
         </div>
       </section>
 
-      <section className="studio-work section bg-transparent text-slate-50" id="work">
+      <section className="studio-work section bg-transparent text-slate-50 bg-transparent" id="work">
         <div className="container-site">
           <div className="studio-section-head" data-reveal="up">
-            <div><p className="studio-eyebrow">Selected work</p><h2 className="text-slate-50">Built with purpose.</h2></div>
-            <p className="text-slate-300/90">Beberapa contoh arah digital experience yang bisa kami bangun untuk bisnis dan brand.</p>
+            <div><p className="studio-eyebrow">Selected work</p><h2 className="text-slate-50 text-white font-extrabold font-sans">Built with purpose.</h2></div>
+            <p className="text-slate-300/90 text-slate-300/90 font-medium">Beberapa contoh arah digital experience yang bisa kami bangun untuk bisnis dan brand.</p>
           </div>
 
           <div className="studio-project-grid">
             {projects.map((project, index) => (
-              <article className="studio-project-card bg-white/5 shadow-[0_18px_55px_rgba(0,0,0,0.16)]" key={project.number} data-reveal={index === 0 ? 'scale' : 'up'} style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}>
+              <article className="studio-project-card bg-transparent/5 shadow-[0_18px_55px_rgba(0,0,0,0.16)]" key={project.number} data-reveal={index === 0 ? 'scale' : 'up'} style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}>
                 <div className={project.className}>
                   <span className="project-number">{project.number}</span>
                   {project.number === '02' ? (
@@ -386,8 +386,8 @@ export function StudioHome() {
                   <span className="project-arrow"><ArrowUpRight size={19} /></span>
                 </div>
                 <div className="project-copy text-slate-50">
-                  <div><span>{project.type}</span><h3 className="text-slate-50">{project.title}</h3></div>
-                  <p className="text-slate-300/90">{project.description}</p>
+                  <div><span>{project.type}</span><h3 className="text-slate-50 text-white font-extrabold font-sans">{project.title}</h3></div>
+                  <p className="text-slate-300/90 text-slate-300/90 font-medium">{project.description}</p>
                 </div>
               </article>
             ))}
@@ -395,11 +395,11 @@ export function StudioHome() {
         </div>
       </section>
 
-      <section className="studio-services section bg-transparent text-slate-50" id="services">
+      <section className="studio-services section bg-transparent text-slate-50 bg-transparent" id="services">
         <div className="container-site">
           <div className="studio-section-head" data-reveal="up">
-            <div><p className="studio-eyebrow">What we do</p><h2 className="text-slate-50">One studio.<br />Three ways to build.</h2></div>
-            <p className="text-slate-300/90">Kami menjaga proses tetap simpel, tapi hasil akhirnya tetap punya karakter.</p>
+            <div><p className="studio-eyebrow">What we do</p><h2 className="text-slate-50 text-white font-extrabold font-sans">One studio.<br />Three ways to build.</h2></div>
+            <p className="text-slate-300/90 text-slate-300/90 font-medium">Kami menjaga proses tetap simpel, tapi hasil akhirnya tetap punya karakter.</p>
           </div>
           <div className="studio-service-list">
             {services.map((item, index) => {
@@ -408,8 +408,8 @@ export function StudioHome() {
                 <article className="studio-service-row text-slate-50" key={item.number} data-reveal="left" style={{ '--reveal-delay': `${index * 80}ms` } as CSSProperties} onClick={() => consult(item.title)}>
                   <span className="service-number text-slate-300/90">{item.number}</span>
                   <span className="service-icon"><Icon size={22} /></span>
-                  <h3 className="text-slate-50">{item.title}</h3>
-                  <p className="text-slate-300/90">{item.text}</p>
+                  <h3 className="text-slate-50 text-white font-extrabold font-sans">{item.title}</h3>
+                  <p className="text-slate-300/90 text-slate-300/90 font-medium">{item.text}</p>
                   <ArrowUpRight className="service-arrow" />
                 </article>
               );
@@ -418,40 +418,40 @@ export function StudioHome() {
         </div>
       </section>
 
-      <section className="studio-process section bg-transparent text-slate-50" id="process">
+      <section className="studio-process section bg-transparent text-slate-50 bg-transparent" id="process">
         <div className="container-site">
-          <div className="studio-process-head" data-reveal="up">
+          <div className="studio-process-head bg-transparent bg-transparent" data-reveal="up">
             <p className="studio-eyebrow">How we work</p>
-            <h2 className="text-slate-50">Clear process.<br /><span>Better output.</span></h2>
+            <h2 className="text-slate-50 text-white font-extrabold font-sans">Clear process.<br /><span>Better output.</span></h2>
           </div>
           <div className="process-grid">
             {processCopy.map((copy, index) => (
               <div className="process-item text-slate-50" key={copy} data-reveal="up" style={{ '--reveal-delay': `${index * 70}ms` } as CSSProperties}>
                 <span>0{index + 1}</span>
-                <h3 className="text-slate-50">{['Discover', 'Direction', 'Design', 'Build', 'Launch'][index]}</h3>
-                <p className="text-slate-300/90">{copy}</p>
+                <h3 className="text-slate-50 text-white font-extrabold font-sans">{['Discover', 'Direction', 'Design', 'Build', 'Launch'][index]}</h3>
+                <p className="text-slate-300/90 text-slate-300/90 font-medium">{copy}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="studio-cta bg-transparent text-slate-50" id="contact" data-reveal="scale">
-        <div className="container-site studio-cta-inner">
+      <section className="studio-cta bg-transparent text-slate-50 bg-transparent" id="contact" data-reveal="scale">
+        <div className="container-site studio-cta-inner bg-transparent bg-transparent">
           <div>
             <p className="studio-eyebrow">Have a project in mind?</p>
-            <h2 className="text-slate-50">Let's make something<br /><span>worth remembering.</span></h2>
+            <h2 className="text-slate-50 text-white font-extrabold font-sans">Let's make something<br /><span>worth remembering.</span></h2>
           </div>
           <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
         </div>
       </section>
     </main>
 
-    <footer className="footer studio-footer bg-transparent text-slate-50">
+    <footer className="footer studio-footer bg-transparent text-slate-50 bg-transparent">
       <div className="container-site">
-        <div className="studio-footer-top">
-          <div><a href="/" aria-label="Alvin Studio beranda"><Brand /></a><p className="text-slate-300/90">Digital experiences. Real business impact.</p></div>
-          <div className="studio-footer-links text-slate-300/90">{nav.map((item) => <a key={item.href} href={item.href}>{item.text}</a>)}</div>
+        <div className="studio-footer-top bg-transparent bg-transparent">
+          <div><a href="/" aria-label="Alvin Studio beranda"><Brand /></a><p className="text-slate-300/90 text-slate-300/90 font-medium">Digital experiences. Real business impact.</p></div>
+          <div className="studio-footer-links text-slate-300/90 bg-transparent bg-transparent">{nav.map((item) => <a key={item.href} href={item.href}>{item.text}</a>)}</div>
         </div>
         <div className="footer-bottom text-slate-300/90"><span>© 2026 Alvin Studio. All rights reserved.</span><span>Built with intention.</span></div>
       </div>
@@ -460,7 +460,7 @@ export function StudioHome() {
     <Dialog open={consultationOpen} onOpenChange={setConsultationOpen}>
       <DialogContent>
         <DialogHeader><DialogTitle>Start a project</DialogTitle><DialogDescription>Diskusikan {service} bersama Alvin Studio.</DialogDescription></DialogHeader>
-        <div className="contact-options"><MessageCircle className="mb-3 text-primary" size={24} /><p className="text-sm font-semibold text-slate-50">Topik project siap dibagikan.</p><p className="mt-2 text-xs leading-relaxed text-slate-300/90">Kanal kontak belum dikonfigurasi. Salin pesan ini untuk dipakai saat menghubungi Alvin Studio.</p></div>
+        <div className="contact-options"><MessageCircle className="mb-3 text-primary" size={24} /><p className="text-sm font-semibold text-slate-50 text-slate-300/90 font-medium">Topik project siap dibagikan.</p><p className="mt-2 text-xs leading-relaxed text-slate-300/90 text-slate-300/90 font-medium">Kanal kontak belum dikonfigurasi. Salin pesan ini untuk dipakai saat menghubungi Alvin Studio.</p></div>
         <Button variant="studio" onClick={async () => { try { await navigator.clipboard.writeText(`Halo Alvin Studio, saya ingin membahas ${service}.`); setCopied(true); } catch { setCopied(false); } }}>{copied ? <><CheckCircle2 />Topik tersalin</> : <>Salin topik <ArrowRight /></>}</Button>
       </DialogContent>
     </Dialog>
