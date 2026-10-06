@@ -62,7 +62,7 @@ export function StudioHome() {
     const electricContext = electricCanvas?.getContext('2d');
     let electricFrame = 0;
     let lastPoint: { x: number; y: number } | null = null;
-    let electricPoints: Array<{ x: number; y: number; life: number }> = [];
+    let electricPoints: Array<{ x: number; y: number; life: number; strand: number; width: number }> = [];
     let electricResetTimer: ReturnType<typeof setTimeout> | undefined;
 
     const resizeElectricCanvas = () => {
@@ -83,17 +83,54 @@ export function StudioHome() {
       const dy = y - lastPoint.y;
       const distance = Math.hypot(dx, dy);
       if (distance < 5) return;
-      const steps = Math.max(2, Math.min(8, Math.ceil(distance / 22)));
-      for (let i = 0; i <= steps; i += 1) {
-        const t = i / steps;
-        const jitter = i === 0 || i === steps ? 0 : (Math.random() - 0.5) * 10;
-        electricPoints.push({
-          x: lastPoint.x + dx * t + (-dy / Math.max(distance, 1)) * jitter,
-          y: lastPoint.y + dy * t + (dx / Math.max(distance, 1)) * jitter,
-          life: 1,
-        });
+
+      const normalX = -dy / Math.max(distance, 1);
+      const normalY = dx / Math.max(distance, 1);
+      const steps = Math.max(2, Math.min(9, Math.ceil(distance / 18)));
+      const strands = 5;
+
+      for (let strand = 0; strand < strands; strand += 1) {
+        const center = (strands - 1) / 2;
+        const spread = (strand - center) * 3.8;
+        const amplitude = 5 + Math.random() * 7;
+        const width = strand === 2 ? 1.45 : 0.7 + Math.random() * 0.55;
+
+        for (let i = 0; i <= steps; i += 1) {
+          const t = i / steps;
+          const edgeFade = Math.sin(Math.PI * t);
+          const jitter = i === 0 || i === steps ? 0 : (Math.random() - 0.5) * amplitude * edgeFade;
+          electricPoints.push({
+            x: lastPoint.x + dx * t + normalX * (spread + jitter),
+            y: lastPoint.y + dy * t + normalY * (spread + jitter),
+            life: 0.78 + Math.random() * 0.22,
+            strand,
+            width,
+          });
+        }
       }
-      if (electricPoints.length > 90) electricPoints = electricPoints.slice(-90);
+
+      // Small random side sparks make the cluster feel like electricity rather than parallel lines.
+      if (Math.random() > 0.35) {
+        const branchT = 0.35 + Math.random() * 0.35;
+        const bx = lastPoint.x + dx * branchT;
+        const by = lastPoint.y + dy * branchT;
+        const branchAngle = Math.atan2(dy, dx) + (Math.random() > 0.5 ? 1 : -1) * (0.65 + Math.random() * 0.55);
+        const branchLength = Math.min(24, 8 + distance * 0.22);
+        const branchSteps = 3;
+        for (let i = 0; i <= branchSteps; i += 1) {
+          const t = i / branchSteps;
+          const jitter = i === 0 || i === branchSteps ? 0 : (Math.random() - 0.5) * 7;
+          electricPoints.push({
+            x: bx + Math.cos(branchAngle) * branchLength * t + normalX * jitter,
+            y: by + Math.sin(branchAngle) * branchLength * t + normalY * jitter,
+            life: 0.5 + Math.random() * 0.35,
+            strand: 10,
+            width: 0.65,
+          });
+        }
+      }
+
+      if (electricPoints.length > 520) electricPoints = electricPoints.slice(-520);
       lastPoint = { x, y };
     };
 
@@ -152,26 +189,33 @@ export function StudioHome() {
       electricContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
       electricContext.lineCap = 'round';
       electricContext.lineJoin = 'round';
+
       for (let i = electricPoints.length - 1; i >= 0; i -= 1) {
-        electricPoints[i].life -= 0.065;
+        electricPoints[i].life -= 0.075;
         if (electricPoints[i].life <= 0) electricPoints.splice(i, 1);
       }
+
       for (let i = 1; i < electricPoints.length; i += 1) {
         const a = electricPoints[i - 1];
         const b = electricPoints[i];
+        if (a.strand !== b.strand) continue;
+        const distance = Math.hypot(b.x - a.x, b.y - a.y);
+        if (distance > 34) continue;
         const alpha = Math.min(a.life, b.life);
-        if (Math.hypot(b.x - a.x, b.y - a.y) > 32) continue;
-        electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * 0.78 + ')';
+        electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * (a.strand === 2 ? 0.9 : 0.58) + ')';
         electricContext.shadowColor = 'rgba(240, 199, 94, ' + alpha * 0.9 + ')';
-        electricContext.shadowBlur = 7;
-        electricContext.lineWidth = 1.15;
+        electricContext.shadowBlur = a.strand === 2 ? 9 : 5;
+        electricContext.lineWidth = Math.min(a.width, b.width);
         electricContext.beginPath();
         electricContext.moveTo(a.x, a.y);
         electricContext.lineTo(b.x, b.y);
         electricContext.stroke();
       }
+
       electricContext.shadowBlur = 0;
       electricFrame = requestAnimationFrame(drawElectric);
+    };
+    electricFrame = requestAnimationFrame(drawElectric);
     };
     electricFrame = requestAnimationFrame(drawElectric);
 
