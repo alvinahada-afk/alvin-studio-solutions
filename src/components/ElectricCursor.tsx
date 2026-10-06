@@ -30,8 +30,39 @@ function directionAt(points: Point[], index: number): { x: number; y: number; an
   return { x: dx / length, y: dy / length, angle: Math.atan2(dy, dx) };
 }
 
-function drawTaperedBody(ctx: CanvasRenderingContext2D, chain: Point[], time: number) {
-  if (chain.length < 2) return;
+function drawDragonBody(ctx: CanvasRenderingContext2D, chain: Point[], time: number) {
+  if (chain.length < 3) return;
+
+  const left: Point[] = [];
+  const right: Point[] = [];
+
+  for (let i = 0; i < chain.length; i += 1) {
+    const p = chain[i];
+    const prev = chain[Math.max(0, i - 1)];
+    const next = chain[Math.min(chain.length - 1, i + 1)];
+    const dx = next.x - prev.x;
+    const dy = next.y - prev.y;
+    const len = Math.max(0.001, Math.hypot(dx, dy));
+    const nx = -dy / len;
+    const ny = dx / len;
+    const t = i / (chain.length - 1);
+    const width = 18 * Math.pow(1 - t, 0.72) + 1.5;
+
+    left.push({ x: p.x + nx * width, y: p.y + ny * width });
+    right.push({ x: p.x - nx * width, y: p.y - ny * width });
+  }
+
+  const head = chain[0];
+  const tail = chain[chain.length - 1];
+  const bodyGradient = ctx.createLinearGradient(
+    head.x, head.y - 24,
+    tail.x, tail.y + 24,
+  );
+  bodyGradient.addColorStop(0, '#FFE066');
+  bodyGradient.addColorStop(0.18, '#D4AF37');
+  bodyGradient.addColorStop(0.48, '#FFE066');
+  bodyGradient.addColorStop(0.72, '#D4AF37');
+  bodyGradient.addColorStop(1, '#B8860B');
 
   ctx.save();
   ctx.lineCap = 'round';
@@ -39,216 +70,231 @@ function drawTaperedBody(ctx: CanvasRenderingContext2D, chain: Point[], time: nu
   ctx.shadowColor = 'rgba(255, 215, 0, 0.75)';
   ctx.shadowBlur = 15;
 
-  for (let i = chain.length - 1; i >= 1; i -= 1) {
+  // One continuous closed Bézier ribbon — no circular body segments.
+  ctx.fillStyle = bodyGradient;
+  ctx.beginPath();
+  ctx.moveTo(left[0].x, left[0].y);
+  for (let i = 1; i < left.length; i += 1) {
+    const a = left[i - 1];
+    const b = left[i];
+    const mx = (a.x + b.x) * 0.5;
+    const my = (a.y + b.y) * 0.5;
+    ctx.quadraticCurveTo(a.x, a.y, mx, my);
+  }
+  const lastLeft = left[left.length - 1];
+  ctx.lineTo(lastLeft.x, lastLeft.y);
+  for (let i = right.length - 2; i >= 0; i -= 1) {
+    const a = right[i + 1];
+    const b = right[i];
+    const mx = (a.x + b.x) * 0.5;
+    const my = (a.y + b.y) * 0.5;
+    ctx.quadraticCurveTo(a.x, a.y, mx, my);
+  }
+  ctx.lineTo(right[0].x, right[0].y);
+  ctx.closePath();
+  ctx.fill();
+
+  // Raised dorsal ridge follows the same continuous spine.
+  const ridgeGradient = ctx.createLinearGradient(head.x, head.y, tail.x, tail.y);
+  ridgeGradient.addColorStop(0, 'rgba(255,244,163,.95)');
+  ridgeGradient.addColorStop(0.4, 'rgba(255,224,102,.65)');
+  ridgeGradient.addColorStop(1, 'rgba(184,134,11,.18)');
+  ctx.strokeStyle = ridgeGradient;
+  ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  ctx.moveTo(chain[0].x, chain[0].y - 1);
+  for (let i = 1; i < chain.length; i += 1) {
     const p = chain[i];
-    const d = directionAt(chain, i);
+    const prev = chain[Math.max(0, i - 1)];
+    const next = chain[Math.min(chain.length - 1, i + 1)];
+    const dx = next.x - prev.x;
+    const dy = next.y - prev.y;
+    const len = Math.max(.001, Math.hypot(dx, dy));
+    const nx = -dy / len;
+    const ny = dx / len;
     const t = i / (chain.length - 1);
-    const radius = lerp(7.4, 1.25, t);
-    const shimmer = (Math.sin(time * 0.006 + i * 1.8) + 1) * 0.5;
+    const offset = 4.5 * (1 - t);
+    ctx.lineTo(p.x + nx * offset, p.y + ny * offset);
+  }
+  ctx.stroke();
 
-    const gradient = ctx.createLinearGradient(
-      p.x - d.y * radius,
-      p.y + d.x * radius,
-      p.x + d.y * radius,
-      p.y - d.x * radius,
-    );
-    gradient.addColorStop(0, GOLD_DARK);
-    gradient.addColorStop(0.32, GOLD_ROYAL);
-    gradient.addColorStop(0.55, shimmer > 0.52 ? GOLD_BRIGHT : '#F2CC52');
-    gradient.addColorStop(0.78, GOLD_ROYAL);
-    gradient.addColorStop(1, GOLD_DARK);
-
-    ctx.fillStyle = gradient;
+  // Scale chevrons are laid onto the ribbon, not separate circles.
+  ctx.lineWidth = 0.9;
+  for (let i = 1; i < chain.length - 2; i += 1) {
+    const p = chain[i];
+    const prev = chain[i - 1];
+    const next = chain[i + 1];
+    const dx = next.x - prev.x;
+    const dy = next.y - prev.y;
+    const len = Math.max(.001, Math.hypot(dx, dy));
+    const nx = -dy / len;
+    const ny = dx / len;
+    const t = i / (chain.length - 1);
+    const width = 12 * Math.pow(1 - t, .75) + 1.2;
+    ctx.strokeStyle = 'rgba(112,69,4,' + (0.38 - t * 0.18) + ')';
     ctx.beginPath();
-    ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Individual overlapping scale plates.
-    const normalX = -d.y;
-    const normalY = d.x;
-    const scaleRows = radius > 3 ? 2 : 1;
-    for (let row = 0; row < scaleRows; row += 1) {
-      const offset = (row - (scaleRows - 1) / 2) * radius * 0.48;
-      ctx.strokeStyle = 'rgba(255, 224, 102, ' + (0.55 - t * 0.22) + ')';
-      ctx.lineWidth = Math.max(0.55, radius * 0.10);
-      ctx.beginPath();
-      ctx.arc(
-        p.x + normalX * offset,
-        p.y + normalY * offset,
-        radius * 0.58,
-        d.angle - 2.35,
-        d.angle + 0.15,
-      );
-      ctx.stroke();
-    }
-
-    // Dark belly ridge gives the chain a readable three-dimensional underside.
-    ctx.strokeStyle = 'rgba(139, 91, 7, ' + (0.38 - t * 0.18) + ')';
-    ctx.lineWidth = Math.max(0.7, radius * 0.16);
-    ctx.beginPath();
-    ctx.moveTo(p.x - normalX * radius * 0.42, p.y - normalY * radius * 0.42);
-    ctx.lineTo(p.x - normalX * radius * 0.42 + d.x * radius * 0.65, p.y - normalY * radius * 0.42 + d.y * radius * 0.65);
+    ctx.moveTo(p.x + nx * width * .62 - dx / len * width * .24, p.y + ny * width * .62 - dy / len * width * .24);
+    ctx.quadraticCurveTo(p.x, p.y + width * .05, p.x - nx * width * .62 - dx / len * width * .24, p.y - ny * width * .62 - dy / len * width * .24);
     ctx.stroke();
   }
 
-  ctx.shadowBlur = 0;
-  ctx.restore();
-}
-
-function drawTailMane(ctx: CanvasRenderingContext2D, chain: Point[], time: number) {
-  if (chain.length < 5) return;
-
-  const tail = pointAt(chain, chain.length - 1);
-  const d = directionAt(chain, chain.length - 1);
-  const nx = -d.y;
-  const ny = d.x;
-
-  ctx.save();
-  ctx.lineCap = 'round';
-  ctx.shadowColor = 'rgba(255, 215, 0, 0.65)';
-  ctx.shadowBlur = 12;
-
-  for (let i = 0; i < 8; i += 1) {
-    const wave = Math.sin(time * 0.009 + i * 1.3) * (3 + i * 0.7);
-    const spread = (i - 3.5) * 2.1;
-    const length = 9 + (i % 3) * 5;
-
-    ctx.strokeStyle = i % 2 === 0 ? GOLD_BRIGHT : GOLD_ROYAL;
-    ctx.lineWidth = 1.2 + (7 - Math.abs(i - 3.5)) * 0.18;
-    ctx.beginPath();
-    ctx.moveTo(tail.x + nx * spread, tail.y + ny * spread);
-    ctx.quadraticCurveTo(
-      tail.x - d.x * length * 0.45 + nx * (spread + wave),
-      tail.y - d.y * length * 0.45 + ny * (spread + wave),
-      tail.x - d.x * length + nx * (spread * 1.6 + wave * 1.4),
-      tail.y - d.y * length + ny * (spread * 1.6 + wave * 1.4),
-    );
-    ctx.stroke();
-  }
-
-  ctx.shadowBlur = 0;
   ctx.restore();
 }
 
 function drawDragonHead(ctx: CanvasRenderingContext2D, head: Point, direction: { x: number; y: number; angle: number }, time: number) {
-  const { x: dx, y: dy, angle } = direction;
-  const nx = -dy;
-  const ny = dx;
-  const breathe = Math.sin(time * 0.008) * 0.7;
-
+  const { angle } = direction;
   ctx.save();
   ctx.translate(head.x, head.y);
   ctx.rotate(angle);
-
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
   ctx.shadowColor = 'rgba(255, 215, 0, 0.75)';
   ctx.shadowBlur = 15;
 
-  // Long oriental snout / jaw silhouette.
-  const headGradient = ctx.createLinearGradient(-8, -9, 16, 9);
-  headGradient.addColorStop(0, GOLD_DARK);
-  headGradient.addColorStop(0.38, GOLD_ROYAL);
-  headGradient.addColorStop(0.58, GOLD_BRIGHT);
-  headGradient.addColorStop(1, '#A66A08');
+  const gold = ctx.createLinearGradient(-14, -22, 25, 18);
+  gold.addColorStop(0, '#B8860B');
+  gold.addColorStop(.28, '#D4AF37');
+  gold.addColorStop(.55, '#FFE066');
+  gold.addColorStop(.78, '#D4AF37');
+  gold.addColorStop(1, '#8A5A08');
 
-  ctx.fillStyle = headGradient;
+  // Oriental dragon skull silhouette: crown, cheek, long snout and jaw.
+  ctx.fillStyle = gold;
   ctx.beginPath();
-  ctx.moveTo(-7, -9);
-  ctx.quadraticCurveTo(1, -14, 9, -7);
-  ctx.lineTo(18, -3);
-  ctx.quadraticCurveTo(22, 0, 17, 4);
-  ctx.lineTo(7, 7);
-  ctx.quadraticCurveTo(0, 13, -7, 8);
-  ctx.lineTo(-12, 3);
-  ctx.lineTo(-10, -5);
+  ctx.moveTo(-15, -12);
+  ctx.lineTo(-7, -19);
+  ctx.lineTo(-2, -13);
+  ctx.lineTo(4, -21);
+  ctx.lineTo(8, -11);
+  ctx.quadraticCurveTo(17, -9, 23, -3);
+  ctx.lineTo(29, 1);
+  ctx.lineTo(22, 5);
+  ctx.lineTo(13, 7);
+  ctx.quadraticCurveTo(8, 15, 0, 13);
+  ctx.lineTo(-5, 7);
+  ctx.lineTo(-15, 9);
+  ctx.lineTo(-11, 1);
   ctx.closePath();
   ctx.fill();
 
-  // Brow / cheek plates.
-  ctx.strokeStyle = 'rgba(255, 238, 150, .85)';
-  ctx.lineWidth = 1.2;
+  // Crown horns: tall, hooked, visibly separated.
+  ctx.fillStyle = '#D4AF37';
   ctx.beginPath();
-  ctx.moveTo(-5, -8);
-  ctx.quadraticCurveTo(3, -5, 8, -1);
-  ctx.quadraticCurveTo(3, 0, -4, 3);
+  ctx.moveTo(-8, -10);
+  ctx.quadraticCurveTo(-17, -22, -11, -30);
+  ctx.quadraticCurveTo(-7, -23, -2, -13);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(1, -10);
+  ctx.quadraticCurveTo(5, -24, 14, -29);
+  ctx.quadraticCurveTo(12, -17, 7, -8);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = '#FFE066';
+  ctx.lineWidth = 1;
   ctx.stroke();
 
-  // Eyes.
+  // Brow plates and eye.
+  ctx.strokeStyle = 'rgba(255,244,163,.95)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-2, -9);
+  ctx.quadraticCurveTo(5, -13, 11, -8);
+  ctx.lineTo(7, -4);
+  ctx.stroke();
+
   ctx.fillStyle = '#FFF4A3';
   ctx.beginPath();
-  ctx.ellipse(5, -5.3, 2.5, 1.7, -0.15, 0, Math.PI * 2);
+  ctx.moveTo(4, -7);
+  ctx.quadraticCurveTo(8, -9, 11, -6);
+  ctx.quadraticCurveTo(8, -3, 4, -5);
+  ctx.closePath();
   ctx.fill();
-  ctx.fillStyle = '#6B2F00';
+  ctx.fillStyle = '#4A2100';
   ctx.beginPath();
-  ctx.arc(5.7, -5.2, 0.8, 0, Math.PI * 2);
+  ctx.moveTo(8, -7);
+  ctx.lineTo(9.5, -5.5);
+  ctx.lineTo(8, -4);
+  ctx.closePath();
   ctx.fill();
 
-  // Open nostril / mouth line.
-  ctx.strokeStyle = '#6D3C08';
-  ctx.lineWidth = 1;
+  // Snout, nostril and jaw separation.
+  ctx.strokeStyle = '#6A3B08';
+  ctx.lineWidth = 1.1;
   ctx.beginPath();
-  ctx.moveTo(13, -2.2);
-  ctx.quadraticCurveTo(17, -1, 19, 0);
-  ctx.quadraticCurveTo(16, 1.8, 12, 2.2);
+  ctx.moveTo(15, -3);
+  ctx.quadraticCurveTo(22, -1, 27, 1);
+  ctx.quadraticCurveTo(22, 2, 16, 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(20, -1);
+  ctx.lineTo(22, -2);
   ctx.stroke();
 
-  // Double horns.
-  for (const side of [-1, 1]) {
-    ctx.fillStyle = side < 0 ? GOLD_DARK : GOLD_ROYAL;
-    ctx.beginPath();
-    ctx.moveTo(-4, side * 6);
-    ctx.quadraticCurveTo(-7, side * 14, -1, side * 18);
-    ctx.quadraticCurveTo(0, side * 11, 3, side * 7);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = GOLD_BRIGHT;
-    ctx.lineWidth = 0.7;
-    ctx.stroke();
+  // Beard / whisker roots.
+  for (let side = -1; side <= 1; side += 2) {
+    for (let i = 0; i < 3; i += 1) {
+      const wave = Math.sin(time * .011 + i * 1.7 + side) * (2 + i);
+      ctx.strokeStyle = i === 0 ? '#FFE066' : '#D4AF37';
+      ctx.lineWidth = .75 + (2 - i) * .18;
+      ctx.beginPath();
+      ctx.moveTo(17, side * (2 + i * 1.5));
+      ctx.bezierCurveTo(
+        25, side * (5 + wave),
+        33 + i * 3, side * (-1 - wave),
+        42 + i * 4, side * (6 + wave * .5),
+      );
+      ctx.stroke();
+    }
   }
 
-  // Thin dynamic whiskers / tendrils.
-  ctx.lineWidth = 0.75;
-  for (let i = 0; i < 3; i += 1) {
-    const side = i % 2 === 0 ? 1 : -1;
-    const wave = Math.sin(time * 0.012 + i * 1.7) * (2 + i);
-    ctx.strokeStyle = 'rgba(255, 224, 102, ' + (0.82 - i * 0.15) + ')';
+  // Flowing mane behind the skull.
+  for (let i = 0; i < 9; i += 1) {
+    const y = -14 + i * 3.5;
+    const wave = Math.sin(time * .008 + i) * 3;
+    ctx.strokeStyle = i % 2 ? '#D4AF37' : '#FFE066';
+    ctx.lineWidth = 1.4 - Math.abs(i - 4) * .08;
     ctx.beginPath();
-    ctx.moveTo(11, side * (2 + i));
-    ctx.bezierCurveTo(
-      18 + i * 2, side * (5 + wave),
-      25 + i * 3, side * (1 - wave),
-      31 + i * 3, side * (7 + wave * 0.6),
-    );
-    ctx.stroke();
-  }
-
-  // Small mane behind the skull.
-  for (let i = 0; i < 7; i += 1) {
-    const spread = i - 3;
-    ctx.strokeStyle = i % 2 ? GOLD_BRIGHT : GOLD_ROYAL;
-    ctx.lineWidth = 1.1;
-    ctx.beginPath();
-    ctx.moveTo(-6, spread * 2.2);
-    ctx.quadraticCurveTo(
-      -14 - i * 1.2,
-      spread * 4 + breathe,
-      -20 - i * 1.5,
-      spread * 6 - breathe,
-    );
+    ctx.moveTo(-9, y);
+    ctx.bezierCurveTo(-19, y + wave, -27, y * .7 - wave, -34, y * .95);
     ctx.stroke();
   }
 
   ctx.shadowBlur = 0;
   ctx.restore();
+}
 
-  // Directional highlight behind the head.
+function drawTailFan(ctx: CanvasRenderingContext2D, chain: Point[], time: number) {
+  if (chain.length < 4) return;
+  const tail = chain[chain.length - 1];
+  const prev = chain[chain.length - 2];
+  const dx = tail.x - prev.x;
+  const dy = tail.y - prev.y;
+  const len = Math.max(.001, Math.hypot(dx, dy));
+  const nx = -dy / len;
+  const ny = dx / len;
+  const angle = Math.atan2(dy, dx);
+
   ctx.save();
-  ctx.globalAlpha = 0.5;
-  ctx.strokeStyle = GOLD_BRIGHT;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(head.x - dx * 9 + nx * 3, head.y - dy * 9 + ny * 3);
-  ctx.lineTo(head.x - dx * 18 + nx * 6, head.y - dy * 18 + ny * 6);
-  ctx.stroke();
+  ctx.translate(tail.x, tail.y);
+  ctx.rotate(angle);
+  ctx.lineCap = 'round';
+  ctx.shadowColor = 'rgba(255,215,0,.7)';
+  ctx.shadowBlur = 12;
+
+  for (let i = -4; i <= 4; i += 1) {
+    const wave = Math.sin(time * .009 + i) * 2.5;
+    ctx.strokeStyle = Math.abs(i) < 2 ? '#FFE066' : '#D4AF37';
+    ctx.lineWidth = 1.2 + (4 - Math.abs(i)) * .16;
+    ctx.beginPath();
+    ctx.moveTo(2, i * 1.2);
+    ctx.quadraticCurveTo(12, i * 3 + wave, 23, i * 5.5 + wave);
+    ctx.stroke();
+  }
+
+  ctx.shadowBlur = 0;
   ctx.restore();
 }
 
