@@ -1623,3 +1623,69 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   .studio-page { animation: none !important; }
 }
+
+
+/* FINAL — sharper, higher-contrast white typography */
+.studio-page,
+.studio-page h1,
+.studio-page h2,
+.studio-page h3,
+.studio-page h4,
+.studio-page h5,
+.studio-page h6,
+.studio-page p,
+.studio-page span,
+.studio-page a,
+.studio-page button,
+.studio-page li,
+.studio-page label {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: geometricPrecision !important;
+}
+
+/* White text: maximum clarity without glow */
+.studio-page h1,
+.studio-page h2,
+.studio-page h3,
+.studio-page h4,
+.studio-page h5,
+.studio-page h6,
+.studio-page .text-white,
+.studio-page [class*="text-white"],
+.studio-page .text-foreground,
+.studio-page [class*="text-foreground"] {
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 .01px rgba(255,255,255,.95) !important;
+}
+
+/* Main hero copy */
+.studio-page .studio-hero-title-col h1 {
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-shadow: 0 0 .01px rgba(255,255,255,.95) !important;
+}
+
+/* Navigation and important labels */
+.studio-page .studio-nav-link,
+.studio-page .studio-header a,
+.studio-page .studio-header button,
+.studio-page .studio-kicker,
+.studio-page .hero-meta span,
+.studio-page .studio-hero-pill {
+  opacity: 1 !important;
+  text-shadow: 0 0 .01px rgba(255,255,255,.9) !important;
+}
+
+/* Keep secondary body copy readable, but don't wash it out */
+.studio-page .studio-intro-copy,
+.studio-page .studio-section-head > p,
+.studio-page .studio-process-head > p,
+.studio-page .studio-cta-inner > div > p:last-child,
+.studio-page .studio-hero-detail-col p {
+  opacity: 1 !important;
+  text-shadow: 0 0 .01px rgba(255,255,255,.45) !important;
+}
