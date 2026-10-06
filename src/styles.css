@@ -656,13 +656,53 @@ body::before {
   pointer-events: none;
   z-index: 0;
   filter: blur(50px);
-  background: radial-gradient(
-    circle at 80% 80%,
-    rgba(12, 43, 41, 0.65) 0%,
-    rgba(18, 71, 65, 0.3) 35%,
-    rgba(6, 15, 18, 0.1) 65%,
-    rgba(6, 15, 18, 0) 100%
-  ) !important;
+  background:
+    radial-gradient(
+      circle at 78% 78%,
+      rgba(18, 71, 65, 0.34) 0%,
+      rgba(12, 43, 41, 0.24) 32%,
+      rgba(6, 15, 18, 0) 72%
+    ),
+    radial-gradient(
+      circle at 25% 35%,
+      rgba(20, 63, 55, 0.20) 0%,
+      rgba(10, 34, 32, 0.10) 38%,
+      rgba(6, 15, 18, 0) 70%
+    ) !important;
+  background-size: 115% 115%, 125% 125%;
+  background-position: 100% 100%, 0% 0%;
+  background-repeat: no-repeat;
+  animation: luxurySageGlow 14s ease-in-out infinite alternate;
+  will-change: transform, background-position, background-size;
+}
+
+@keyframes luxurySageGlow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    background-position: 100% 100%, 0% 0%;
+    background-size: 115% 115%, 125% 125%;
+  }
+  35% {
+    transform: translate3d(-3%, -2%, 0) scale(1.04);
+    background-position: 86% 88%, 18% 28%;
+    background-size: 120% 120%, 132% 132%;
+  }
+  70% {
+    transform: translate3d(-7%, -5%, 0) scale(1.08);
+    background-position: 72% 72%, 34% 46%;
+    background-size: 128% 128%, 140% 140%;
+  }
+  100% {
+    transform: translate3d(-4%, -8%, 0) scale(1.05);
+    background-position: 82% 64%, 24% 58%;
+    background-size: 122% 122%, 136% 136%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none !important;
+  }
 }
 body::after {
   content: "";
