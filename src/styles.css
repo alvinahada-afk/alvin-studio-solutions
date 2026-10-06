@@ -481,3 +481,12 @@ img, svg, video { max-width: 100%; }
 .studio-cursor.cursor-hover{width:62px;height:62px;background:radial-gradient(circle,rgba(255,224,125,.35) 0 7%,rgba(240,199,94,.14) 22%,transparent 66%);box-shadow:0 0 24px rgba(240,199,94,.42),0 0 70px rgba(240,199,94,.18)}
 @media(pointer:coarse){.studio-cursor{display:none}}
 @media(prefers-reduced-motion:reduce){.studio-cursor:before,.studio-cursor:after{animation:none}}
+
+
+.cursor-bolt{position:absolute;display:block;width:22px;height:44px;left:50%;top:50%;background:linear-gradient(180deg,#fff9cf 0%,#f0c75e 42%,rgba(240,199,94,0) 100%);filter:drop-shadow(0 0 4px #f0c75e) drop-shadow(0 0 10px rgba(240,199,94,.75));clip-path:polygon(48% 0,100% 0,65% 38%,88% 38%,22% 100%,39% 52%,8% 52%);opacity:0;transform-origin:50% 0;pointer-events:none}
+.bolt-a{transform:translate(-50%,-8%) rotate(8deg) scale(.8);animation:boltFlash .9s steps(2,end) infinite}
+.bolt-b{transform:translate(-50%,-8%) rotate(128deg) scale(.62);animation:boltFlash 1.15s steps(2,end) .18s infinite}
+.bolt-c{transform:translate(-50%,-8%) rotate(245deg) scale(.5);animation:boltFlash .75s steps(2,end) .36s infinite}
+@keyframes boltFlash{0%,100%{opacity:0}12%{opacity:.9}18%{opacity:.25}28%{opacity:1}36%{opacity:0}55%{opacity:.55}62%{opacity:0}}
+.studio-cursor.cursor-hover .cursor-bolt{animation-duration:.55s}
+@media(pointer:coarse){.cursor-bolt{display:none}}
