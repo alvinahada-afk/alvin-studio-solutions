@@ -58,16 +58,81 @@ export function StudioHome() {
 
     document.querySelectorAll('[data-reveal]').forEach((el) => revealObserver?.observe(el));
 
+    const electricCanvas = document.querySelector<HTMLCanvasElement>('.studio-electric-canvas');
+    const electricContext = electricCanvas?.getContext('2d');
+    let electricFrame = 0;
+    let lastPoint: { x: number; y: number } | null = null;
+    let electricPoints: Array<{ x: number; y: number; life: number }> = [];
+
+    const resizeElectricCanvas = () => {
+      if (!electricCanvas || !electricContext) return;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      electricCanvas.width = Math.floor(window.innerWidth * ratio);
+      electricCanvas.height = Math.floor(window.innerHeight * ratio);
+      electricCanvas.style.width = '100vw';
+      electricCanvas.style.height = '100vh';
+      electricContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+    };
+    resizeElectricCanvas();
+    window.addEventListener('resize', resizeElectricCanvas);
+
+    const spawnLightning = (x: number, y: number) => {
+      if (!lastPoint) { lastPoint = { x, y }; return; }
+      const dx = x - lastPoint.x;
+      const dy = y - lastPoint.y;
+      const distance = Math.hypot(dx, dy);
+      if (distance < 5) return;
+      const steps = Math.max(2, Math.min(8, Math.ceil(distance / 22)));
+      for (let i = 0; i <= steps; i += 1) {
+        const t = i / steps;
+        const jitter = i === 0 || i === steps ? 0 : (Math.random() - 0.5) * 10;
+        electricPoints.push({
+          x: lastPoint.x + dx * t + (-dy / Math.max(distance, 1)) * jitter,
+          y: lastPoint.y + dy * t + (dx / Math.max(distance, 1)) * jitter,
+          life: 1,
+        });
+      }
+      if (electricPoints.length > 90) electricPoints = electricPoints.slice(-90);
+      lastPoint = { x, y };
+    };
+
     const onPointerMove = (event: PointerEvent) => {
       if (window.matchMedia('(pointer: coarse)').matches || reduce) return;
       const x = event.clientX / window.innerWidth - 0.5;
       const y = event.clientY / window.innerHeight - 0.5;
-      document.documentElement.style.setProperty('--cursor-x', `${event.clientX}px`);
-      document.documentElement.style.setProperty('--cursor-y', `${event.clientY}px`);
-      document.documentElement.style.setProperty('--hero-mx', `${x * 18}px`);
-      document.documentElement.style.setProperty('--hero-my', `${y * 18}px`);
+      document.documentElement.style.setProperty('--hero-mx', x * 18 + 'px');
+      document.documentElement.style.setProperty('--hero-my', y * 18 + 'px');
+      spawnLightning(event.clientX, event.clientY);
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+    const drawElectric = () => {
+      if (!electricContext) return;
+      electricContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      electricContext.lineCap = 'round';
+      electricContext.lineJoin = 'round';
+      for (let i = electricPoints.length - 1; i >= 0; i -= 1) {
+        electricPoints[i].life -= 0.065;
+        if (electricPoints[i].life <= 0) electricPoints.splice(i, 1);
+      }
+      for (let i = 1; i < electricPoints.length; i += 1) {
+        const a = electricPoints[i - 1];
+        const b = electricPoints[i];
+        const alpha = Math.min(a.life, b.life);
+        if (Math.hypot(b.x - a.x, b.y - a.y) > 32) continue;
+        electricContext.strokeStyle = 'rgba(240, 199, 94, ' + alpha * 0.78 + ')';
+        electricContext.shadowColor = 'rgba(240, 199, 94, ' + alpha * 0.9 + ')';
+        electricContext.shadowBlur = 7;
+        electricContext.lineWidth = 1.15;
+        electricContext.beginPath();
+        electricContext.moveTo(a.x, a.y);
+        electricContext.lineTo(b.x, b.y);
+        electricContext.stroke();
+      }
+      electricContext.shadowBlur = 0;
+      electricFrame = requestAnimationFrame(drawElectric);
+    };
+    electricFrame = requestAnimationFrame(drawElectric);
 
     const magnetic = document.querySelectorAll<HTMLElement>('[data-magnetic]');
     const handlers = new Map<HTMLElement, (event: PointerEvent) => void>();
@@ -91,6 +156,8 @@ export function StudioHome() {
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('resize', resizeElectricCanvas);
+      cancelAnimationFrame(electricFrame);
       revealObserver?.disconnect();
       magnetic.forEach((el) => {
         const handler = handlers.get(el);
@@ -107,7 +174,7 @@ export function StudioHome() {
   ];
 
   return <>
-    <div className="studio-cursor" aria-hidden="true"><span /><i className="cursor-bolt bolt-a" /><i className="cursor-bolt bolt-b" /><i className="cursor-bolt bolt-c" /></div>
+    <canvas className="studio-electric-canvas" aria-hidden="true" />
     <header className={`site-header studio-header ${isScrolled ? 'site-header-scrolled' : ''}`}>
       <div className="container-site flex h-full items-center justify-between">
         <a href="#" aria-label="Alvin Studio beranda" data-cursor-label="Home"><Brand /></a>
