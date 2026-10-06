@@ -320,3 +320,63 @@ img, svg, video { max-width: 100%; }
   .dash-topbar > span:last-child { gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+
+/* Premium studio motion layer */
+.site-header {
+  position: sticky;
+  top: 0;
+  transition: background-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease, height .3s ease;
+}
+.site-header-scrolled {
+  background: oklch(1 0 0 / .82);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px oklch(.25 .06 262 / .07);
+}
+.hero-content-enter { animation: heroEnter .65s cubic-bezier(.22,1,.36,1) both; }
+.hero h1 { text-wrap: balance; }
+.hero-badge { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.hero-badge:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 8px 24px oklch(.25 .06 262 / .08); }
+.hero-dots { display:flex; justify-content:center; gap:7px; margin: 2px 0 22px; }
+.hero-dots button { width:7px; height:7px; padding:0; border:0; border-radius:999px; background:var(--border); cursor:pointer; transition:width .3s ease, background-color .3s ease, transform .3s ease; }
+.hero-dots button:hover { transform:scale(1.2); }
+.hero-dots button.active { width:26px; background:var(--primary); }
+.hero-stage-reveal { animation: stageReveal .9s .15s cubic-bezier(.22,1,.36,1) both; }
+.stage-glow { position:absolute; width:420px; height:180px; left:50%; top:-90px; transform:translateX(-50%); background:radial-gradient(circle, oklch(.55 .225 261 / .18), transparent 68%); filter:blur(18px); pointer-events:none; animation: glowFloat 5s ease-in-out infinite; }
+.product-stage { box-shadow: 0 28px 80px oklch(.25 .06 262 / .10); }
+.product-stage .dashboard { transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease; }
+.product-stage:hover .dashboard { transform:translateY(-6px); box-shadow:0 35px 90px oklch(.25 .06 262 / .18); }
+.reveal-card, .reveal-grid > * { transition: transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease, border-color .3s ease; }
+.reveal-card:hover, .reveal-grid > *:hover { transform:translateY(-7px); }
+.solution-card:hover, .price-card:hover { box-shadow:0 18px 45px oklch(.25 .06 262 / .09); }
+.portfolio-art { transition:transform .55s cubic-bezier(.22,1,.36,1), box-shadow .55s ease; }
+.portfolio-grid article:hover .portfolio-art { transform:translateY(-4px) scale(1.012); box-shadow:0 20px 55px oklch(.25 .06 262 / .12); }
+.website-cover img { transition:transform .8s cubic-bezier(.22,1,.36,1); }
+.portfolio-grid article:hover .website-cover img { transform:scale(1.055); }
+.feature-tag { transition:transform .25s ease, border-color .25s ease, background-color .25s ease; }
+.feature-tag:hover { transform:translateY(-3px); border-color:var(--primary); background:var(--blue-soft); }
+.problem-icon, .solution-icon { transition:transform .3s ease, background-color .3s ease; }
+.problem-grid > div:hover .problem-icon, .solution-card:hover .solution-icon { transform:rotate(-4deg) scale(1.08); }
+.step-number { transition:transform .3s ease, background-color .3s ease, color .3s ease; }
+.step:hover .step-number { transform:scale(1.12); background:var(--primary); color:var(--primary-foreground); }
+@keyframes heroEnter {
+  from { opacity:0; transform:translateY(18px); filter:blur(5px); }
+  to { opacity:1; transform:translateY(0); filter:blur(0); }
+}
+@keyframes stageReveal {
+  from { opacity:0; transform:translateY(35px) scale(.985); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes glowFloat {
+  0%,100% { transform:translateX(-50%) translateY(0) scale(1); opacity:.75; }
+  50% { transform:translateX(-50%) translateY(14px) scale(1.08); opacity:1; }
+}
+@media (max-width: 767px) {
+  .site-header-scrolled { height:72px; }
+  .hero-dots { margin-bottom:18px; }
+  .stage-glow { width:260px; height:130px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-content-enter, .hero-stage-reveal, .stage-glow { animation:none !important; }
+  .reveal-card, .reveal-grid > *, .portfolio-art, .website-cover img { transition:none !important; }
+}
