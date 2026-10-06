@@ -1339,6 +1339,33 @@ html, body {
 }
 
 
+/* FINAL PIGEON BLUE TYPOGRAPHY OVERRIDE */
+.studio-section-head h2 span,
+.studio-process-head h2 span,
+.studio-stack-grid h2 span,
+.career-panel h2 span,
+.studio-faq-grid h2 span,
+.studio-cta h2 span,
+.studio-intro h2 span {
+  color: #8FA3B8 !important;
+  text-shadow: none !important;
+}
+
+.studio-section-head h2,
+.studio-process-head h2,
+.studio-stack-grid h2,
+.career-panel h2,
+.studio-faq-grid h2,
+.studio-cta h2,
+.studio-intro h2 {
+  color: #FFFFFF !important;
+}
+
+.studio-hero-pill:hover {
+  color: #8FA3B8 !important;
+  border-color: rgba(143,163,184,.35) !important;
+}
+
 /* PIGEON BLUE — global premium accent lock */
 :root,
 .dark {
