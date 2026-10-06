@@ -532,7 +532,7 @@ img, svg, video { max-width: 100%; }
 .studio-cursor:before,.studio-cursor:after,.studio-cursor span{display:none!important}
 .studio-lightning{position:absolute;left:-90px;top:-40px;width:180px;height:80px;opacity:0;transition:opacity .12s ease;pointer-events:none}
 .studio-lightning svg{display:block;width:180px;height:80px;overflow:visible}
-.studio-lightning path{fill:none;stroke:#f3c95f;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 2px rgba(243,201,95,.95)) drop-shadow(0 0 7px rgba(243,201,95,.42))}
+.studio-lightning path{fill:none;stroke:#f3c95f;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 2px rgba(243,201,95,.95)) drop-shadow(0 0 7px rgba(243,201,95,.42))}
 .studio-lightning.is-active{opacity:1}
 @media(pointer:coarse){.studio-lightning{display:none}}
 @media(prefers-reduced-motion:reduce){.studio-lightning{display:none}}
