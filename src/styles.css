@@ -288,21 +288,12 @@ body { font-family: var(--font-sans); letter-spacing: 0; }
   .footer-bottom { flex-direction: column; gap: 10px; }
 }
 /* Overflow safety */
-html, body { max-width: 100%; overflow-x: clip; }
-img, svg, video { max-width: 100%; }
-.solution-grid > *, .pricing-grid > *, .problem-grid > *, .steps > *, .product-layout > *, .dash-stats > * { min-width: 0; }
-.product-preview .dashboard, .portfolio-pos .dashboard { max-width: none; }
-.website-nav { gap: 8px; } .website-nav span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-@media (min-width: 768px) and (max-width: 1023px) {
-  .product-stage { padding: 26px 28px 0; }
-  .problem-grid { grid-template-columns: 1fr 1fr; }
-  .solution-grid { grid-template-columns: 1fr; }
-  .product-layout { grid-template-columns: 1fr; gap: 36px; }
-  .product-preview .dashboard { width: 100%; }
-  .portfolio-pos .dashboard { width: 470px; }
-  .steps { grid-template-columns: repeat(3, 1fr); }
-  .step:nth-child(3)::before { display: none; }
-  .pricing-grid { grid-template-columns: 1fr 1fr; gap: 25px 16px; }
+html, body {
+  background-color: #060F12 !important;
+  color: #F8FAFC !important;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
 }
 @media (min-width: 1024px) and (max-width: 1199px) {
   .product-preview .dashboard { width: 100%; }
@@ -662,16 +653,16 @@ body::before {
   right: -15%;
   width: 900px;
   height: 900px;
-  background: radial-gradient(
-    circle,
-    rgba(20, 48, 47, 0.45) 0%,
-    rgba(14, 35, 36, 0.25) 30%,
-    rgba(11, 26, 28, 0.1) 60%,
-    rgba(10, 19, 23, 0) 100%
-  ) !important;
-  filter: blur(40px);
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  filter: blur(50px);
+  background: radial-gradient(
+    circle at 80% 80%,
+    rgba(12, 43, 41, 0.65) 0%,
+    rgba(18, 71, 65, 0.3) 35%,
+    rgba(6, 15, 18, 0.1) 65%,
+    rgba(6, 15, 18, 0) 100%
+  ) !important;
 }
 body::after {
   content: "";
@@ -680,7 +671,7 @@ body::after {
   left: 0;
   width: 100vw;
   height: 100vh;
-  opacity: 0.03;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") !important;
   pointer-events: none;
   z-index: 9999;
