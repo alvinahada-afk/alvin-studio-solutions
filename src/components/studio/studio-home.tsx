@@ -72,6 +72,32 @@ export function StudioHome() {
     }, { threshold: 0.12 });
     document.querySelectorAll('[data-reveal]').forEach((el) => observer?.observe(el));
 
+    const cards = document.querySelectorAll<HTMLElement>('[data-card-micro]');
+    const cardHandlers = new Map<HTMLElement, { move: (event: PointerEvent) => void; leave: () => void }>();
+    cards.forEach((card) => {
+      const move = (event: PointerEvent) => {
+        if (window.matchMedia('(pointer: coarse)').matches || reduce) return;
+        const rect = card.getBoundingClientRect();
+        const px = (event.clientX - rect.left) / rect.width;
+        const py = (event.clientY - rect.top) / rect.height;
+        const rotateY = (px - 0.5) * 5;
+        const rotateX = (0.5 - py) * 4;
+        card.style.setProperty('--card-rx', rotateX.toFixed(2) + 'deg');
+        card.style.setProperty('--card-ry', rotateY.toFixed(2) + 'deg');
+        card.style.setProperty('--card-glow-x', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--card-glow-y', (py * 100).toFixed(1) + '%');
+      };
+      const leave = () => {
+        card.style.setProperty('--card-rx', '0deg');
+        card.style.setProperty('--card-ry', '0deg');
+        card.style.setProperty('--card-glow-x', '50%');
+        card.style.setProperty('--card-glow-y', '50%');
+      };
+      cardHandlers.set(card, { move, leave });
+      card.addEventListener('pointermove', move);
+      card.addEventListener('pointerleave', leave);
+    });
+
     const magnetic = document.querySelectorAll<HTMLElement>('[data-magnetic]');
     const handlers = new Map<HTMLElement, (event: PointerEvent) => void>();
     magnetic.forEach((el) => {
@@ -97,7 +123,14 @@ export function StudioHome() {
       magnetic.forEach((el) => {
         const handler = handlers.get(el);
         if (handler) el.removeEventListener('pointermove', handler);
+      });      cards.forEach((card) => {
+        const handlers = cardHandlers.get(card);
+        if (handlers) {
+          card.removeEventListener('pointermove', handlers.move);
+          card.removeEventListener('pointerleave', handlers.leave);
+        }
       });
+
     };
   }, []);
 
