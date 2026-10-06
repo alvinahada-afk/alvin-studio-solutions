@@ -87,11 +87,11 @@ export function StudioHome() {
       const normalX = -dy / Math.max(distance, 1);
       const normalY = dx / Math.max(distance, 1);
       const steps = Math.max(2, Math.min(9, Math.ceil(distance / 18)));
-      const strands = 5;
+      const strands = 3;
 
       for (let strand = 0; strand < strands; strand += 1) {
         const center = (strands - 1) / 2;
-        const spread = (strand - center) * 3.8;
+        const spread = (strand - center) * 4.5;
         const amplitude = 5 + Math.random() * 7;
         const width = strand === 2 ? 1.45 : 0.7 + Math.random() * 0.55;
 
