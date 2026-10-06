@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 type Point = { x: number; y: number };
-type Shockwave = { x: number; y: number; radius: number; alpha: number; maxRadius: number };
+type MagneticGlow = { x: number; y: number; radius: number; alpha: number; angle: number };
 
 const IDLE_MS = 150;
 const MAX_TRAIL_POINTS = 30;
-const MAX_SHOCKWAVES = 3;
+const MAX_MAGNETIC_GLOWS = 3;
 
 export function ElectricCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,7 +24,7 @@ export function ElectricCursor() {
     let idleTimer: ReturnType<typeof setTimeout> | undefined;
     let lastTime = 0;
     let trail: Point[] = [];
-    const shockwaves: Shockwave[] = [];
+    const magneticGlows: MagneticGlow[] = [];
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -101,34 +101,63 @@ export function ElectricCursor() {
       drawLightning(time, 0);
       drawLightning(time, 1);
 
-      for (let i = shockwaves.length - 1; i >= 0; i -= 1) {
-        const shock = shockwaves[i];
-        shock.radius += delta * 0.62;
-        shock.alpha -= delta * 0.00235;
+      for (let i = magneticGlows.length - 1; i >= 0; i -= 1) {
+        const glow = magneticGlows[i];
+        glow.radius += delta * 0.12;
+        glow.alpha -= delta * 0.0038;
+        glow.angle += delta * 0.0025;
 
-        if (shock.alpha <= 0) {
-          shockwaves.splice(i, 1);
+        if (glow.alpha <= 0) {
+          magneticGlows.splice(i, 1);
           continue;
         }
 
-        ctx.beginPath();
-        ctx.arc(shock.x, shock.y, shock.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + shock.alpha * 0.9 + ')';
-        ctx.shadowColor = '#00f2fe';
-        ctx.shadowBlur = 28;
-        ctx.lineWidth = 2.2;
-        ctx.stroke();
+        const pulse = 1 + Math.sin(time * 0.025 + i) * 0.08;
+        const outerRadius = glow.radius * pulse;
 
+        const gradient = ctx.createRadialGradient(
+          glow.x,
+          glow.y,
+          0,
+          glow.x,
+          glow.y,
+          outerRadius
+        );
+        gradient.addColorStop(0, 'rgba(0, 242, 254, ' + glow.alpha * 0.22 + ')');
+        gradient.addColorStop(0.28, 'rgba(0, 242, 254, ' + glow.alpha * 0.10 + ')');
+        gradient.addColorStop(1, 'rgba(0, 242, 254, 0)');
+
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(shock.x, shock.y, shock.radius * 0.82, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0, 242, 254, ' + shock.alpha * 0.28 + ')';
-        ctx.lineWidth = 1.1;
+        ctx.arc(glow.x, glow.y, outerRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.shadowColor = '#00f2fe';
+        ctx.shadowBlur = 22;
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + glow.alpha * 0.9 + ')';
+        ctx.beginPath();
+        ctx.arc(glow.x, glow.y, 1.8 + glow.alpha * 1.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.save();
+        ctx.translate(glow.x, glow.y);
+        ctx.rotate(glow.angle);
+        ctx.strokeStyle = 'rgba(0, 242, 254, ' + glow.alpha * 0.62 + ')';
+        ctx.shadowColor = '#00f2fe';
+        ctx.shadowBlur = 16;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(-outerRadius * 0.32, 0);
+        ctx.lineTo(outerRadius * 0.32, 0);
+        ctx.moveTo(0, -outerRadius * 0.32);
+        ctx.lineTo(0, outerRadius * 0.32);
         ctx.stroke();
+        ctx.restore();
       }
 
       ctx.shadowBlur = 0;
 
-      if (trail.length === 0 && shockwaves.length === 0) {
+      if (trail.length === 0 && magneticGlows.length === 0) {
         running = false;
         frame = 0;
         return;
@@ -153,7 +182,7 @@ export function ElectricCursor() {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         trail = [];
-        if (shockwaves.length === 0) clearAndStop();
+        if (magneticGlows.length === 0) clearAndStop();
       }, IDLE_MS);
 
       schedule();
@@ -162,15 +191,15 @@ export function ElectricCursor() {
     const onPointerDown = (event: PointerEvent) => {
       if (event.pointerType === 'touch') return;
 
-      shockwaves.push({
+      magneticGlows.push({
         x: event.clientX,
         y: event.clientY,
-        radius: 2,
+        radius: 7,
         alpha: 1,
-        maxRadius: 110,
+        angle: Math.random() * Math.PI,
       });
 
-      if (shockwaves.length > MAX_SHOCKWAVES) shockwaves.shift();
+      if (magneticGlows.length > MAX_MAGNETIC_GLOWS) magneticGlows.shift();
       schedule();
     };
 
