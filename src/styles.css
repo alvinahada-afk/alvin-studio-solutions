@@ -1157,3 +1157,40 @@ button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { let
     filter:saturate(.55) contrast(1.06) brightness(.48)!important;
   }
 }
+
+
+/* Cursor-reactive ambient light — wide, soft and restrained */
+html {
+  --cursor-glow-x: 50vw;
+  --cursor-glow-y: 50vh;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle 520px at var(--cursor-glow-x) var(--cursor-glow-y),
+      rgba(118, 145, 169, 0.15) 0%,
+      rgba(93, 119, 143, 0.09) 28%,
+      rgba(62, 87, 108, 0.035) 52%,
+      transparent 74%
+    );
+  mix-blend-mode: screen;
+  transition: background 0.12s ease-out;
+}
+
+.studio-page,
+.site-header {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  body::after {
+    display: none;
+  }
+}
