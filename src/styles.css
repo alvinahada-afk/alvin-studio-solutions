@@ -388,9 +388,9 @@ img, svg, video { max-width: 100%; }
 .studio-header .brand{color:#f5f5f3}.studio-header .brand-mark{color:#f0c75e}.studio-header .studio-nav-link{color:rgba(245,245,243,.62);transition:color .25s ease}.studio-header .studio-nav-link:hover{color:#fff}
 .studio-mobile-nav{background:#090909;color:#fff;border-color:rgba(255,255,255,.08)}
 .studio-mobile-nav a{color:rgba(255,255,255,.72)}
-.studio-hero{min-height:calc(100vh - 84px);display:flex;align-items:center;position:relative;overflow:hidden;background:#090909}
+.studio-hero{min-height:calc(100vh - 84px);display:flex;align-items:center;position:relative;overflow:hidden;background:#0b1519}
 .studio-hero-inner{position:relative;z-index:2;width:100%;max-width:none;margin:0;padding:120px clamp(24px,6vw,96px) 90px;display:flex;justify-content:flex-start;align-items:center}
-.studio-hero-copy{width:min(100%,56rem);max-width:56rem;margin:0;text-align:left;align-items:flex-start;align-self:center}
+.studio-hero-copy{position:relative;z-index:20;width:min(100%,56rem);max-width:56rem;margin:0;text-align:left;align-items:flex-start;align-self:center}
 .studio-hero-copy h1{max-width:56rem;text-align:left}
 .studio-hero-copy p{text-align:left}
 .studio-hero-copy .hero-actions{display:flex;flex-direction:row;justify-content:flex-start;align-items:center;gap:16px}
@@ -544,9 +544,27 @@ img, svg, video { max-width: 100%; }
 
 /* Cinematic coding footage behind the Alvin Studio hero */
 .studio-hero-video{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#050505}
-.studio-hero-video-media{position:absolute;inset:-7%;width:114%;height:114%;max-width:none;object-fit:cover;opacity:.62;filter:saturate(.82) contrast(1.08) brightness(.82);transform:scale(1.04);animation:studioHeroVideoZoom 18s ease-in-out infinite alternate}
-.studio-hero-video-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,4,4,.70) 0%,rgba(4,4,4,.46) 43%,rgba(4,4,4,.20) 100%),linear-gradient(180deg,rgba(4,4,4,.22) 0%,rgba(4,4,4,.52) 100%)}
+.studio-hero-video-media{position:absolute;inset:-7%;width:114%;height:114%;max-width:none;object-fit:cover;opacity:.62;filter:saturate(.82) contrast(1.08) brightness(.82);transform:scale(1.04);animation:studioHeroVideoZoom 18s ease-in-out infinite alternate;z-index:0}
+.video-overlay-filter{
+  position:absolute;
+  inset:0;
+  background-color:rgba(11,21,25,.82) !important;
+  mix-blend-mode:multiply;
+  z-index:10;
+  pointer-events:none;
+}
+.video-overlay-filter::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.studio-hero>.studio-hero-video{z-index:0}
 .studio-hero>.studio-hero-video~*{position:relative;z-index:1}
+.studio-hero>.studio-hero-video~.studio-hero-inner{z-index:20}
+.studio-hero>.studio-hero-video~.hero-grain{z-index:19;opacity:.025}
 @keyframes studioHeroVideoZoom{from{transform:scale(1.04)}to{transform:scale(1.13)}}
 @media(max-width:767px){.studio-hero-video-media{inset:-10%;width:120%;height:120%;opacity:.48;animation-duration:22s}}
 @media(prefers-reduced-motion:reduce){.studio-hero-video-media{animation:none;transform:scale(1.06)}}
