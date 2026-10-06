@@ -1689,3 +1689,44 @@ body::before {
   opacity: 1 !important;
   text-shadow: 0 0 .01px rgba(255,255,255,.45) !important;
 }
+
+
+/* FINAL — smooth analog TV static, background only */
+.studio-page {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden;
+}
+
+.studio-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='tvstatic'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' seed='17' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tvstatic)' opacity='.9'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
+  animation: smoothTvStatic .32s steps(6) infinite;
+}
+
+.studio-content-layer {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@keyframes smoothTvStatic {
+  0% { background-position: 0 0; }
+  20% { background-position: 13px -7px; }
+  40% { background-position: -9px 11px; }
+  60% { background-position: 8px 5px; }
+  80% { background-position: -5px -10px; }
+  100% { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-page::after {
+    animation: none !important;
+  }
+}
