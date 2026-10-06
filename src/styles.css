@@ -805,3 +805,11 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   body::after { animation: none !important; }
 }
+
+/* Global premium DIN-like typography */
+html, body { font-family: "DIN 2014", "DIN Next", "Bahnschrift", "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+h1,h2,h3,h4,h5,h6,.studio-section-head h2,.studio-process-head h2,.studio-cta h2 { font-family: inherit; font-weight: 500; letter-spacing: -0.025em; line-height: 1.05; }
+p,li,small,.studio-hero p,.studio-project-card p,.studio-service-row p,.studio-section-head p,.studio-process-head p,.studio-cta p,.studio-footer p { font-weight: 400; line-height: 1.65; color: rgba(203,213,225,.72); }
+.studio-header .studio-nav-link,.studio-header .brand,.studio-footer,.studio-footer a { font-family: inherit; font-weight: 500; }
+button,a[class*="button"],.studio-cta a,.studio-header button { font-family: inherit; font-weight: 600; }
+button,.studio-cta a,.studio-header button,.uppercase,[class*="uppercase"] { letter-spacing: .11em; }
