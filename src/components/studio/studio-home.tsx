@@ -1,61 +1,179 @@
 import { useEffect, useState } from 'react';
-import { ArrowDown, ArrowRight, ArrowUpRight, BarChart3, Check, CheckCircle2, ChevronRight, Coffee, Code2, FileSpreadsheet, Globe, Menu, MessageCircle, Monitor, Package, QrCode, ShoppingBag, Sparkles, Store, UtensilsCrossed, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight, CheckCircle2, Code2, Globe, Layers3, Menu, MessageCircle, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { DashboardPreview } from './dashboard-preview';
-import cafeImage from '@/assets/cafe-interior.jpg';
 
-export function Brand() { return <span className="brand"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 34" fill="none"><path d="M14 2 1 31h8l9-21-4-8ZM20 12l-5 12h8l3 7h7L20 12Z" fill="currentColor" /></svg></span><span>alvin<span className="font-medium">studio</span><span className="text-primary">.</span></span></span>; }
-const solutions = [
-  { icon: Globe, title: 'Website Business', text: 'Kesan pertama yang profesional. Website yang membangun kepercayaan dan membuka peluang baru.', items: ['Desain sesuai identitas bisnis', 'Optimal di semua perangkat', 'SEO dasar & loading cepat'] },
-  { icon: QrCode, title: 'POS & QR Ordering', text: 'Dari pesanan hingga laporan. Satu sistem untuk operasional yang lebih cepat dan terorganisir.', items: ['Kasir & transaksi terintegrasi', 'QR menu & pemesanan digital', 'Inventory & laporan penjualan'] },
-  { icon: Code2, title: 'Custom System', text: 'Setiap bisnis punya cara kerja unik. Kami membangun sistem yang mengikuti kebutuhanmu.', items: ['Alur kerja sesuai kebutuhan', 'Dashboard & monitoring bisnis', 'Solusi yang siap berkembang'] },
+const projects = [
+  {
+    number: '01',
+    type: 'Business Website',
+    title: 'Digital Presence',
+    description: 'Company profile yang terasa premium, cepat, dan fokus membangun kepercayaan.',
+    className: 'project-visual project-visual-web',
+  },
+  {
+    number: '02',
+    type: 'Business System',
+    title: 'Operations OS',
+    description: 'Interface operasional yang menyatukan data, workflow, dan aktivitas bisnis.',
+    className: 'project-visual project-visual-system',
+  },
+  {
+    number: '03',
+    type: 'Custom Experience',
+    title: 'Brand Experience',
+    description: 'Landing page dan digital experience yang dibuat mengikuti karakter brand.',
+    className: 'project-visual project-visual-brand',
+  },
 ];
-const pricing = [
-  { name: 'Website', price: 'Rp600K', desc: 'Mulai hadir secara digital.', items: ['Landing page bisnis', 'Desain mobile-friendly', 'Informasi & kontak bisnis'] },
-  { name: 'Company Profile', price: 'Rp800K', desc: 'Tampilkan bisnis lebih profesional.', items: ['Halaman profil perusahaan', 'Layanan & portfolio', 'SEO dasar'] },
-  { name: 'Business Website', price: 'Rp1.2JT', desc: 'Lebih lengkap untuk bisnis kamu.', items: ['Website multi-halaman', 'Fitur sesuai kebutuhan', 'SEO dasar & optimasi'], popular: true },
-  { name: 'POS / Custom', price: 'Custom', desc: 'Solusi yang mengikuti bisnismu.', items: ['POS & QR Ordering', 'Dashboard operasional', 'Scope sesuai kebutuhan'] },
+
+const services = [
+  { icon: Globe, number: '01', title: 'Website & Company Profile', text: 'Website modern yang membuat bisnis terlihat profesional sejak first impression.' },
+  { icon: Layers3, number: '02', title: 'Digital Product', text: 'Landing page, portal, dan interface produk yang dirancang untuk pengalaman pengguna.' },
+  { icon: Code2, number: '03', title: 'Custom System', text: 'Sistem digital yang mengikuti workflow bisnis, bukan memaksa bisnis mengikuti template.' },
 ];
-const HERO_SLIDES = [
-  { kicker: 'Digital Experience', title: <>Website yang membuat bisnis <span className="text-primary">terlihat berbeda.</span></>, copy: 'Kami merancang website profesional yang cepat, responsive, dan dibuat untuk membangun kepercayaan sejak kunjungan pertama.' },
-  { kicker: 'Business Systems', title: <>Dari website sampai sistem, <span className="text-primary">kami bangun semuanya.</span></>, copy: 'Butuh lebih dari sekadar landing page? Kami membuat solusi digital yang mengikuti cara kerja bisnis kamu.' },
-  { kicker: 'Alvin Studio', title: <>Digital yang rapi. <span className="text-primary">Bisnis yang berkembang.</span></>, copy: 'Mulai dari ide sederhana sampai produk digital yang siap digunakan dan dikembangkan bersama.' },
-];
+
+export function Brand() {
+  return <span className="brand"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 34" fill="none"><path d="M14 2 1 31h8l9-21-4-8ZM20 12l-5 12h8l3 7h7L20 12Z" fill="currentColor" /></svg></span><span>alvin<span className="font-medium">studio</span><span className="text-primary">.</span></span></span>;
+}
 
 export function StudioHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [consultationOpen, setConsultationOpen] = useState(false);
-  const [service, setService] = useState('Konsultasi bisnis');
+  const [service, setService] = useState('Project baru');
   const [copied, setCopied] = useState(false);
-  const consult = (name = 'Konsultasi bisnis') => { setService(name); setCopied(false); setConsultationOpen(true); };
+
+  const consult = (name = 'Project baru') => {
+    setService(name);
+    setCopied(false);
+    setConsultationOpen(true);
+  };
+
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  useEffect(() => {
-    const timer = window.setInterval(() => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length), 5000);
-    return () => window.clearInterval(timer);
-  }, []);
-  const nav = [{ text: 'Solusi', id: 'solusi' }, { text: 'Produk', id: 'produk' }, { text: 'Project', id: 'project' }, { text: 'Cara Kerja', id: 'cara-kerja' }, { text: 'Harga', id: 'harga' }];
+
+  const nav = [
+    { text: 'Work', id: 'work' },
+    { text: 'Services', id: 'services' },
+    { text: 'Process', id: 'process' },
+    { text: 'Contact', id: 'contact' },
+  ];
+
   return <>
-    <header className={`site-header ${isScrolled ? "site-header-scrolled" : ""}`}><div className="container-site flex h-full items-center justify-between"><a href="#" aria-label="Alvin Studio beranda"><Brand /></a><nav className="hidden items-center gap-7 text-xs font-medium text-muted-foreground md:flex" aria-label="Navigasi utama">{nav.map(n => <a key={n.id} href={`#${n.id}`} className="transition-colors hover:text-primary">{n.text}</a>)}</nav><div className="flex items-center gap-2"><Button variant="studio" className="hidden md:inline-flex" onClick={() => consult()}>Konsultasi Gratis <ArrowUpRight /></Button><Button variant="ghost" size="icon" className="md:hidden" aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button></div></div>{menuOpen && <nav className="mobile-nav" aria-label="Navigasi seluler">{nav.map(n => <a key={n.id} href={`#${n.id}`} onClick={() => setMenuOpen(false)} className="text-sm">{n.text}</a>)}<Button variant="studio" onClick={() => { setMenuOpen(false); consult(); }}>Konsultasi Gratis <ArrowUpRight /></Button></nav>}</header>
-    <main>
-      <section className="hero"><div className="container-site"><div className="hero-content-enter" key={currentSlide}><span className="hero-badge"><span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />{HERO_SLIDES[currentSlide].kicker} <ChevronRight size={12} className="text-muted-foreground" /></span><h1>{HERO_SLIDES[currentSlide].title}</h1><p className="hero-copy">{HERO_SLIDES[currentSlide].copy}</p><div className="hero-actions"><Button variant="studio" onClick={() => consult()}>Konsultasi Gratis <ArrowUpRight /></Button><Button variant="studioOutline" asChild><a href="#project">Lihat Project <ArrowRight /></a></Button></div><p className="hero-note"><CheckCircle2 size={13} className="text-success" /> Solusi sesuai kebutuhan. Proses jelas. Siap berkembang.</p></div><div className="hero-dots" aria-label="Pilih slide hero">{HERO_SLIDES.map((slide, idx) => <button key={slide.kicker} type="button" aria-label={`Slide ${idx + 1}`} aria-current={currentSlide === idx} onClick={() => setCurrentSlide(idx)} className={currentSlide === idx ? "active" : ""} />)}</div><div className="product-stage hero-stage-reveal"><div className="stage-glow" /><div className="stage-label"><span className="flex items-center gap-2 text-sm font-semibold"><Coffee size={18} /> cafe flow<span className="rounded border border-on-navy/25 px-1.5 py-0.5 text-[9px] font-normal">POS</span></span><span className="text-[10px] text-on-navy/65">Less busywork. More business.</span></div><DashboardPreview /></div></div></section>
-      <div className="business-strip"><div className="container-site flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-xs text-muted-foreground"><span className="text-[11px]">Dibangun untuk bisnis seperti kamu</span>{[{ icon: Coffee, text: 'Cafe' }, { icon: UtensilsCrossed, text: 'Restaurant' }, { icon: Store, text: 'UMKM' }, { icon: ShoppingBag, text: 'Retail' }].map(({ icon: Icon, text }) => <span key={text} className="flex items-center gap-2 font-semibold text-foreground"><Icon size={17} strokeWidth={1.5} />{text}</span>)}</div></div>
-      <section className="section"><div className="container-site"><div className="text-center"><p className="eyebrow">Tantangan bisnis</p><h2 className="section-heading">Bisnis berkembang.<br />Operasional jangan tertinggal.</h2><p className="section-copy">Hal kecil yang berulang bisa jadi hambatan besar untuk bisnismu.</p></div><div className="problem-grid reveal-grid">{[{ icon: FileSpreadsheet, title: 'Pesanan masih manual', text: 'Catatan tercecer, pesanan terlewat, dan antrian yang semakin panjang.' }, { icon: BarChart3, title: 'Data transaksi berantakan', text: 'Rekap memakan waktu. Sulit tahu angka penjualan yang sebenarnya.' }, { icon: Globe, title: 'Belum punya website', text: 'Calon pelanggan kesulitan menemukan dan mengenal bisnis kamu.' }, { icon: Monitor, title: 'Monitoring terasa sulit', text: 'Harus selalu di lokasi untuk tahu apa yang terjadi dalam bisnis.' }].map(({ icon: Icon, title, text }) => <div key={title}><span className="problem-icon"><Icon size={20} strokeWidth={1.6} /></span><h3 className="problem-title">{title}</h3><p className="section-copy text-xs">{text}</p></div>)}</div></div></section>
-      <section className="section bg-muted" id="solusi"><div className="container-site"><div className="section-intro text-center"><p className="eyebrow">Solusi kami</p><h2 className="section-heading">Teknologi yang bekerja untuk bisnismu.</h2><p className="section-copy">Bukan sekadar digital. Tapi lebih praktis, lebih terukur, dan lebih siap tumbuh.</p></div><div className="solution-grid">{solutions.map(({ icon: Icon, title, text, items }, i) => <article key={title} className={`solution-card reveal-card ${i === 1 ? 'featured' : ''}`}><div className="flex items-start justify-between"><span className="solution-icon"><Icon size={23} strokeWidth={1.6} /></span>{i === 1 && <span className="rounded bg-blue-soft px-2 py-1 text-[9px] font-semibold text-primary">Produk unggulan</span>}</div><h3>{title}</h3><p className="section-copy text-xs">{text}</p><ul>{items.map(item => <li key={item} className="flex items-center gap-2"><Check size={13} className="text-primary" />{item}</li>)}</ul><Button variant="link" className="mt-6 h-auto p-0 text-xs font-bold" onClick={() => consult(title)}>Diskusikan kebutuhan <ArrowRight /></Button></article>)}</div></div></section>
-      <section className="section product-section" id="produk"><div className="container-site product-layout"><div><p className="eyebrow">Meet your next business tool</p><h2 className="section-heading">Cafe Flow POS<span className="text-primary">.</span><br />Satu sistem. Semua beres.</h2><p className="section-copy">Fokus menyajikan yang terbaik untuk pelanggan. Biar Cafe Flow membantu mengelola operasional di baliknya.</p><div className="feature-list">{[{ icon: ShoppingBag, text: 'POS' }, { icon: QrCode, text: 'QR Menu' }, { icon: Coffee, text: 'Orders' }, { icon: Package, text: 'Inventory' }, { icon: BarChart3, text: 'Reports' }].map(({ icon: Icon, text }) => <span className="feature-tag" key={text}><Icon size={12} className="text-primary" />{text}</span>)}</div><Button variant="studio" onClick={() => consult('Demo Cafe Flow POS')}>Diskusikan Cafe Flow <ArrowUpRight /></Button><p className="mt-3 text-[10px] text-muted-foreground">Preview produk · data ilustrasi</p></div><div className="product-preview"><DashboardPreview /></div></div></section>
-      <section className="section bg-muted" id="project"><div className="container-site"><div className="section-intro flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">Selected projects</p><h2 className="section-heading">Ide yang jadi solusi nyata.</h2><p className="section-copy">Eksplorasi produk dan website dari Alvin Studio.</p></div><span className="flex items-center gap-2 text-xs text-muted-foreground">Designed with purpose <Sparkles size={14} /></span></div><div className="portfolio-grid reveal-grid"><article><div className="portfolio-art portfolio-pos"><DashboardPreview /></div><div className="mt-5 flex items-center justify-between"><div><h3 className="text-lg font-bold">Cafe Flow POS</h3><p className="mt-1 text-xs text-muted-foreground">POS System · QR Ordering · Dashboard</p></div><Button variant="ghost" size="icon" aria-label="Diskusikan project Cafe Flow POS" onClick={() => consult('Cafe Flow POS')}><ArrowUpRight /></Button></div></article><article><div className="portfolio-art bg-blue-soft"><div className="website-preview"><div className="website-nav"><strong>RUANG KOPI<span className="text-primary">.</span></strong><span>Our story &nbsp;&nbsp; Menu &nbsp;&nbsp; Visit us</span></div><div className="website-cover"><img src={cafeImage} alt="Konsep website cafe dengan interior modern" width={1200} height={800} loading="lazy" /><div className="website-cover-text"><span className="text-[8px]">GOOD COFFEE. GOOD COMPANY.</span><h4 className="mt-3 text-2xl font-semibold">A little pause.<br />A better day.</h4><span className="mt-4 inline-flex items-center gap-2 border-b border-on-navy pb-1 text-[9px]">Explore our menu <ArrowRight size={10} /></span></div></div></div></div><div className="mt-5 flex items-center justify-between"><div><h3 className="text-lg font-bold">Business Website</h3><p className="mt-1 text-xs text-muted-foreground">Konsep Website · Brand Experience · Mobile-friendly</p></div><Button variant="ghost" size="icon" aria-label="Diskusikan project Business Website" onClick={() => consult('Business Website')}><ArrowUpRight /></Button></div></article></div></div></section>
-      <section className="section" id="cara-kerja"><div className="container-site"><div className="text-center"><p className="eyebrow">Cara kerja</p><h2 className="section-heading">Proses jelas. Tanpa ribet.</h2><p className="section-copy">Dari obrolan pertama sampai solusi siap digunakan, kita berjalan bersama.</p></div><div className="steps reveal-grid">{[{ title: 'Consultation', text: 'Ceritakan bisnis, tantangan, dan tujuan kamu.' }, { title: 'Scope', text: 'Sepakati fitur, timeline, dan biaya yang transparan.' }, { title: 'Development', text: 'Kami membangun solusi dengan update berkala.' }, { title: 'Review', text: 'Cek bersama, beri masukan, dan sempurnakan.' }, { title: 'Handover', text: 'Solusi siap digunakan, lengkap dengan panduan.' }].map(({ title, text }, i) => <div className="step" key={title}><span className="step-number">0{i + 1}</span><h3>{title}</h3><p className="section-copy text-xs">{text}</p></div>)}</div></div></section>
-      <section className="section bg-muted" id="harga"><div className="container-site"><div className="text-center"><p className="eyebrow">Investasi untuk bisnis</p><h2 className="section-heading">Mulai dari yang kamu butuhkan.</h2><p className="section-copy">Pilihan fleksibel untuk setiap tahap perkembangan bisnis.</p></div><div className="pricing-grid">{pricing.map(p => <article key={p.name} className={`price-card reveal-card ${p.popular ? 'popular' : ''}`}>{p.popular && <span className="popular-label">PILIHAN BISNIS</span>}<h3 className="text-sm font-bold">{p.name}</h3><p className="mb-1 mt-5 text-[10px] text-muted-foreground">{p.price === 'Custom' ? 'Sesuai kebutuhan' : 'Mulai dari'}</p><div className="price-value">{p.price}</div><p className="text-[11px] text-muted-foreground">{p.desc}</p><ul className="price-features">{p.items.map(item => <li key={item} className="flex items-start gap-2"><Check size={12} className="shrink-0 text-primary" />{item}</li>)}</ul><Button variant={p.popular ? 'studio' : 'studioOutline'} className="w-full" onClick={() => consult(p.name)}>Konsultasi Gratis <ArrowUpRight /></Button></article>)}</div><p className="mt-6 text-center text-[11px] text-muted-foreground">Harga akhir menyesuaikan fitur dan kebutuhan project. Diskusikan dulu, tanpa komitmen.</p></div></section>
-      <section className="final-cta"><div className="container-site flex flex-col items-start justify-between gap-7 md:flex-row md:items-center"><div><p className="mb-3 text-[10px] font-semibold uppercase tracking-[1.5px] text-on-navy/65">Your next chapter starts here</p><h2 className="text-[30px] font-bold leading-snug">Siap bawa bisnismu<br />ke level berikutnya?</h2><p className="mt-4 text-xs text-on-navy/65">Mulai dari obrolan sederhana. Kita temukan solusi yang tepat.</p></div><Button variant="studioLight" onClick={() => consult()}>Konsultasi Gratis <ArrowUpRight /></Button></div></section>
+    <header className={`site-header studio-header ${isScrolled ? 'site-header-scrolled' : ''}`}>
+      <div className="container-site flex h-full items-center justify-between">
+        <a href="#" aria-label="Alvin Studio beranda"><Brand /></a>
+        <nav className="hidden items-center gap-8 text-xs font-medium md:flex" aria-label="Navigasi utama">
+          {nav.map((item) => <a key={item.id} href={`#${item.id}`} className="studio-nav-link">{item.text}</a>)}
+        </nav>
+        <div className="flex items-center gap-2">
+          <Button variant="studio" className="hidden md:inline-flex" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
+          <Button variant="ghost" size="icon" className="md:hidden" aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
+        </div>
+      </div>
+      {menuOpen && <nav className="mobile-nav studio-mobile-nav" aria-label="Navigasi seluler">
+        {nav.map((item) => <a key={item.id} href={`#${item.id}`} onClick={() => setMenuOpen(false)}>{item.text}</a>)}
+        <Button variant="studio" onClick={() => { setMenuOpen(false); consult(); }}>Start a project <ArrowUpRight /></Button>
+      </nav>}
+    </header>
+
+    <main className="studio-page">
+      <section className="studio-hero">
+        <div className="hero-orbit hero-orbit-one" />
+        <div className="hero-orbit hero-orbit-two" />
+        <div className="container-site studio-hero-inner">
+          <div className="studio-kicker"><span className="live-dot" /> Independent digital studio · Indonesia</div>
+          <h1>We build <span>digital experiences</span> people remember.</h1>
+          <p>Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
+          <div className="hero-actions">
+            <Button variant="studio" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
+            <Button variant="studioOutline" asChild><a href="#work">Explore our work <ArrowDown /></a></Button>
+          </div>
+          <div className="hero-meta">
+            <span>Strategy</span><i /> <span>Design</span><i /> <span>Development</span><i /> <span>Experience</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="studio-intro">
+        <div className="container-site studio-intro-grid">
+          <p className="studio-index">[ 01 ]</p>
+          <div>
+            <p className="studio-eyebrow">Alvin Studio</p>
+            <h2>Bukan sekadar website.<br /><span>Kami membangun cara brand kamu hadir secara digital.</span></h2>
+          </div>
+          <p className="studio-intro-copy">Dari visual identity sampai interface yang siap dipakai, setiap detail dirancang supaya bisnis terlihat lebih meyakinkan, lebih mudah dipahami, dan siap berkembang.</p>
+        </div>
+      </section>
+
+      <section className="studio-work section" id="work">
+        <div className="container-site">
+          <div className="studio-section-head">
+            <div><p className="studio-eyebrow">Selected work</p><h2>Built with purpose.</h2></div>
+            <p>Beberapa contoh arah digital experience yang bisa kami bangun untuk bisnis dan brand.</p>
+          </div>
+          <div className="studio-project-grid">
+            {projects.map((project) => <article className="studio-project-card" key={project.number}>
+              <div className={project.className}>
+                <span className="project-number">{project.number}</span>
+                {project.number === '02' ? <div className="project-dashboard-wrap"><DashboardPreview /></div> : <div className="project-shape"><span>{project.number === '01' ? 'YOUR BRAND' : 'MAKE IT MATTER.'}</span></div>}
+                <span className="project-arrow"><ArrowUpRight size={19} /></span>
+              </div>
+              <div className="project-copy"><div><span>{project.type}</span><h3>{project.title}</h3></div><p>{project.description}</p></div>
+            </article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="studio-services section" id="services">
+        <div className="container-site">
+          <div className="studio-section-head">
+            <div><p className="studio-eyebrow">What we do</p><h2>One studio.<br />Three ways to build.</h2></div>
+            <p>Kami menjaga proses tetap simpel, tapi hasil akhirnya tetap punya karakter.</p>
+          </div>
+          <div className="studio-service-list">
+            {services.map((item) => { const Icon = item.icon; return <article className="studio-service-row" key={item.number} onClick={() => consult(item.title)}>
+              <span className="service-number">{item.number}</span><span className="service-icon"><Icon size={22} /></span><h3>{item.title}</h3><p>{item.text}</p><ArrowUpRight className="service-arrow" />
+            </article>; })}
+          </div>
+        </div>
+      </section>
+
+      <section className="studio-process section" id="process">
+        <div className="container-site">
+          <div className="studio-process-head"><p className="studio-eyebrow">How we work</p><h2>Clear process.<br /><span>Better output.</span></h2></div>
+          <div className="process-grid">
+            {['Discover', 'Direction', 'Design', 'Build', 'Launch'].map((step, index) => <div className="process-item" key={step}><span>0{index + 1}</span><h3>{step}</h3><p>{['Understand the business, audience, and goal.', 'Define the visual and digital direction.', 'Turn the direction into a clear interface.', 'Build responsive, polished, production-ready work.', 'Review, refine, and launch with confidence.'][index]}</p></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="studio-cta" id="contact">
+        <div className="container-site studio-cta-inner">
+          <div><p className="studio-eyebrow">Have a project in mind?</p><h2>Let's make something<br /><span>worth remembering.</span></h2></div>
+          <Button variant="studioLight" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
+        </div>
+      </section>
     </main>
-    <footer className="footer"><div className="container-site"><div className="flex flex-col justify-between gap-7 md:flex-row md:items-center"><div><a href="#" aria-label="Alvin Studio beranda"><Brand /></a><p className="mt-3 text-xs text-muted-foreground">Digital solutions. Real business impact.</p></div><nav className="flex flex-wrap gap-6 text-xs text-muted-foreground" aria-label="Navigasi footer">{nav.filter(n => n.id !== 'cara-kerja').map(n => <a key={n.id} href={`#${n.id}`} className="hover:text-primary">{n.text}</a>)}</nav></div><div className="footer-bottom"><span>© 2026 Alvin Studio. All rights reserved.</span><span>Built with care, for growing businesses.</span></div></div></footer>
-    <Dialog open={consultationOpen} onOpenChange={setConsultationOpen}><DialogContent><DialogHeader><DialogTitle>Konsultasi Gratis</DialogTitle><DialogDescription>Mari diskusikan kebutuhan {service === 'Konsultasi bisnis' ? 'bisnis kamu' : service}.</DialogDescription></DialogHeader><div className="contact-options"><MessageCircle className="mb-3 text-primary" size={24} /><p className="text-sm font-semibold">Kontak Alvin Studio akan segera tersedia.</p><p className="mt-2 text-xs leading-relaxed text-muted-foreground">Simpan topik konsultasi untuk dibagikan saat kanal kontak tersedia. Belum ada pesan yang dikirim.</p></div><Button variant="studio" onClick={async () => { try { await navigator.clipboard.writeText(`Halo Alvin Studio, saya ingin konsultasi gratis tentang ${service}.`); setCopied(true); } catch { setCopied(false); } }}>{copied ? <><Check />Topik tersalin</> : <>Salin topik konsultasi <ArrowRight /></>}</Button></DialogContent></Dialog>
+
+    <footer className="footer studio-footer">
+      <div className="container-site">
+        <div className="studio-footer-top"><div><a href="#" aria-label="Alvin Studio beranda"><Brand /></a><p>Digital experiences. Real business impact.</p></div><div className="studio-footer-links">{nav.map((item) => <a key={item.id} href={`#${item.id}`}>{item.text}</a>)}</div></div>
+        <div className="footer-bottom"><span>© 2026 Alvin Studio. All rights reserved.</span><span>Built with intention.</span></div>
+      </div>
+    </footer>
+
+    <Dialog open={consultationOpen} onOpenChange={setConsultationOpen}>
+      <DialogContent><DialogHeader><DialogTitle>Start a project</DialogTitle><DialogDescription>Diskusikan {service} bersama Alvin Studio.</DialogDescription></DialogHeader>
+        <div className="contact-options"><MessageCircle className="mb-3 text-primary" size={24} /><p className="text-sm font-semibold">Topik project siap dibagikan.</p><p className="mt-2 text-xs leading-relaxed text-muted-foreground">Kanal kontak belum dikonfigurasi. Salin pesan ini untuk dipakai saat menghubungi Alvin Studio.</p></div>
+        <Button variant="studio" onClick={async () => { try { await navigator.clipboard.writeText(`Halo Alvin Studio, saya ingin membahas ${service}.`); setCopied(true); } catch { setCopied(false); } }}>{copied ? <><CheckCircle2 />Topik tersalin</> : <>Salin topik <ArrowRight /></>}</Button>
+      </DialogContent>
+    </Dialog>
   </>;
 }
