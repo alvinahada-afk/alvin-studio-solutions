@@ -62,9 +62,9 @@ export function StudioHome() {
     const electricContext = electricCanvas?.getContext('2d');
     let electricFrame = 0;
     let lastPoint: { x: number; y: number } | null = null;
-    let electricPoints: Array<{ x: number; y: number; life: number; strand: number; width: number }> = [];
+    let neonPoints: Array<{ x: number; y: number; life: number; width: number }> = [];
     let electricResetTimer: ReturnType<typeof setTimeout> | undefined;
-    let clickBursts: Array<{ x: number; y: number; life: number; seed: number }> = [];
+    let crackBursts: Array<{ x: number; y: number; life: number; seed: number }> = [];
 
     const resizeElectricCanvas = () => {
       if (!electricCanvas || !electricContext) return;
@@ -78,60 +78,26 @@ export function StudioHome() {
     resizeElectricCanvas();
     window.addEventListener('resize', resizeElectricCanvas);
 
-    const spawnLightning = (x: number, y: number) => {
+    const spawnNeonTrail = (x: number, y: number) => {
       if (!lastPoint) { lastPoint = { x, y }; return; }
       const dx = x - lastPoint.x;
       const dy = y - lastPoint.y;
       const distance = Math.hypot(dx, dy);
-      if (distance < 5) return;
+      if (distance < 4) return;
 
-      const normalX = -dy / Math.max(distance, 1);
-      const normalY = dx / Math.max(distance, 1);
-      const steps = Math.max(2, Math.min(9, Math.ceil(distance / 18)));
-      const strands = 2;
-
-      for (let strand = 0; strand < strands; strand += 1) {
-        const center = (strands - 1) / 2;
-        const spread = (strand - center) * 4.5;
-        const amplitude = 5 + Math.random() * 7;
-        const width = strand === 0 ? 1.25 : 0.9 + Math.random() * 0.45;
-
-        for (let i = 0; i <= steps; i += 1) {
-          const t = i / steps;
-          const edgeFade = Math.sin(Math.PI * t);
-          const jitter = i === 0 || i === steps ? 0 : (Math.random() - 0.5) * amplitude * edgeFade;
-          electricPoints.push({
-            x: lastPoint.x + dx * t + normalX * (spread + jitter),
-            y: lastPoint.y + dy * t + normalY * (spread + jitter),
-            life: 0.78 + Math.random() * 0.22,
-            strand,
-            width,
-          });
-        }
+      const steps = Math.max(2, Math.min(12, Math.ceil(distance / 14)));
+      for (let i = 0; i <= steps; i += 1) {
+        const t = i / steps;
+        const ease = t * t * (3 - 2 * t);
+        const drift = Math.sin(t * Math.PI) * (Math.random() - 0.5) * 2.5;
+        neonPoints.push({
+          x: lastPoint.x + dx * ease + drift,
+          y: lastPoint.y + dy * ease + drift,
+          life: 0.75 + Math.random() * 0.25,
+          width: 1 + Math.random() * 1.2,
+        });
       }
-
-      // Small random side sparks make the cluster feel like electricity rather than parallel lines.
-      if (Math.random() > 0.35) {
-        const branchT = 0.35 + Math.random() * 0.35;
-        const bx = lastPoint.x + dx * branchT;
-        const by = lastPoint.y + dy * branchT;
-        const branchAngle = Math.atan2(dy, dx) + (Math.random() > 0.5 ? 1 : -1) * (0.65 + Math.random() * 0.55);
-        const branchLength = Math.min(24, 8 + distance * 0.22);
-        const branchSteps = 3;
-        for (let i = 0; i <= branchSteps; i += 1) {
-          const t = i / branchSteps;
-          const jitter = i === 0 || i === branchSteps ? 0 : (Math.random() - 0.5) * 7;
-          electricPoints.push({
-            x: bx + Math.cos(branchAngle) * branchLength * t + normalX * jitter,
-            y: by + Math.sin(branchAngle) * branchLength * t + normalY * jitter,
-            life: 0.5 + Math.random() * 0.35,
-            strand: 10,
-            width: 0.65,
-          });
-        }
-      }
-
-      if (electricPoints.length > 520) electricPoints = electricPoints.slice(-520);
+      if (neonPoints.length > 700) neonPoints = neonPoints.slice(-700);
       lastPoint = { x, y };
     };
 
@@ -143,16 +109,16 @@ export function StudioHome() {
       document.documentElement.style.setProperty('--cursor-y', event.clientY + 'px');
       document.documentElement.style.setProperty('--hero-mx', (x * 18) + 'px');
       document.documentElement.style.setProperty('--hero-my', (y * 18) + 'px');
-      spawnLightning(event.clientX, event.clientY);
+      spawnNeonTrail(event.clientX, event.clientY);
       if (electricResetTimer) clearTimeout(electricResetTimer);
-      electricResetTimer = setTimeout(() => { lastPoint = null; }, 90);
+      electricResetTimer = setTimeout(() => { lastPoint = null; }, 100);
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
     const onPointerDown = (event: PointerEvent) => {
       if (window.matchMedia('(pointer: coarse)').matches || reduce || event.button !== 0) return;
-      clickBursts.push({ x: event.clientX, y: event.clientY, life: 1, seed: Math.random() * Math.PI * 2 });
-      if (clickBursts.length > 8) clickBursts = clickBursts.slice(-8);
+      crackBursts.push({ x: event.clientX, y: event.clientY, life: 1, seed: Math.random() * Math.PI * 2 });
+      if (crackBursts.length > 6) crackBursts = crackBursts.slice(-6);
     };
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
 
@@ -162,75 +128,82 @@ export function StudioHome() {
       electricContext.lineCap = 'round';
       electricContext.lineJoin = 'round';
 
-      for (let i = electricPoints.length - 1; i >= 0; i -= 1) {
-        electricPoints[i].life -= 0.075;
-        if (electricPoints[i].life <= 0) electricPoints.splice(i, 1);
+      for (let i = neonPoints.length - 1; i >= 0; i -= 1) {
+        neonPoints[i].life -= 0.045;
+        if (neonPoints[i].life <= 0) neonPoints.splice(i, 1);
       }
 
-      for (let i = clickBursts.length - 1; i >= 0; i -= 1) {
-        const burst = clickBursts[i];
-        burst.life -= 0.065;
-        if (burst.life <= 0) { clickBursts.splice(i, 1); continue; }
-        const progress = 1 - burst.life;
-        const radius = 8 + progress * 42;
-        const alpha = Math.pow(burst.life, 1.5);
-
-        electricContext.shadowBlur = 14;
-        electricContext.shadowColor = `rgba(191, 135, 22, ${alpha * 0.95})`;
-        electricContext.strokeStyle = `rgba(255, 249, 226, ${alpha * 0.95})`;
-        electricContext.lineWidth = 1.25;
-        electricContext.beginPath();
-        electricContext.arc(burst.x, burst.y, radius, burst.seed, burst.seed + Math.PI * 1.65);
-        electricContext.stroke();
-
-        electricContext.shadowBlur = 7;
-        electricContext.strokeStyle = `rgba(212, 160, 48, ${alpha * 0.9})`;
-        electricContext.lineWidth = 0.8;
-        electricContext.beginPath();
-        electricContext.arc(burst.x, burst.y, radius + 4, burst.seed + Math.PI, burst.seed + Math.PI * 2.55);
-        electricContext.stroke();
-
-        if (progress < 0.22) {
-          electricContext.fillStyle = `rgba(255, 252, 238, ${alpha})`;
-          electricContext.shadowBlur = 18;
-          electricContext.beginPath();
-          electricContext.arc(burst.x, burst.y, 2.2 + (1 - progress) * 2, 0, Math.PI * 2);
-          electricContext.fill();
-        }
-
-        for (let shard = 0; shard < 3; shard += 1) {
-          const angle = burst.seed + shard * (Math.PI * 2 / 3) + 0.18;
-          const inner = radius * 0.72;
-          const outer = inner + 7 + progress * 7;
-          const sx = burst.x + Math.cos(angle) * inner;
-          const sy = burst.y + Math.sin(angle) * inner;
-          const ex = burst.x + Math.cos(angle + 0.08) * outer;
-          const ey = burst.y + Math.sin(angle + 0.08) * outer;
-          electricContext.strokeStyle = `rgba(255, 247, 215, ${alpha * 0.8})`;
-          electricContext.lineWidth = 0.7;
-          electricContext.beginPath();
-          electricContext.moveTo(sx, sy);
-          electricContext.lineTo((sx + ex) / 2 + Math.cos(angle + Math.PI / 2) * 2, (sy + ey) / 2 + Math.sin(angle + Math.PI / 2) * 2);
-          electricContext.lineTo(ex, ey);
-          electricContext.stroke();
-        }
-      }
-
-      for (let i = 1; i < electricPoints.length; i += 1) {
-        const a = electricPoints[i - 1];
-        const b = electricPoints[i];
-        if (a.strand !== b.strand) continue;
-        const distance = Math.hypot(b.x - a.x, b.y - a.y);
-        if (distance > 34) continue;
+      // Luxury sage neon cursor trail.
+      for (let i = 1; i < neonPoints.length; i += 1) {
+        const a = neonPoints[i - 1];
+        const b = neonPoints[i];
         const alpha = Math.min(a.life, b.life);
-        electricContext.strokeStyle = 'rgba(212, 160, 48, ' + alpha * 0.9 + ')';
-        electricContext.shadowColor = 'rgba(191, 135, 22, ' + alpha + ')';
-        electricContext.shadowBlur = 8;
+        electricContext.strokeStyle = 'rgba(111, 183, 163, ' + alpha * 0.72 + ')';
+        electricContext.shadowColor = 'rgba(111, 183, 163, ' + alpha * 0.9 + ')';
+        electricContext.shadowBlur = 14;
         electricContext.lineWidth = Math.min(a.width, b.width);
         electricContext.beginPath();
         electricContext.moveTo(a.x, a.y);
         electricContext.lineTo(b.x, b.y);
         electricContext.stroke();
+      }
+
+      // Bright neon cursor core.
+      const cursorX = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cursor-x'));
+      const cursorY = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cursor-y'));
+      if (Number.isFinite(cursorX) && Number.isFinite(cursorY)) {
+        electricContext.shadowColor = 'rgba(184, 230, 213, 0.9)';
+        electricContext.shadowBlur = 16;
+        electricContext.fillStyle = 'rgba(232, 255, 246, 0.95)';
+        electricContext.beginPath();
+        electricContext.arc(cursorX, cursorY, 2.1, 0, Math.PI * 2);
+        electricContext.fill();
+      }
+
+      // Earthquake crack click effect.
+      for (let i = crackBursts.length - 1; i >= 0; i -= 1) {
+        const crack = crackBursts[i];
+        crack.life -= 0.06;
+        if (crack.life <= 0) { crackBursts.splice(i, 1); continue; }
+
+        const progress = 1 - crack.life;
+        const reach = 10 + progress * 95;
+        const alpha = Math.pow(crack.life, 1.25);
+        electricContext.shadowColor = 'rgba(111, 183, 163, ' + alpha * 0.85 + ')';
+        electricContext.shadowBlur = 9;
+        electricContext.strokeStyle = 'rgba(184, 230, 213, ' + alpha * 0.82 + ')';
+        electricContext.lineWidth = 0.9 + crack.life * 0.55;
+
+        for (let branch = 0; branch < 9; branch += 1) {
+          const angle = crack.seed + branch * (Math.PI * 2 / 9) + Math.sin(branch * 4.7 + crack.seed) * 0.18;
+          const segments = 4;
+          electricContext.beginPath();
+          let px = crack.x;
+          let py = crack.y;
+          electricContext.moveTo(px, py);
+
+          for (let seg = 1; seg <= segments; seg += 1) {
+            const t = seg / segments;
+            const localReach = reach * t;
+            const wobble = (Math.sin(branch * 9.1 + seg * 3.7 + crack.seed) * 0.18) * localReach;
+            const a = angle + wobble * 0.015;
+            px = crack.x + Math.cos(a) * localReach;
+            py = crack.y + Math.sin(a) * localReach;
+            electricContext.lineTo(px, py);
+
+            if (seg < segments && Math.random() < 0.35) {
+              const side = angle + (branch % 2 ? 1 : -1) * (0.55 + Math.random() * 0.5);
+              const branchLength = 8 + progress * 22;
+              electricContext.moveTo(px, py);
+              electricContext.lineTo(
+                px + Math.cos(side) * branchLength * (1 - t * 0.45),
+                py + Math.sin(side) * branchLength * (1 - t * 0.45)
+              );
+              electricContext.moveTo(px, py);
+            }
+          }
+          electricContext.stroke();
+        }
       }
 
       electricContext.shadowBlur = 0;
