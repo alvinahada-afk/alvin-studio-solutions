@@ -119,7 +119,7 @@ export function StudioHome() {
       }
       points.push(x2 + ',' + y2);
       lightningPath.setAttribute('d', 'M ' + points.join(' L '));
-      const lightning = lightningPath.parentElement;
+      const lightning = lightningPath.parentElement?.parentElement;
       lightning?.classList.remove('is-active');
       void lightning?.clientWidth;
       lightning?.classList.add('is-active');
