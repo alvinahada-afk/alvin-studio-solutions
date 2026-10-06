@@ -6,7 +6,7 @@ type Burst = { x: number; y: number; born: number; fractures: Fracture[] };
 
 const DURATION = 720;
 const MAX_BURSTS = 6;
-const PIGEON = "rgba(143,163,184,0.92)";
+const PIGEON = "rgba(184,216,232,0.92)";
 const ICE = "rgba(255,255,255,0.85)";
 
 const random = (min: number, max: number) => min + Math.random() * (max - min);
