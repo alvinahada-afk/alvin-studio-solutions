@@ -318,10 +318,11 @@ export function StudioHome() {
         <div className="hero-orbit hero-orbit-two" />
         <div className="hero-grain" />
         <div className="container-site studio-hero-inner">
-          <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
-          <h1 className="hero-reveal hero-reveal-2">We build <span>digital experiences</span> people remember.</h1>
-          <p className="hero-reveal hero-reveal-3">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
-          <div className="hero-actions hero-reveal hero-reveal-4">
+          <div className="studio-hero-copy flex flex-col text-left items-start justify-start max-w-4xl">
+            <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
+            <h1 className="hero-reveal hero-reveal-2 max-w-4xl">We build <span>digital experiences</span> people remember.</h1>
+            <p className="hero-reveal hero-reveal-3">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
+            <div className="hero-actions hero-reveal hero-reveal-4 flex flex-row justify-start items-center gap-4">
             <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
             <Button variant="studioOutline" asChild><a href="#work">Explore our work <ArrowDown /></a></Button>
           </div>
