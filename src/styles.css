@@ -490,3 +490,22 @@ img, svg, video { max-width: 100%; }
 @keyframes boltFlash{0%,100%{opacity:0}12%{opacity:.9}18%{opacity:.25}28%{opacity:1}36%{opacity:0}55%{opacity:.55}62%{opacity:0}}
 .studio-cursor.cursor-hover .cursor-bolt{animation-duration:.55s}
 @media(pointer:coarse){.cursor-bolt{display:none}}
+
+/* Pure lightning cursor: remove all circular cursor visuals */
+.studio-cursor{
+  width:0!important;height:0!important;
+  border:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  filter:none!important;
+  mix-blend-mode:screen;
+}
+.studio-cursor:before,.studio-cursor:after{display:none!important}
+.studio-cursor span{display:none!important}
+.studio-cursor.cursor-hover{width:0!important;height:0!important;background:none!important;box-shadow:none!important}
+.studio-cursor .cursor-bolt{
+  position:absolute;
+  left:0;top:0;
+  width:28px;height:52px;
+  transform-origin:50% 0;
+}
