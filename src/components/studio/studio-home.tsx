@@ -139,11 +139,14 @@ export function StudioHome() {
         <div className="container-site studio-hero-inner">
           <div className="studio-hero-copy relative z-20">
             <div className="studio-kicker hero-reveal hero-reveal-1"><span className="live-dot" /> Independent digital studio · Indonesia</div>
-            <h1 className="hero-reveal hero-reveal-2">We build <span className="text-[#00F2FE] [text-shadow:0_0_18px_rgba(0,242,254,0.18)]">digital products</span> for businesses ready to grow.</h1>
-            <p className="hero-reveal hero-reveal-3">Alvin Studio adalah digital studio dan technology partner untuk membangun website, software, custom system, dan automation yang membantu bisnis bekerja lebih efektif dan berkembang lebih siap.</p>
-            <div className="hero-actions hero-reveal hero-reveal-4">
-              <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Discuss your idea <ArrowUpRight /></Button>
-              <Button variant="studioOutline" asChild><a href="#work">See our work <ArrowDown /></a></Button>
+            <div className="studio-hero-asymmetric">
+              <div className="studio-hero-title-col">
+                <h1 className="hero-reveal hero-reveal-2">We build <span className="text-[#00F2FE] [text-shadow:0_0_18px_rgba(0,242,254,0.18)]">digital products</span> for businesses ready to grow.</h1>
+              </div>
+              <div className="studio-hero-detail-col">
+                <p className="hero-reveal hero-reveal-3">Alvin Studio adalah digital studio dan technology partner untuk membangun website, software, custom system, dan automation yang membantu bisnis bekerja lebih efektif dan berkembang lebih siap.</p>
+                <a className="studio-hero-pill hero-reveal hero-reveal-4" href="#about">GET TO KNOW US <span aria-hidden="true">↓</span></a>
+              </div>
             </div>
             <div className="hero-meta hero-reveal hero-reveal-5"><span>Strategy</span><i /><span>Product</span><i /><span>Design</span><i /><span>Technology</span></div>
           </div>
