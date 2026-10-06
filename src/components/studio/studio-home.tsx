@@ -273,10 +273,11 @@ export function StudioHome() {
   }, []);
 
   const nav = [
-    { text: 'Work', id: 'work' },
-    { text: 'Services', id: 'services' },
-    { text: 'Process', id: 'process' },
-    { text: 'Contact', id: 'contact' },
+    { text: 'Work', href: '/work' },
+    { text: 'Services', href: '/services' },
+    { text: 'Process', href: '/process' },
+    { text: 'Portfolio', href: '/portfolio' },
+    { text: 'Contact', href: '/contact' },
   ];
 
   return <>
@@ -285,7 +286,7 @@ export function StudioHome() {
       <div className="container-site flex h-full items-center justify-between">
         <a href="#" aria-label="Alvin Studio beranda" data-cursor-label="Home"><Brand /></a>
         <nav className="hidden items-center gap-8 text-xs font-medium md:flex" aria-label="Navigasi utama">
-          {nav.map((item) => <a key={item.id} href={`#${item.id}`} className="studio-nav-link" data-cursor-label={item.text}>{item.text}</a>)}
+          {nav.map((item) => <a key={item.href} href={item.href} className="studio-nav-link" data-cursor-label={item.text}>{item.text}</a>)}
         </nav>
         <div className="flex items-center gap-2">
           <Button variant="studio" className="hidden md:inline-flex magnetic" data-magnetic data-cursor-label="Start" onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
@@ -293,7 +294,7 @@ export function StudioHome() {
         </div>
       </div>
       {menuOpen && <nav className="mobile-nav studio-mobile-nav" aria-label="Navigasi seluler">
-        {nav.map((item) => <a key={item.id} href={`#${item.id}`} onClick={() => setMenuOpen(false)}>{item.text}</a>)}
+        {nav.map((item) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.text}</a>)}
         <Button variant="studio" onClick={() => { setMenuOpen(false); consult(); }}>Start a project <ArrowUpRight /></Button>
       </nav>}
     </header>
@@ -324,7 +325,7 @@ export function StudioHome() {
             <p className="hero-reveal hero-reveal-3">Alvin Studio membantu bisnis membangun website, digital product, dan custom system dengan visual yang kuat dan pengalaman yang terasa premium.</p>
             <div className="hero-actions hero-reveal hero-reveal-4 flex flex-row justify-start items-center gap-4">
             <Button variant="studio" className="magnetic" data-magnetic onClick={() => consult()}>Start a project <ArrowUpRight /></Button>
-            <Button variant="studioOutline" asChild><a href="#work">Explore our work <ArrowDown /></a></Button>
+            <Button variant="studioOutline" asChild><a href="/work">Explore our work <ArrowDown /></a></Button>
           </div>
           <div className="hero-meta hero-reveal hero-reveal-5"><span>Strategy</span><i /><span>Design</span><i /><span>Development</span><i /><span>Experience</span></div>
           </div>
@@ -382,7 +383,7 @@ export function StudioHome() {
 
     <footer className="footer studio-footer">
       <div className="container-site">
-        <div className="studio-footer-top"><div><a href="#" aria-label="Alvin Studio beranda"><Brand /></a><p>Digital experiences. Real business impact.</p></div><div className="studio-footer-links">{nav.map((item) => <a key={item.id} href={`#${item.id}`}>{item.text}</a>)}</div></div>
+        <div className="studio-footer-top"><div><a href="#" aria-label="Alvin Studio beranda"><Brand /></a><p>Digital experiences. Real business impact.</p></div><div className="studio-footer-links">{nav.map((item) => <a key={item.href} href={item.href}>{item.text}</a>)}</div></div>
         <div className="footer-bottom"><span>© 2026 Alvin Studio. All rights reserved.</span><span>Built with intention.</span></div>
       </div>
     </footer>
