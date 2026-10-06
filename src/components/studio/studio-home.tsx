@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, CheckCircle2, Code2, Globe, Layers3, Menu, MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -157,7 +157,7 @@ export function StudioHome() {
         <div className="container-site">
           <div className="studio-section-head" data-reveal="up"><div><p className="studio-eyebrow">Selected work</p><h2>Built with purpose.</h2></div><p>Beberapa contoh arah digital experience yang bisa kami bangun untuk bisnis dan brand.</p></div>
           <div className="studio-project-grid">
-            {projects.map((project, index) => <article className="studio-project-card" key={project.number} data-reveal={index === 0 ? 'scale' : 'up'} style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}>
+            {projects.map((project, index) => <article className="studio-project-card" key={project.number} data-reveal={index === 0 ? 'scale' : 'up'} style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}>
               <div className={project.className}>
                 <span className="project-number">{project.number}</span>
                 {project.number === '02' ? <div className="project-dashboard-wrap"><DashboardPreview /></div> : <div className="project-shape"><span>{project.number === '01' ? 'YOUR BRAND' : 'MAKE IT MATTER.'}</span></div>}
@@ -174,7 +174,7 @@ export function StudioHome() {
         <div className="container-site">
           <div className="studio-section-head" data-reveal="up"><div><p className="studio-eyebrow">What we do</p><h2>One studio.<br />Three ways to build.</h2></div><p>Kami menjaga proses tetap simpel, tapi hasil akhirnya tetap punya karakter.</p></div>
           <div className="studio-service-list">
-            {services.map((item, index) => { const Icon = item.icon; return <article className="studio-service-row" key={item.number} data-reveal="left" style={{ '--reveal-delay': `${index * 80}ms` } as React.CSSProperties} onClick={() => consult(item.title)}><span className="service-number">{item.number}</span><span className="service-icon"><Icon size={22} /></span><h3>{item.title}</h3><p>{item.text}</p><ArrowUpRight className="service-arrow" /></article>; })}
+            {services.map((item, index) => { const Icon = item.icon; return <article className="studio-service-row" key={item.number} data-reveal="left" style={{ '--reveal-delay': `${index * 80}ms` } as CSSProperties} onClick={() => consult(item.title)}><span className="service-number">{item.number}</span><span className="service-icon"><Icon size={22} /></span><h3>{item.title}</h3><p>{item.text}</p><ArrowUpRight className="service-arrow" /></article>; })}
           </div>
         </div>
       </section>
@@ -182,7 +182,7 @@ export function StudioHome() {
       <section className="studio-process section" id="process">
         <div className="container-site">
           <div className="studio-process-head" data-reveal="up"><p className="studio-eyebrow">How we work</p><h2>Clear process.<br /><span>Better output.</span></h2></div>
-          <div className="process-grid">{processCopy.map((copy, index) => <div className="process-item" key={copy} data-reveal="up" style={{ '--reveal-delay': `${index * 70}ms` } as React.CSSProperties}><span>0{index + 1}</span><h3>{['Discover', 'Direction', 'Design', 'Build', 'Launch'][index]}</h3><p>{copy}</p></div>)}</div>
+          <div className="process-grid">{processCopy.map((copy, index) => <div className="process-item" key={copy} data-reveal="up" style={{ '--reveal-delay': `${index * 70}ms` } as CSSProperties}><span>0{index + 1}</span><h3>{['Discover', 'Direction', 'Design', 'Build', 'Launch'][index]}</h3><p>{copy}</p></div>)}</div>
         </div>
       </section>
 
