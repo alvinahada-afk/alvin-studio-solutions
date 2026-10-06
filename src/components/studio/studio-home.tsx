@@ -109,7 +109,7 @@ export function StudioHome() {
     { text: 'Contact', href: '#contact' },
   ];
 
-  return <>
+  return <div className="studio-content-layer relative z-10">
     <header className={'site-header studio-header fixed top-0 left-0 right-0 w-full z-50 ' + (isScrolled ? 'site-header-scrolled' : '')}>
       <div className="container-site flex h-full items-center justify-between">
         <a href="/" aria-label="Alvin Studio beranda"><Brand /></a>
@@ -232,5 +232,5 @@ export function StudioHome() {
     <footer className="footer studio-footer"><div className="container-site"><div className="studio-footer-top"><div><a href="/" aria-label="Alvin Studio beranda"><Brand /></a><p>Digital products. Business systems. Technology solutions.</p></div><div className="studio-footer-links">{nav.map(item => <a key={item.href} href={item.href}>{item.text}</a>)}</div></div><div className="footer-bottom"><span>© 2026 Alvin Studio. All rights reserved.</span><span>Built with intention.</span></div></div></footer>
 
     <Dialog open={consultationOpen} onOpenChange={setConsultationOpen}><DialogContent><DialogHeader><DialogTitle>Discuss your idea</DialogTitle><DialogDescription>Diskusikan {service} bersama Alvin Studio.</DialogDescription></DialogHeader><div className="contact-options"><MessageCircle className="mb-3 text-primary" size={24}/><p className="text-sm font-semibold text-slate-50">Tell us what you are building.</p><p className="mt-2 text-xs leading-relaxed text-slate-300/80">Kirim konteks singkat tentang bisnis, masalah yang ingin diselesaikan, atau product yang ingin dibangun.</p></div><Button variant="studio" onClick={async () => { try { await navigator.clipboard.writeText('Halo Alvin Studio, saya ingin mendiskusikan ' + service + ' untuk bisnis saya.'); setCopied(true); } catch { setCopied(false); } }}>{copied ? <><CheckCircle2/>Message copied</> : <>Copy message <ArrowRight/></>}</Button></DialogContent></Dialog>
-  </>;
+  </div>
 }
